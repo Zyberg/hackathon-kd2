@@ -13,7 +13,10 @@
     "swagger": "tsoa spec"
   },
   "nodemonConfig": {
-    "ignore": ["public/*", "node_modules"]
+    "ignore": [
+      "public/*",
+      "node_modules"
+    ]
   },
   "dependencies": {
     "@prisma/client": "^4.11.0",

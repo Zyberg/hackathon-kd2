@@ -51,6 +51,60 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"Challenge": {
+				"properties": {
+					"unitId": {
+						"type": "number",
+						"format": "double"
+					},
+					"isActive": {
+						"type": "boolean"
+					},
+					"description": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"unitId",
+					"isActive",
+					"description",
+					"title",
+					"id"
+				],
+				"type": "object",
+				"description": "Model Challenge"
+			},
+			"ChallengeResponse": {
+				"properties": {
+					"success": {
+						"type": "boolean"
+					},
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/Challenge"
+						},
+						"type": "array",
+						"nullable": true
+					}
+				},
+				"required": [
+					"success",
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -75,6 +129,25 @@
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/UserResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/challenges": {
+			"get": {
+				"operationId": "GetAllChallenges",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ChallengeResponse"
 								}
 							}
 						}

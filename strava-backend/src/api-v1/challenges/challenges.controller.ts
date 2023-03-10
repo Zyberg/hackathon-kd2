@@ -1,29 +1,20 @@
-//import * as bcrypt from 'bcrypt';
-import { PrismaClient, User } from "@prisma/client";
+import { PrismaClient, Challenge } from "@prisma/client";
 import { Get, Route } from "tsoa";
 
 const prisma = new PrismaClient();
 
-interface UserResponse {
+interface ChallengeResponse {
   success: boolean;
   message: string;
-  data: User[] | null;
+  data: Challenge[] | null;
 }
 
-@Route("users")
+@Route("challenges")
 export default class UserController {
   @Get("/")
-  public async getAllUsers(): Promise<UserResponse> {
+  public async getAllChallenges(): Promise<ChallengeResponse> {
     try {
-      const data = await prisma.user.findMany({
-        include: {
-          challengesParticipant: {
-            include: {
-              challenge: true,
-            },
-          },
-        },
-      });
+      const data = await prisma.challenge.findMany();
 
       return {
         success: true,

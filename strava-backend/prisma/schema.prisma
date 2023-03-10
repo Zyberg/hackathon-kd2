@@ -3,25 +3,114 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider          = "mysql"
+  url               = env("DB_CONNECTION_STRING")
+  shadowDatabaseUrl = env("DB_CONNECTION_STRING_SHADOW")
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+  id     Int                 @id @default(autoincrement())
+  email  String              @unique
+  name   String?
+  groups UserGroupsOnUsers[]
+
+  stravaProfile UserStravaProfile?
+
+  challengesParticipant ChallengesOnUsers[] @relation("ChallengesParticipant")
+  challengesInviter     ChallengesOnUsers[] @relation("ChallengesInviter")
+
+  achievements AchievementsOnUsers[]
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
+//TODO: avoid storing json
+//TODO: add columns to store login data
+model UserStravaProfile {
+  id     Int   @id @default(autoincrement())
+  user   User  @relation(fields: [userId], references: [id])
+  userId Int   @unique
+  data   Json?
+}
+
+model UserGroup {
+  id         Int                 @id @default(autoincrement())
+  title      String
+  categories UserGroupsOnUsers[]
+}
+
+model UserGroupsOnUsers {
+  userGroup   UserGroup @relation(fields: [userGroupId], references: [id])
+  userGroupId Int // relation scalar field (used in the `@relation` attribute above)
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int // relation scalar field (used in the `@relation` attribute above)
+
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([userGroupId, userId])
+}
+
+model Challenge {
+  id           Int                 @id @default(autoincrement())
+  title        String
+  description  String
+  isActive     Boolean
+  unit         ChallengeUnit       @relation(fields: [unitId], references: [id])
+  unitId       Int // relation scalar field (used in the `@relation` attribute above)
+  participants ChallengesOnUsers[]
+}
+
+model ChallengesOnUsers {
+  id Int @id @default(autoincrement())
+
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  challengeId Int // relation scalar field (used in the `@relation` attribute above)
+
+  user   User @relation(fields: [userId], references: [id], name: "ChallengesParticipant")
+  userId Int // relation scalar field (used in the `@relation` attribute above)
+
+  userPoints PointsOnUserChallenge[]
+
+  invitedAt   DateTime @default(now())
+  invitedBy   User     @relation(fields: [invitedById], references: [id], name: "ChallengesInviter")
+  invitedById Int // relation scalar field (used in the `@relation` attribute above)
+}
+
+model Achievement {
+  id          Int    @id @default(autoincrement())
+  title       String
+  imagePath   String
+  description String
+  max_users   Int    @default(-1) // By default: unlimited
+
+  users AchievementsOnUsers[]
+}
+
+model AchievementsOnUsers {
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  achievementId Int // relation scalar field (used in the `@relation` attribute above)
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int // relation scalar field (used in the `@relation` attribute above)
+
+  @@id([achievementId, userId])
+}
+
+// TODO: is this is a good db structure?
+model PointsOnUserChallenge {
+  id    Int   @id @default(autoincrement())
+  value Float @default(0)
+
+  userChallenge   ChallengesOnUsers @relation(fields: [userChallengeId], references: [id])
+  userChallengeId Int // relation scalar field (used in the `@relation` attribute above)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+}
+
+// TODO: maybe needs better relation challenge->user? [current: challenge->challengesOnUsers[->point ->user]
+model ChallengeUnit {
+  id         Int         @id @default(autoincrement())
+  title      String
+  challenges Challenge[]
 }
