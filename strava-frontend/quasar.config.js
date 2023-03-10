@@ -100,7 +100,7 @@ module.exports = configure(function (/* ctx */) {
           target: 'http://localhost:3000',
           // process.env.API_URI,
           changeOrigin: true,
-          rewrite: (url) => url.replace(/^\/api(.+)$/, 'v1/$1')
+          rewrite: (url) => url.replace(/^\/api(.+)$/, process.env.API_PREFIX + '/$1')
         }
       }
     },
