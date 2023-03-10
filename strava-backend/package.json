@@ -8,7 +8,7 @@
     "predev": "npm run swagger",
     "prebuild": "npm run swagger",
     "build": "tsc",
-    "generateClient": "npx swagger-typescript-api -p ./public/swagger.json -o ../strava-frontend/src/api -n ApiClient.ts --axios",
+    "generate-client": "npx swagger-typescript-api -p ./public/swagger.json -o ../strava-frontend/src/api -n ApiClient.ts --axios",
     "dev": "concurrently --kill-others \"npx prisma generate && nodemon --exec ts-node ./src/index.ts\" \"nodemon -x tsoa spec\"",
     "swagger": "tsoa spec"
   },
