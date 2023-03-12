@@ -1,9 +1,9 @@
 <template>
-  <q-item
+  <router-link :to="link">
+    <q-item
     clickable
     tag="a"
     target="_blank"
-    :href="link"
   >
     <q-item-section
       v-if="icon"
@@ -17,6 +17,8 @@
       <q-item-label caption>{{ caption }}</q-item-label>
     </q-item-section>
   </q-item>
+  </router-link>
+
 </template>
 
 <script setup lang="ts">

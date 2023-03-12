@@ -51,47 +51,23 @@ import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue'
 
 const essentialLinks: EssentialLinkProps[] = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
+    title: 'Users',
+    caption: 'View System Users',
     icon: 'school',
-    link: 'https://quasar.dev'
+    link: '/users'
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
+    title: 'Challenges',
+    caption: 'View System\'s Challenges',
     icon: 'code',
-    link: 'https://github.com/quasarframework'
+    link: '/challenges'
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
+    title: 'Achievements',
+    caption: 'View all achievements',
     icon: 'chat',
-    link: 'https://chat.quasar.dev'
+    link: '/achievements'
   },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
 ];
 
 const leftDrawerOpen = ref(false)
