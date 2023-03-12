@@ -1,17 +1,28 @@
 import { User } from "@prisma/client";
-import { Get, Route } from "tsoa";
+import { PAGINATION_ORDER } from "paginate-prisma";
+import { Get, Query, Route } from "tsoa";
 import { formatAPIResponse } from "../../helpers/formatAPIResponse";
 import { ApiResponsePaginated } from "../../types/generic/apiResponse";
-import { DataTableQuery } from "../../types/generic/DataTable";
+import type { DataTableQuery } from "../../types/generic/DataTable";
 import { UsersService } from "./users.service";
 
 @Route("users")
 export default class UserController {
   @Get("/")
   public async getAllUsers(
-    query: DataTableQuery
+    @Query() q?: string,
+    @Query() field?: string,
+    @Query() order?: PAGINATION_ORDER,
+    @Query() page?: number,
+    @Query() perPage?: number
   ): Promise<ApiResponsePaginated<User[]>> {
-    const data = await new UsersService().getAllUsers(query);
+    const data = await new UsersService().getAllUsers({
+      q,
+      field,
+      order,
+      page,
+      perPage,
+    });
 
     return formatAPIResponse(data);
   }

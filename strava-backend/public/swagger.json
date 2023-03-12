@@ -87,6 +87,13 @@
 			"ApiResponsePaginated_User-Array_": {
 				"$ref": "#/components/schemas/ApiResponseMeta_User-Array_"
 			},
+			"PAGINATION_ORDER": {
+				"enum": [
+					"ASC",
+					"DESC"
+				],
+				"type": "string"
+			},
 			"Challenge": {
 				"properties": {
 					"unitId": {
@@ -170,7 +177,50 @@
 					}
 				},
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"in": "query",
+						"name": "q",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "field",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "order",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/PAGINATION_ORDER"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "perPage",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		},
 		"/challenges": {
