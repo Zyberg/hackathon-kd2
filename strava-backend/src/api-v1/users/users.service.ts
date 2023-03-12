@@ -1,6 +1,6 @@
 //@ts-nocheck
 import type { PaginationResult } from "paginate-prisma";
-import type { PAGINATION_ORDER } from "../../boot/prisma"
+import type { PAGINATION_ORDER } from "../../boot/prisma";
 import { prisma, paginate } from "../../boot/prisma";
 
 interface APIRequestAll {
@@ -15,35 +15,20 @@ export class UsersService {
     perPage,
   }: APIRequestAll): Promise<PaginationResult | null> {
     try {
-        const data = await paginate(prisma.user)(
-            {
-                
-            },
-            {
-            },
-            {
-                include: {
-                    challengesParticipant: {
-                      include: {
-                        challenge: true,
-                      },
-                    },
-                  },
-            }
-          );
-      /*
-      .paginate({
-        limit: perPage ?? 10,
-        page: page ?? 1,
-        include: {
-          challengesParticipant: {
-            include: {
-              challenge: true,
+      const data = await paginate(prisma.user)(
+        {},
+        {},
+        {
+          include: {
+            challengesParticipant: {
+              include: {
+                challenge: true,
+              },
             },
           },
-        },
-      });
-*/
+        }
+      );
+
       return data;
     } catch (e: any) {
       console.error(e);
