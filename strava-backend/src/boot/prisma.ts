@@ -15,34 +15,3 @@ export interface APIRequestAll {
 
 
 export const prisma = prismaClient;
-/*
-  .$extends({
-    name: "SearchableFields",
-    model: {
-      $allModels: {
-        searchableFields: () => [],
-      },
-    },
-  })
-  .$extends({
-    name: "ModelExtension",
-    query: {
-      user: {
-        $allOperations({ model, operation, args, query }) {
-          // handle all operations
-
-          //@ts-ignore
-          if (args.where) {
-            const dynamicWhere = {};
-
-
-
-            //@ts-ignore
-            args.where = { ...dynamicWhere, ...args.where };
-          }
-          return query(args);
-        },
-      },
-    },
-  });
-  */
