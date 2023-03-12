@@ -1,3 +1,4 @@
+// @ts-ignore
 import type { PaginationResult } from "paginate-prisma";
 
 export interface ApiResponseMeta<T> {

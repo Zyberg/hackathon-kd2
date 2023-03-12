@@ -1,4 +1,4 @@
-//@ts-nocheck
+// @ts-nocheck
 import type { PaginationResult } from "paginate-prisma";
 import { prisma, paginate } from "../../boot/prisma";
 import type { APIRequestAll } from "../../boot/prisma";

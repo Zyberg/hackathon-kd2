@@ -1,4 +1,5 @@
 import type { Request, Response} from "express"
+// tslint:disable-next-line:no-duplicate-imports
 import { Router } from "express";
 import { DataTableQuery } from "../../types/generic/DataTable";
 import Controller from "./users.controller";
