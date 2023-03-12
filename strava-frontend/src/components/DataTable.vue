@@ -64,7 +64,7 @@ export default {
       const perPage =
         rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage;
 
-        //TODO: adapt to everything
+      //TODO: adapt to everything
       const { data, meta } = await rootProps.fetch({
         query: {
           q: filter,

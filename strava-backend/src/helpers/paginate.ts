@@ -12,8 +12,8 @@ export const makePaginateOptions = ({
   perPage: limit,
   page,
 }: APIRequestAll) => ({
-  page,
-  limit,
+  page: +(page ?? 1),
+  limit: +(limit ?? 10),
   sort: {
     field,
     order,
