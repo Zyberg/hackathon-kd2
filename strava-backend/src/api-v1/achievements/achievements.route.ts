@@ -2,16 +2,16 @@ import type { Request, Response} from "express"
 // tslint:disable-next-line:no-duplicate-imports
 import { Router } from "express";
 import { DataTableQuery } from "../../types/generic/DataTable";
-import Controller from "./users.controller";
+import Controller from "./achievements.controller";
 
-const users: Router = Router();
+const achievements: Router = Router();
 const controller = new Controller();
 
-users.get("/", async (req: Request, res: Response) => {
-    const response = await controller.getAllUsers(req.query);
+achievements.get("/", async (req: Request, res: Response) => {
+    const response = await controller.getAllAchievements(req.query);
 
     console.log(req.query as DataTableQuery);
     return res.send(response);
 });
 
-export default users;
+export default achievements;

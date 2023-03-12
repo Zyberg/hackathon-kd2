@@ -1,6 +1,7 @@
-//@ts-nocheck
+// @ts-nocheck
 import type { PaginationResult } from "paginate-prisma";
 import type { PAGINATION_ORDER } from "../../boot/prisma";
+// tslint:disable-next-line:no-duplicate-imports
 import { prisma, paginate } from "../../boot/prisma";
 
 interface APIRequestAll {
@@ -21,8 +22,8 @@ export class UsersService {
   }: APIRequestAll): Promise<PaginationResult | null> {
     try {
       const query = {};
-      //TODO: generalize
-      //TODO: add searchable fields somewhere else
+      // TODO: generalize
+      // TODO: add searchable fields somewhere else
       /*
       if (q != null && q != '' && field != null)
         query[field] = q;

@@ -222,4 +222,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
+
+  achievements = {
+    /**
+     * No description
+     *
+     * @name getAllAchievements
+     * @request GET:/achievements
+     */
+    getAllAchievements: (params: RequestParams = {}) =>
+      this.request<ChallengeResponse, any>({
+        path: `/achievements`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+  };
 }
