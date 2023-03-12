@@ -17,10 +17,41 @@ export interface User {
   id: number;
 }
 
-export interface UserResponse {
+export interface PaginationResult {
+  /** @format double */
+  page: number;
+  /** @format double */
+  pages: number;
+  /** @format double */
+  limit: number;
+  /** @format double */
+  items: number;
+}
+
+export interface ApiResponseMetaUserArray {
   success: boolean;
   message: string;
   data: User[] | null;
+  meta: PaginationResult;
+}
+
+export type ApiResponsePaginatedUserArray = ApiResponseMetaUserArray;
+
+/** Model Challenge */
+export interface Challenge {
+  /** @format double */
+  unitId: number;
+  isActive: boolean;
+  description: string;
+  title: string;
+  /** @format double */
+  id: number;
+}
+
+export interface ChallengeResponse {
+  success: boolean;
+  message: string;
+  data: Challenge[] | null;
 }
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
@@ -169,8 +200,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/users
      */
     getAllUsers: (params: RequestParams = {}) =>
-      this.request<UserResponse, any>({
+      this.request<ApiResponsePaginatedUserArray, any>({
         path: `/users`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+  };
+  challenges = {
+    /**
+     * No description
+     *
+     * @name GetAllChallenges
+     * @request GET:/challenges
+     */
+    getAllChallenges: (params: RequestParams = {}) =>
+      this.request<ChallengeResponse, any>({
+        path: `/challenges`,
         method: "GET",
         format: "json",
         ...params,
