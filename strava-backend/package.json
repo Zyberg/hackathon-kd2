@@ -29,6 +29,7 @@
     "http-status": "^1.6.2",
     "jwks-rsa": "^3.0.1",
     "nocache": "^3.0.4",
+    "paginate-prisma": "^1.0.27",
     "swagger-ui-express": "^4.6.2",
     "tsoa": "^5.1.1"
   },

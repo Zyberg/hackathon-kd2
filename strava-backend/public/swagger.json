@@ -6,51 +6,59 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"User": {
-				"properties": {
-					"name": {
-						"type": "string",
-						"nullable": true
-					},
-					"email": {
-						"type": "string"
-					},
-					"id": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"name",
-					"email",
-					"id"
-				],
-				"type": "object",
-				"description": "Model User"
-			},
-			"UserResponse": {
+			"ApiResponseMeta": {
 				"properties": {
 					"success": {
 						"type": "boolean"
 					},
 					"message": {
 						"type": "string"
-					},
-					"data": {
-						"items": {
-							"$ref": "#/components/schemas/User"
-						},
-						"type": "array",
-						"nullable": true
 					}
 				},
 				"required": [
 					"success",
-					"message",
-					"data"
+					"message"
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"PaginationResult": {
+				"properties": {
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"pages": {
+						"type": "number",
+						"format": "double"
+					},
+					"limit": {
+						"type": "number",
+						"format": "double"
+					},
+					"items": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"page",
+					"pages",
+					"limit",
+					"items"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponsePaginated": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/ApiResponseMeta"
+					},
+					{
+						"$ref": "#/components/schemas/PaginationResult"
+					}
+				]
 			},
 			"Challenge": {
 				"properties": {
@@ -128,7 +136,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserResponse"
+									"$ref": "#/components/schemas/ApiResponsePaginated"
 								}
 							}
 						}

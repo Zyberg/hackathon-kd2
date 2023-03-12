@@ -1,42 +1,15 @@
-//import * as bcrypt from 'bcrypt';
-import { PrismaClient, User } from "@prisma/client";
 import { Get, Route } from "tsoa";
+import { formatAPIResponse } from "../../helpers/formatAPIResponse";
+import { ApiResponsePaginated } from "../../types/generic/apiResponse";
+import { UsersService } from "./users.service";
 
-const prisma = new PrismaClient();
-
-interface UserResponse {
-  success: boolean;
-  message: string;
-  data: User[] | null;
-}
 
 @Route("users")
 export default class UserController {
   @Get("/")
-  public async getAllUsers(): Promise<UserResponse> {
-    try {
-      const data = await prisma.user.findMany({
-        include: {
-          challengesParticipant: {
-            include: {
-              challenge: true,
-            },
-          },
-        },
-      });
+  public async getAllUsers(): Promise<ApiResponsePaginated> {
+    const data = await new UsersService().getAllUsers({});
 
-      return {
-        success: true,
-        message: "Success",
-        data,
-      };
-    } catch (e: any) {
-      console.error(e);
-      return {
-        success: false,
-        message: e.toString(),
-        data: null,
-      };
-    }
+    return formatAPIResponse(data);
   }
 }
