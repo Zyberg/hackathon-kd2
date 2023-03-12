@@ -94,6 +94,29 @@
 				],
 				"type": "string"
 			},
+			"DataTableQuery": {
+				"properties": {
+					"q": {
+						"type": "string"
+					},
+					"field": {
+						"type": "string"
+					},
+					"order": {
+						"$ref": "#/components/schemas/PAGINATION_ORDER"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"perPage": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Challenge": {
 				"properties": {
 					"unitId": {
