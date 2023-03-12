@@ -1,14 +1,15 @@
-import { ApiResponsePaginated } from "../types/generic/apiResponse";
+import { ApiMessage } from "../types/generic/apiMessages";
+//import { ApiResponsePaginated } from "../types/generic/apiResponse";
 
 export const formatAPIResponse = <T>(data: any): any =>
   data !== null
     ? {
         success: true,
-        message: "Success",
+        message: ApiMessage.Success,
         ...data,
       }
     : {
         success: false,
-        message: "Error",
+        message: ApiMessage.Error,
         data: null,
       };
