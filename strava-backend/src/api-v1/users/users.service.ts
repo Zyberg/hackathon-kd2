@@ -1,41 +1,18 @@
 //@ts-nocheck
 import type { PaginationResult } from "paginate-prisma";
-import type { PAGINATION_ORDER } from "../../boot/prisma";
 import { prisma, paginate } from "../../boot/prisma";
+import type { APIRequestAll } from "../../boot/prisma";
 
-interface APIRequestAll {
-  q?: string;
-  field?: string;
-  order?: PAGINATION_ORDER;
-  page?: number;
-  perPage?: number;
-}
+const SEARCHABLE_FIELDS = ["name", "email"];
 
 export class UsersService {
-  public async getAllUsers({
-    q,
-    field,
-    order,
-    page,
-    perPage,
-  }: APIRequestAll): Promise<PaginationResult | null> {
+  public async getAllUsers(
+    params: APIRequestAll
+  ): Promise<PaginationResult | null> {
     try {
-      const query = {};
-      //TODO: generalize
-      //TODO: add searchable fields somewhere else
-      /*
-      if (q != null && q != '' && field != null)
-        query[field] = q;
-      */
-
       const data = await paginate(prisma.user)(
-        query,
-        {
-          sort: {
-            field,
-            order,
-          },
-        },
+        params.q,
+        params,
         {
           include: {
             challengesParticipant: {
@@ -44,7 +21,8 @@ export class UsersService {
               },
             },
           },
-        }
+        },
+        SEARCHABLE_FIELDS
       );
 
       return data;
