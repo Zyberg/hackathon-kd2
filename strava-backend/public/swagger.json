@@ -28,30 +28,6 @@
 				"type": "object",
 				"description": "Model User"
 			},
-			"ApiResponseMeta_User-Array_": {
-				"properties": {
-					"success": {
-						"type": "boolean"
-					},
-					"message": {
-						"type": "string"
-					},
-					"data": {
-						"items": {
-							"$ref": "#/components/schemas/User"
-						},
-						"type": "array",
-						"nullable": true
-					}
-				},
-				"required": [
-					"success",
-					"message",
-					"data"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"PaginationResult": {
 				"properties": {
 					"page": {
@@ -80,15 +56,36 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ApiResponsePaginated_User-Array_": {
-				"allOf": [
-					{
-						"$ref": "#/components/schemas/ApiResponseMeta_User-Array_"
+			"ApiResponseMeta_User-Array_": {
+				"properties": {
+					"success": {
+						"type": "boolean"
 					},
-					{
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/User"
+						},
+						"type": "array",
+						"nullable": true
+					},
+					"meta": {
 						"$ref": "#/components/schemas/PaginationResult"
 					}
-				]
+				},
+				"required": [
+					"success",
+					"message",
+					"data",
+					"meta"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponsePaginated_User-Array_": {
+				"$ref": "#/components/schemas/ApiResponseMeta_User-Array_"
 			},
 			"Challenge": {
 				"properties": {

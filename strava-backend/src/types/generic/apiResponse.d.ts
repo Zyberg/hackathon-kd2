@@ -4,6 +4,7 @@ export interface ApiResponseMeta<T> {
   success: boolean;
   message: string;
   data: T | null;
+  meta: PaginationResult
 }
 
-export type ApiResponsePaginated<T> = ApiResponseMeta<T> & PaginationResult;
+export type ApiResponsePaginated<T> = ApiResponseMeta<T>;
