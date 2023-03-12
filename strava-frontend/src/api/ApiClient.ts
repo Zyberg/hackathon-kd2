@@ -37,6 +37,22 @@ export interface ApiResponseMetaUserArray {
 
 export type ApiResponsePaginatedUserArray = ApiResponseMetaUserArray;
 
+export interface Achievement {
+  name: string | null;
+  email: string;
+  /** @format double */
+  id: number;
+}
+
+export interface ApiResponseMetaAchievementArray {
+  success: boolean;
+  message: string;
+  data: Achievement[] | null;
+  meta: PaginationResult;
+}
+
+export type ApiResponsePaginatedAchievementArray = ApiResponseMetaAchievementArray;
+
 /** Model Challenge */
 export interface Challenge {
   /** @format double */
@@ -231,7 +247,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/achievements
      */
     getAllAchievements: (params: RequestParams = {}) =>
-      this.request<ChallengeResponse, any>({
+      this.request<ApiResponsePaginatedAchievementArray, any>({
         path: `/achievements`,
         method: "GET",
         format: "json",
