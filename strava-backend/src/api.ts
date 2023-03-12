@@ -3,10 +3,16 @@ import nocache from "nocache";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+
+import passport from "passport";
+import { localStrategy } from "./helpers/auth/localStrategy";
+
 import apiV1 from "./api-v1/index";
 import * as errorHandler from "./helpers/errorHandler";
 import home from "./home";
 import docs from "./docs";
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
+import { session, sessionStore } from "./helpers/auth/session";
 
 class App {
   public express: express.Application;
@@ -14,6 +20,7 @@ class App {
   constructor() {
     this.express = express();
     this.setMiddlewares();
+    this.setPassport();
     this.setRoutes();
     this.catchErrors();
   }
@@ -24,8 +31,13 @@ class App {
     this.express.use(nocache());
     this.express.use(express.json());
     this.express.use(express.urlencoded({ extended: true }));
+    this.express.use(session);
     this.express.use(helmet());
     this.express.use(express.static("public"));
+  }
+
+  private setPassport(): void {
+    passport.use(localStrategy);
   }
 
   private setRoutes(): void {

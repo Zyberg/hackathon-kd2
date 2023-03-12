@@ -3,14 +3,24 @@ generator client {
 }
 
 datasource db {
-  provider          = "mysql"
-  url               = env("DB_CONNECTION_STRING")
+  provider = "mysql"
+  url      = env("DB_CONNECTION_STRING")
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String   @db.Text
+  expiresAt DateTime
 }
 
 model User {
-  id     Int                 @id @default(autoincrement())
-  email  String              @unique
-  name   String?
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String?
+  password String
+  Role     Role?
+
   groups UserGroupsOnUsers[]
 
   stravaProfile UserStravaProfile?
@@ -28,6 +38,13 @@ model UserStravaProfile {
   user   User  @relation(fields: [userId], references: [id])
   userId Int   @unique
   data   Json?
+}
+
+model Role {
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @unique
+  title  String
 }
 
 model UserGroup {

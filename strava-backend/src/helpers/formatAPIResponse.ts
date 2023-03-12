@@ -1,7 +1,7 @@
 import { ApiMessage } from "../types/generic/apiMessages";
-import { ApiResponsePaginated } from "../types/generic/apiResponse";
+import { ApiResponse } from "../types/generic/apiResponse";
 
-export const formatAPIResponse = <T>(data: any): ApiResponsePaginated<T> =>
+export const formatAPIResponse = <T>(data: any): ApiResponse<T> =>
   data !== null
     ? {
         success: true,

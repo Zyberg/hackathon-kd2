@@ -8,6 +8,9 @@
 		"schemas": {
 			"User": {
 				"properties": {
+					"password": {
+						"type": "string"
+					},
 					"name": {
 						"type": "string",
 						"nullable": true
@@ -21,6 +24,7 @@
 					}
 				},
 				"required": [
+					"password",
 					"name",
 					"email",
 					"id"
@@ -56,6 +60,63 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ApiResponseMeta_User_": {
+				"properties": {
+					"success": {
+						"type": "boolean"
+					},
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/User"
+							}
+						],
+						"nullable": true
+					},
+					"meta": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/PaginationResult"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"success",
+					"message",
+					"data",
+					"meta"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_User_": {
+				"$ref": "#/components/schemas/ApiResponseMeta_User_"
+			},
+			"UserCreateRequest": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ApiResponseMeta_User-Array_": {
 				"properties": {
 					"success": {
@@ -72,7 +133,12 @@
 						"nullable": true
 					},
 					"meta": {
-						"$ref": "#/components/schemas/PaginationResult"
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/PaginationResult"
+							}
+						],
+						"nullable": true
 					}
 				},
 				"required": [
@@ -84,7 +150,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ApiResponsePaginated_User-Array_": {
+			"ApiResponse_User-Array_": {
 				"$ref": "#/components/schemas/ApiResponseMeta_User-Array_"
 			},
 			"PAGINATION_ORDER": {
@@ -217,7 +283,12 @@
 						"nullable": true
 					},
 					"meta": {
-						"$ref": "#/components/schemas/PaginationResult"
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/PaginationResult"
+							}
+						],
+						"nullable": true
 					}
 				},
 				"required": [
@@ -229,7 +300,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ApiResponsePaginated_Achievement-Array_": {
+			"ApiResponse_Achievement-Array_": {
 				"$ref": "#/components/schemas/ApiResponseMeta_Achievement-Array_"
 			}
 		},
@@ -245,6 +316,71 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/authentication": {
+			"get": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_User_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "email",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "password",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/authentication/signup": {
+			"post": {
+				"operationId": "Signup",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_User_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserCreateRequest"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/users": {
 			"get": {
 				"operationId": "GetAllUsers",
@@ -254,7 +390,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ApiResponsePaginated_User-Array_"
+									"$ref": "#/components/schemas/ApiResponse_User-Array_"
 								}
 							}
 						}
@@ -335,7 +471,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ApiResponsePaginated_Achievement-Array_"
+									"$ref": "#/components/schemas/ApiResponse_Achievement-Array_"
 								}
 							}
 						}

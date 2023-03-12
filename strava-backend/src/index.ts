@@ -1,12 +1,11 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import "./boot/extend";
 import server from "./api";
 
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-
-console.log(process.env.API_PORT)
 
 server.listen(process.env.API_PORT || "3000", () => {
   console.log(
