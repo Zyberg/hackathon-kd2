@@ -37,21 +37,20 @@ export interface ApiResponseMetaUserArray {
 
 export type ApiResponsePaginatedUserArray = ApiResponseMetaUserArray;
 
-export interface Achievement {
-  name: string | null;
-  email: string;
+export enum PAGINATION_ORDER {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+export interface DataTableQuery {
+  q?: string;
+  field?: string;
+  order?: PAGINATION_ORDER;
   /** @format double */
-  id: number;
+  page?: number;
+  /** @format double */
+  perPage?: number;
 }
-
-export interface ApiResponseMetaAchievementArray {
-  success: boolean;
-  message: string;
-  data: Achievement[] | null;
-  meta: PaginationResult;
-}
-
-export type ApiResponsePaginatedAchievementArray = ApiResponseMetaAchievementArray;
 
 /** Model Challenge */
 export interface Challenge {
@@ -69,6 +68,26 @@ export interface ChallengeResponse {
   message: string;
   data: Challenge[] | null;
 }
+
+/** Model Achievement */
+export interface Achievement {
+  /** @format double */
+  max_users: number;
+  description: string;
+  imagePath: string;
+  title: string;
+  /** @format double */
+  id: number;
+}
+
+export interface ApiResponseMetaAchievementArray {
+  success: boolean;
+  message: string;
+  data: Achievement[] | null;
+  meta: PaginationResult;
+}
+
+export type ApiResponsePaginatedAchievementArray = ApiResponseMetaAchievementArray;
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
 
@@ -215,10 +234,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name GetAllUsers
      * @request GET:/users
      */
-    getAllUsers: (params: RequestParams = {}) =>
+    getAllUsers: (
+      query?: {
+        q?: string;
+        field?: string;
+        order?: PAGINATION_ORDER;
+        /** @format double */
+        page?: number;
+        /** @format double */
+        perPage?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ApiResponsePaginatedUserArray, any>({
         path: `/users`,
         method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),
@@ -238,18 +269,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
-
   achievements = {
     /**
      * No description
      *
-     * @name getAllAchievements
+     * @name GetAllAchievements
      * @request GET:/achievements
      */
-    getAllAchievements: (params: RequestParams = {}) =>
+    getAllAchievements: (
+      query?: {
+        q?: string;
+        field?: string;
+        order?: PAGINATION_ORDER;
+        /** @format double */
+        page?: number;
+        /** @format double */
+        perPage?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<ApiResponsePaginatedAchievementArray, any>({
         path: `/achievements`,
         method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),
