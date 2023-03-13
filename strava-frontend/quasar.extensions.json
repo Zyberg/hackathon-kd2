@@ -1,0 +1,8 @@
+{
+  "@vueauth/auth": {
+    "authProvider": {
+      "identifier": "sanctum",
+      "packageName": "@vueauth/sanctum"
+    }
+  }
+}

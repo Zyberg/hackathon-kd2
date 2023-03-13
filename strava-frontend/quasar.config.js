@@ -101,6 +101,11 @@ module.exports = configure(function (/* ctx */) {
           // process.env.API_URI,
           changeOrigin: true,
           rewrite: (url) => url.replace(/^\/api(.+)$/, process.env.API_PREFIX + '/$1')
+        },
+        '/auth': {
+          target: 'http://localhost:3000',
+          changeOrigin: true,
+
         }
       }
     },

@@ -2,6 +2,7 @@
   <router-view />
 </template>
 
-<script setup lang="ts">
-
+<script setup>
+import { authenticateRoutes } from '@vueauth/quasar-ui-auth'
+authenticateRoutes()
 </script>
