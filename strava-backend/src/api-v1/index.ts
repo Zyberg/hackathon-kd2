@@ -1,14 +1,16 @@
 import { Router } from "express";
 
-import auth from "./authentication/authentication.route";
 import users from "./users/users.route";
 import challenges from "./challenges/challenges.route";
 import achievements from "./achievements/achievements.route";
 import wip from "./wip";
+import { auth } from "../helpers/auth/auth";
 
 const router: Router = Router();
 
-router.use("/auth", auth);
+// Authenticate API with jwt tokens
+router.use(auth.jwt)
+
 router.use("/users", users);
 router.use("/challenges", challenges);
 router.use("/achievements", achievements);

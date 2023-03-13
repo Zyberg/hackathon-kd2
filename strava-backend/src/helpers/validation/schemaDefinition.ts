@@ -1,3 +1,5 @@
+export { UserInterface } from "../auth/types"
+
 export interface UserPostRequest {
   /**
    * @format email

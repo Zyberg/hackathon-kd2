@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { Get, Post, Body, Route, Query } from "tsoa";
+import { Get, Post, Body, Route, Query, Hidden } from "tsoa";
 import { formatAPIResponse } from "../../helpers/formatAPIResponse";
 import { ApiResponse } from "../../types/generic/apiResponse";
 import type { DataTableQuery } from "../../types/generic/DataTable";
@@ -19,11 +19,12 @@ interface UserCreateRequest {
 @Route("authentication")
 export default class AuthenticationController {
   @Get("/")
-  public async login(
+  public async loginPassword(
+    @Hidden() user: Express.User,
     @Query() email: string,
-    @Query() password: string
+    @Query() password: string,
   ): Promise<ApiResponse<User>> {
-    const data = await new AuthenticationService().login(email, password);
+    const data = await new AuthenticationService().login(user);
 
     return formatAPIResponse(data);
   }

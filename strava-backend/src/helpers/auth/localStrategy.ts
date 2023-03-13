@@ -3,7 +3,6 @@ import LocalStrategy from "passport-local";
 import bcrypt from "bcrypt";
 import { prisma } from "../../boot/prisma";
 import type { User } from "@prisma/client";
-import { hasUncaughtExceptionCaptureCallback } from "process";
 
 export const localStrategy = new LocalStrategy.Strategy(
   {

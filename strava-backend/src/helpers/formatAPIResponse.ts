@@ -1,15 +1,7 @@
-import { ApiMessage } from "../types/generic/apiMessages";
 import { ApiResponse } from "../types/generic/apiResponse";
+import { responseBuilder } from "./basicJsonResponse";
 
 export const formatAPIResponse = <T>(data: any): ApiResponse<T> =>
   data !== null
-    ? {
-        success: true,
-        message: ApiMessage.Success,
-        ...data,
-      }
-    : {
-        success: false,
-        message: ApiMessage.Error,
-        data: null,
-      };
+    ? responseBuilder.makeSuccessResponse(data)
+    : responseBuilder.makeErrorResponse("Error");
