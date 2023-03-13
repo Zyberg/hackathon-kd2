@@ -11,6 +11,7 @@
 
 /** Model User */
 export interface User {
+  password: string;
   name: string | null;
   email: string;
   /** @format double */
@@ -32,10 +33,10 @@ export interface ApiResponseMetaUserArray {
   success: boolean;
   message: string;
   data: User[] | null;
-  meta: PaginationResult;
+  meta: PaginationResult | null;
 }
 
-export type ApiResponsePaginatedUserArray = ApiResponseMetaUserArray;
+export type ApiResponseUserArray = ApiResponseMetaUserArray;
 
 export enum PAGINATION_ORDER {
   ASC = "ASC",
@@ -84,10 +85,25 @@ export interface ApiResponseMetaAchievementArray {
   success: boolean;
   message: string;
   data: Achievement[] | null;
-  meta: PaginationResult;
+  meta: PaginationResult | null;
 }
 
-export type ApiResponsePaginatedAchievementArray = ApiResponseMetaAchievementArray;
+export type ApiResponseAchievementArray = ApiResponseMetaAchievementArray;
+
+export interface ApiResponseMetaUser {
+  success: boolean;
+  message: string;
+  data: User | null;
+  meta: PaginationResult | null;
+}
+
+export type ApiResponseUser = ApiResponseMetaUser;
+
+export interface UserCreateRequest {
+  name: string;
+  email: string;
+  password: string;
+}
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
 
@@ -231,8 +247,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags User
      * @name GetAllUsers
      * @request GET:/users
+     * @secure
      */
     getAllUsers: (
       query?: {
@@ -246,10 +264,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<ApiResponsePaginatedUserArray, any>({
+      this.request<ApiResponseUserArray, any>({
         path: `/users`,
         method: "GET",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -258,13 +277,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Challenge
      * @name GetAllChallenges
      * @request GET:/challenges
+     * @secure
      */
     getAllChallenges: (params: RequestParams = {}) =>
       this.request<ChallengeResponse, any>({
         path: `/challenges`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -273,8 +295,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Achievement
      * @name GetAllAchievements
      * @request GET:/achievements
+     * @secure
      */
     getAllAchievements: (
       query?: {
@@ -288,10 +312,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<ApiResponsePaginatedAchievementArray, any>({
+      this.request<ApiResponseAchievementArray, any>({
         path: `/achievements`,
         method: "GET",
         query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+  authentication = {
+    /**
+     * No description
+     *
+     * @tags Authentication
+     * @name Signup
+     * @request POST:/authentication/signup
+     */
+    signup: (data: UserCreateRequest, params: RequestParams = {}) =>
+      this.request<ApiResponseUser, any>({
+        path: `/authentication/signup`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
