@@ -1,6 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header
+      class="bg-white text-grey-9"
+      elevated
+    >
       <q-toolbar>
         <q-btn
           flat
@@ -11,11 +14,7 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-toolbar-title>Quasar {{ authProviderUpperFirst }}</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -25,17 +24,9 @@
       bordered
     >
       <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
+        <q-item-label header>
+          Your Menu
         </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
       </q-list>
     </q-drawer>
 
@@ -45,34 +36,16 @@
   </q-layout>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
-
-const essentialLinks: EssentialLinkProps[] = [
-  {
-    title: 'Users',
-    caption: 'View System Users',
-    icon: 'school',
-    link: '/users'
-  },
-  {
-    title: 'Challenges',
-    caption: 'View System\'s Challenges',
-    icon: 'code',
-    link: '/challenges'
-  },
-  {
-    title: 'Achievements',
-    caption: 'View all achievements',
-    icon: 'chat',
-    link: '/achievements'
-  },
-];
+<script setup>
+import { ref } from 'vue'
+import { getDefaultProvider } from '@vueauth/core'
 
 const leftDrawerOpen = ref(false)
 
-function toggleLeftDrawer() {
+const authProvider = getDefaultProvider()
+const authProviderUpperFirst = authProvider.charAt(0).toUpperCase() + authProvider.slice(1)
+
+function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>

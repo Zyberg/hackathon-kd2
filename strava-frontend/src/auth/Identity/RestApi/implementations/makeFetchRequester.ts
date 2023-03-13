@@ -48,9 +48,26 @@ const makeFetchRequester = (
         if (!options.headers) {
           options.headers = {}
         }
+
+        // TODO: better solution with axios :)
+        const token = localStorage.getItem('token');
+        if (!!token) (options.headers as any).Authorization = `Bearer ${token}`;
+
         if (xsrfToken) {
           (options.headers as any)['X-XSRF-TOKEN'] = xsrfToken
         }
+      },
+      afterFetch (ctx) {
+        let data;
+        try {
+          data = JSON.parse(ctx.data)
+        } catch (e) {}
+
+        if (!!data && !!data?.token) {
+          localStorage.setItem('token', data.token)
+        }
+
+        return ctx;
       },
       immediate: false,
     },

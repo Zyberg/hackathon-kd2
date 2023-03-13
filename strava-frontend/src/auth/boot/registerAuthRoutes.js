@@ -29,6 +29,8 @@ export default boot(({ router }) => {
     component: () => import('src/auth/pages/PasswordResetViaEmailPage.vue')
   })
 
+  // Authenticated user routes
+  //TODO: differentiate by roles
   router.addRoute('/', {
     path: '/dashboard',
     component: () => import('layouts/AuthenticatedLayout.vue'),
@@ -38,7 +40,25 @@ export default boot(({ router }) => {
         name: 'dashboard',
         component: () => import('src/pages/UserDashboard.vue'),
         meta: { authOnly: true }
-      }
+      },
+      {
+        path: '/users',
+        name: 'users',
+        component: () => import('src/pages/UsersPage.vue'),
+        meta: { authOnly: true }
+      },
+      {
+        path: '/achievements',
+        name: 'achievements',
+        component: () => import('src/pages/AchievementsPage.vue'),
+        meta: { authOnly: true }
+      },
+      {
+        path: '/challenges',
+        name: 'challenges',
+        component: () => import('src/pages/ChallengesPage.vue'),
+        meta: { authOnly: true }
+      },
     ]
   })
 })

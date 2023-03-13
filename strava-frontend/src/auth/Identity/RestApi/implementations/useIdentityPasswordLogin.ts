@@ -26,7 +26,7 @@ const useIdentityPasswordLogin: UseIdentityPasswordLogin = () => {
     password: '',
   })
   function resetForm () {
-    Object.keys(form.value).forEach(key => { form.value[key] = '' })
+    Object.keys(form.value).forEach(key => { (form.value as any)[key] = '' })
   }
 
   const login = async () => {
