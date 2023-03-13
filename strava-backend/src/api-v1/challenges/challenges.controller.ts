@@ -1,5 +1,5 @@
 import { PrismaClient, Challenge } from "@prisma/client";
-import { Get, Route } from "tsoa";
+import { Get, Route, Tags } from "tsoa";
 
 const prisma = new PrismaClient();
 
@@ -9,6 +9,7 @@ interface ChallengeResponse {
   data: Challenge[] | null;
 }
 
+@Tags("Challenge")
 @Route("challenges")
 export default class UserController {
   @Get("/")

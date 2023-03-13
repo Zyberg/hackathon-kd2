@@ -1,5 +1,5 @@
 import {Achievement, User} from "@prisma/client";
-import {Get, Queries, Query, Route} from "tsoa";
+import {Get, Queries, Query, Route, Tags} from "tsoa";
 import { formatAPIResponse } from "../../helpers/formatAPIResponse";
 import { ApiResponse } from "../../types/generic/apiResponse";
 import { DataTableQuery } from "../../types/generic/DataTable";
@@ -8,6 +8,7 @@ import {PAGINATION_ORDER} from "paginate-prisma";
 import {UsersService} from "../users/users.service";
 
 
+@Tags("Achievement")
 @Route("achievements")
 export default class AchievementController {
 

@@ -396,6 +396,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Challenge"
+				],
 				"security": [],
 				"parameters": []
 			}
@@ -415,6 +418,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Achievement"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -477,6 +483,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Authentication"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
