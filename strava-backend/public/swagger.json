@@ -322,9 +322,8 @@
 		},
 		"securitySchemes": {
 			"jwt": {
-				"type": "apiKey",
-				"name": "access_token",
-				"in": "query"
+				"type": "http",
+				"scheme": "bearer"
 			}
 		}
 	},
@@ -338,7 +337,7 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/users": {
+		"/v1/users": {
 			"get": {
 				"operationId": "GetAllUsers",
 				"responses": {
@@ -358,7 +357,7 @@
 				],
 				"security": [
 					{
-						"bearer_token": []
+						"jwt": []
 					}
 				],
 				"parameters": [
@@ -407,7 +406,7 @@
 				]
 			}
 		},
-		"/challenges": {
+		"/v1/challenges": {
 			"get": {
 				"operationId": "GetAllChallenges",
 				"responses": {
@@ -427,13 +426,13 @@
 				],
 				"security": [
 					{
-						"bearer_token": []
+						"jwt": []
 					}
 				],
 				"parameters": []
 			}
 		},
-		"/achievements": {
+		"/v1/achievements": {
 			"get": {
 				"operationId": "GetAllAchievements",
 				"responses": {
@@ -453,7 +452,7 @@
 				],
 				"security": [
 					{
-						"bearer_token": []
+						"jwt": []
 					}
 				],
 				"parameters": [

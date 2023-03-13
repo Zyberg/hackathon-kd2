@@ -9,8 +9,8 @@ import {UsersService} from "../users/users.service";
 
 
 @Tags("Achievement")
-@Route("achievements")
-@Security("bearer_token")
+@Route("v1/achievements")
+@Security("jwt")
 export default class AchievementController {
 
     @Get("/")

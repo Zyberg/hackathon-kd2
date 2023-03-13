@@ -8,6 +8,7 @@ export function expressAuthentication(
   scopes?: string[]
 ): Promise<any> {
   return new Promise((resolve, reject) => {
+    console.log('innn')
     if (securityName !== "jwt") reject(new Error("Unsupported security name"));
 
     console.log('test')
@@ -18,8 +19,21 @@ export function expressAuthentication(
     if (!token) {
       reject(new Error("No token provided"));
     }
-    const data = decodeToken(token as string, "[secret]");
-    jwt.verify(token, "[secret]", function (err: any, decoded: any) {
+
+    let decoded: undefined | jwt.JwtPayload;
+    try {
+        decoded = decodeToken(token as string, "[secret]") as jwt.JwtPayload;
+    } catch (e) {
+        reject(e);
+    }
+
+    for (let scope of scopes!!) {
+        if (!decoded!!.scopes.includes(scope)) {
+            reject(new Error("JWT does not contain required scope."));
+        }
+    }
+
+    jwt.verify(token as string, "[secret]", function (err: any, decoded: any) {
       if (err) {
         reject(err);
       } else {

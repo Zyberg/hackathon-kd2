@@ -10,8 +10,8 @@ interface ChallengeResponse {
 }
 
 @Tags("Challenge")
-@Route("challenges")
-@Security("bearer_token")
+@Route("v1/challenges")
+@Security("jwt")
 export default class UserController {
   @Get("/")
   public async getAllChallenges(): Promise<ChallengeResponse> {

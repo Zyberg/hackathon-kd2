@@ -6,8 +6,8 @@ import type { DataTableQuery } from "../../types/generic/DataTable";
 import { UsersService } from "./users.service";
 
 @Tags("User")
-@Security("bearer_token")
-@Route("users")
+@Security("jwt")
+@Route("v1/users")
 export default class UserController {
   @Get("/")
   public async getAllUsers(

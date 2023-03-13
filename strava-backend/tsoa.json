@@ -6,13 +6,9 @@
     "specVersion": 3,
     "securityDefinitions": {
       "jwt": {
-        "type": "apiKey",
-        "name": "access_token",
-        "in": "query"
+        "type": "http",
+        "scheme": "bearer"
       }
     }
-  },
-  "routes": {
-    "authenticationModule": "./src/helpers/auth/tsoa.ts"
   }
 }
