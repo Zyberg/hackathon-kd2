@@ -1,8 +1,10 @@
 import Ajv from "ajv";
+import addFormats from "ajv-formats";
 import { NextFunction, Request, Response } from "express";
 import _schema from "./_schema";
 
 const ajv = new Ajv();
+addFormats(ajv);
 
 export const validateBody = (schema: object) => {
   const validate = ajv.compile(schema);
