@@ -1,8 +1,8 @@
 import { boot } from 'quasar/wrappers'
 import { AuthPlugin } from '@vueauth/core'
-import sanctumConfig from 'app/config/sanctum'
+import restApiConfig from 'app/config/restApi'
 import {
-  SanctumPlugin,
+  RestApiPlugin,
   useIdentityPasswordRegister,
   useIdentityPasswordLogin,
   useIdentityPasswordLogout,
@@ -14,16 +14,17 @@ import {
   useFetchUser,
   usePasswordResetViaEmail,
   useUpdatePassword
-} from '@vueauth/sanctum'
+} from '../Identity/RestApi'
 
 export default boot(({ app }) => {
-  app.use(SanctumPlugin, sanctumConfig) // Be sure to update config/sanctum to configure your app!
+  app.use(RestApiPlugin, restApiConfig)
 
   app.use(AuthPlugin, {
-    default: 'sanctum',
+    default: 'custom',
     providers: {
-      sanctum: {
+      custom: {
         features: {
+          //TODO:
           'identityPassword:register': useIdentityPasswordRegister,
           'identityPassword:login': useIdentityPasswordLogin,
           'identityPassword:logout': useIdentityPasswordLogout,

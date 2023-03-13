@@ -10,5 +10,8 @@
         "scheme": "bearer"
       }
     }
+  },
+  "routes": {
+    "authenticationModule": "./src/helpers/auth/tsoa.ts"
   }
 }
