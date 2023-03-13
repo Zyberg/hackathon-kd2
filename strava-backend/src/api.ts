@@ -6,13 +6,14 @@ import morgan from "morgan";
 
 import passport from "passport";
 import { localStrategy } from "./helpers/auth/localStrategy";
+import { jwtStrategy } from "./helpers/auth/jwtStrategy";
+import { session } from "./helpers/auth/session";
 
 import apiV1 from "./api-v1/index";
-import * as errorHandler from "./helpers/errorHandler";
+import { errorHandlerMiddleware, notFound } from "./helpers/errorHandler";
 import home from "./home";
 import docs from "./docs";
-import { PrismaSessionStore } from "@quixo3/prisma-session-store";
-import { session, sessionStore } from "./helpers/auth/session";
+import auth from "./auth";
 
 class App {
   public express: express.Application;
@@ -38,17 +39,19 @@ class App {
 
   private setPassport(): void {
     passport.use(localStrategy);
+    passport.use(jwtStrategy);
   }
 
   private setRoutes(): void {
     this.express.use("/", home);
     this.express.use("/docs", docs);
     this.express.use("/v1", apiV1);
+    this.express.use("/auth", auth);
   }
 
   private catchErrors(): void {
-    this.express.use(errorHandler.notFound);
-    this.express.use(errorHandler.internalServerError);
+    this.express.use(notFound);
+    this.express.use(errorHandlerMiddleware);
   }
 }
 

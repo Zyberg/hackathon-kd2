@@ -60,63 +60,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ApiResponseMeta_User_": {
-				"properties": {
-					"success": {
-						"type": "boolean"
-					},
-					"message": {
-						"type": "string"
-					},
-					"data": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/User"
-							}
-						],
-						"nullable": true
-					},
-					"meta": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/PaginationResult"
-							}
-						],
-						"nullable": true
-					}
-				},
-				"required": [
-					"success",
-					"message",
-					"data",
-					"meta"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ApiResponse_User_": {
-				"$ref": "#/components/schemas/ApiResponseMeta_User_"
-			},
-			"UserCreateRequest": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"name",
-					"email",
-					"password"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"ApiResponseMeta_User-Array_": {
 				"properties": {
 					"success": {
@@ -302,6 +245,63 @@
 			},
 			"ApiResponse_Achievement-Array_": {
 				"$ref": "#/components/schemas/ApiResponseMeta_Achievement-Array_"
+			},
+			"ApiResponseMeta_User_": {
+				"properties": {
+					"success": {
+						"type": "boolean"
+					},
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/User"
+							}
+						],
+						"nullable": true
+					},
+					"meta": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/PaginationResult"
+							}
+						],
+						"nullable": true
+					}
+				},
+				"required": [
+					"success",
+					"message",
+					"data",
+					"meta"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_User_": {
+				"$ref": "#/components/schemas/ApiResponseMeta_User_"
+			},
+			"UserCreateRequest": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -316,71 +316,6 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/authentication": {
-			"get": {
-				"operationId": "Login",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ApiResponse_User_"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "email",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "password",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/authentication/signup": {
-			"post": {
-				"operationId": "Signup",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ApiResponse_User_"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UserCreateRequest"
-							}
-						}
-					}
-				}
-			}
-		},
 		"/users": {
 			"get": {
 				"operationId": "GetAllUsers",
@@ -522,6 +457,71 @@
 						}
 					}
 				]
+			}
+		},
+		"/authentication": {
+			"get": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_User_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "email",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "password",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/authentication/signup": {
+			"post": {
+				"operationId": "Signup",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_User_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserCreateRequest"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
