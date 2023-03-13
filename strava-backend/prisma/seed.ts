@@ -1,65 +1,57 @@
 import { PrismaClient, Prisma } from "@prisma/client";
+import { AuthScope } from "../src/helpers/auth/scopes";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
-/*
-const userData: Prisma.UserCreateInput[] = [
+const rolesData: Prisma.RoleCreateInput[] = [
   {
-    name: "Alice",
-    email: "alice@prisma.io",
-    posts: {
-      create: [
-        {
-          title: "Join the Prisma Slack",
-          content: "https://slack.prisma.io",
-          published: true,
-        },
-      ],
-    },
+    title: AuthScope.admin,
   },
   {
-    name: "Nilu",
-    email: "nilu@prisma.io",
-    posts: {
-      create: [
-        {
-          title: "Follow Prisma on Twitter",
-          content: "https://www.twitter.com/prisma",
-          published: true,
-        },
-      ],
-    },
-  },
-  {
-    name: "Mahmoud",
-    email: "mahmoud@prisma.io",
-    posts: {
-      create: [
-        {
-          title: "Ask a question about Prisma on GitHub",
-          content: "https://www.github.com/prisma/prisma/discussions",
-          published: true,
-        },
-        {
-          title: "Prisma on YouTube",
-          content: "https://pris.ly/youtube",
-        },
-      ],
-    },
+    title: AuthScope.user,
   },
 ];
-*/
+
+const usersData: any = {
+  [AuthScope.admin]: {
+    name: "Administratorius Administrauskas",
+    email: "admin@t.t",
+    password: bcrypt.hashSync("admin", 10),
+  },
+  [AuthScope.user]: {
+    name: "Vartotojas Vartojauskas",
+    email: "test@t.t",
+    password: bcrypt.hashSync("test", 10),
+  },
+};
 
 async function main() {
   console.log(`Start seeding ...`);
-  /*
-  for (const u of userData) {
+
+  for (const data of rolesData) {
+    const role = await prisma.role.create({ data });
+    console.log(`Created role with id: ${role.id}`);
+
     const user = await prisma.user.create({
-      data: u,
+      data: {
+        ...usersData[role.title],
+        Role: {
+          connect: {
+            id: role.id,
+          },
+        },
+      },
+      include: {
+        Role: true,
+      },
     });
-    console.log(`Created user with id: ${user.id}`);
+
+    console.log(
+      `Created user with scope '${user.Role.title}' and id: ${user.id}`
+    );
   }
-  */
+
   console.log(`Seeding finished.`);
 }
 

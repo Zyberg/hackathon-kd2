@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { Role, User } from "@prisma/client";
 import { Post, Body, Route, Query, Hidden, Tags } from "tsoa";
 import { formatAPIResponse } from "../../helpers/formatAPIResponse";
 import { ApiResponse } from "../../types/generic/apiResponse";
@@ -7,11 +7,13 @@ import { AuthenticationService } from "./authentication.service";
 import bcrypt from "bcrypt";
 import { prisma } from "../../boot/prisma";
 import { AppError, HttpCode } from "../../exceptions/AppError";
+import { AuthScope } from "../../helpers/auth/scopes";
 
 interface UserCreateRequest {
   name: string;
   email: string;
   password: string;
+  scope: AuthScope;
 }
 
 @Tags("Authentication")
@@ -33,10 +35,21 @@ export default class AuthenticationController {
 
   @Post("/signup")
   public async signup(
-    @Body() { name, email, password }: UserCreateRequest
+    @Body() { name, email, password, scope }: UserCreateRequest
   ): Promise<ApiResponse<User>> {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    let role: Role | undefined;
+    try {
+      role = await prisma.role.findFirstOrThrow({
+        where: {
+          title: scope,
+        }
+      });
+    } catch (e) {
+      throw new AppError({ description: "User creation failed", httpCode: HttpCode.INTERNAL_SERVER_ERROR, isOperational: true })
+    }
 
     let user: User | undefined;
     try {
@@ -45,11 +58,15 @@ export default class AuthenticationController {
           email,
           name,
           password: hashedPassword.toString(),
+          Role: {
+            connect: {
+              id: role.id
+            }
+          }
         },
       });
     } catch (e) {
-        console.log(e)
-        throw new AppError({ description: "User creation failed", httpCode: HttpCode.INTERNAL_SERVER_ERROR, isOperational: true })
+      throw new AppError({ description: "User creation failed", httpCode: HttpCode.INTERNAL_SERVER_ERROR, isOperational: true })
     }
 
     return formatAPIResponse(user);

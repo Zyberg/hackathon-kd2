@@ -8,6 +8,10 @@
 		"schemas": {
 			"User": {
 				"properties": {
+					"roleId": {
+						"type": "number",
+						"format": "double"
+					},
 					"password": {
 						"type": "string"
 					},
@@ -24,6 +28,7 @@
 					}
 				},
 				"required": [
+					"roleId",
 					"password",
 					"name",
 					"email",
