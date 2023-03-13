@@ -18,8 +18,11 @@ interface UserCreateRequest {
 
 @Route("authentication")
 export default class AuthenticationController {
-  @Get("/")
+  @Hidden()
   public async loginPassword(
+    /**
+     * @ignore
+     */
     @Hidden() user: Express.User,
     @Query() email: string,
     @Query() password: string,
