@@ -22,6 +22,12 @@ process.on("SIGINT", function () {
   process.exit(0);
 });
 
+process.on('unhandledRejection', (error: Error) => {
+  console.log(`Unhandled Exception: ${error.message}`);
+
+  errorHandler.handleError(error);
+});
+
 process.on('uncaughtException', (error: Error) => {
   console.log(`Uncaught Exception: ${error.message}`);
 

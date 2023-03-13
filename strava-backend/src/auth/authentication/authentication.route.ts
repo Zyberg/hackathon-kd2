@@ -9,10 +9,11 @@ import { User } from "@prisma/client";
 import { createRefreshToken } from "../../helpers/auth/loginUser";
 import { getExpiry } from "../../helpers/auth/cookies";
 import { schema, validateBody } from "../../helpers/validation";
+import { auth as authMiddleware } from "../../helpers/auth/auth"
+import { errorHandlerMiddleware } from "../../helpers/errorHandler";
 
 const auth: Router = Router();
 const controller = new Controller();
-
 
 // ----- START SESSION CONFIGURATION
 
@@ -44,7 +45,7 @@ passport.deserializeUser(
 // TODO: bad request meta
 auth.post('/login/password',
   validateBody(schema.UserPostRequest),
-  passport.authenticate('local', { session: false }),
+  authMiddleware.local,
   async (req, res) => {
     const response = await controller.loginPassword(req.user!!, "", "");
 
@@ -75,5 +76,6 @@ auth.post("/logout", (req, res, next) => {
     res.redirect("/");
   });
 });
+
 
 export default auth;
