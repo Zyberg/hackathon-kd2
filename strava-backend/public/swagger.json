@@ -288,6 +288,13 @@
 			"ApiResponse_User_": {
 				"$ref": "#/components/schemas/ApiResponseMeta_User_"
 			},
+			"AuthScope": {
+				"enum": [
+					"Admin",
+					"User"
+				],
+				"type": "string"
+			},
 			"UserCreateRequest": {
 				"properties": {
 					"name": {
@@ -298,12 +305,16 @@
 					},
 					"password": {
 						"type": "string"
+					},
+					"scope": {
+						"$ref": "#/components/schemas/AuthScope"
 					}
 				},
 				"required": [
 					"name",
 					"email",
-					"password"
+					"password",
+					"scope"
 				],
 				"type": "object",
 				"additionalProperties": false

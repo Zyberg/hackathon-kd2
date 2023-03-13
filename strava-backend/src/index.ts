@@ -5,6 +5,7 @@ import "./boot/extend";
 import server from "./api";
 
 import { PrismaClient } from "@prisma/client";
+import { errorHandler } from "./helpers/errorHandler";
 const prisma = new PrismaClient();
 
 server.listen(process.env.API_PORT || "3000", () => {
@@ -19,4 +20,10 @@ process.on("SIGINT", function () {
   prisma.$disconnect(); // Disconnect from Prisma
   console.log("Prisma Disconnected.");
   process.exit(0);
+});
+
+process.on('uncaughtException', (error: Error) => {
+  console.log(`Uncaught Exception: ${error.message}`);
+
+  errorHandler.handleError(error);
 });
