@@ -501,7 +501,7 @@
 				]
 			}
 		},
-		"/authentication/signup": {
+		"/auth/signup": {
 			"post": {
 				"operationId": "Signup",
 				"responses": {
@@ -531,6 +531,28 @@
 						}
 					}
 				}
+			}
+		},
+		"/auth/user": {
+			"get": {
+				"operationId": "User",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_User_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication"
+				],
+				"security": [],
+				"parameters": []
 			}
 		}
 	},

@@ -61,6 +61,12 @@ auth.post('/login/password',
   }
 )
 
+auth.get('/user', authMiddleware.jwt, async (req, res) => {
+  console.log(req.user);
+
+  return res.json({'eh': 'e'});
+})
+
 
 auth.post("/signup/password", async function (req, res) {
   console.log("body", req.body);

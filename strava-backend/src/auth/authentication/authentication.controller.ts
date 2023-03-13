@@ -1,5 +1,5 @@
 import { Role, User } from "@prisma/client";
-import { Post, Body, Route, Query, Hidden, Tags } from "tsoa";
+import { Post, Body, Route, Query, Hidden, Tags, Get, Inject } from "tsoa";
 import { formatAPIResponse } from "../../helpers/formatAPIResponse";
 import { ApiResponse } from "../../types/generic/apiResponse";
 import { AuthenticationService } from "./authentication.service";
@@ -8,6 +8,7 @@ import bcrypt from "bcrypt";
 import { prisma } from "../../boot/prisma";
 import { AppError, HttpCode } from "../../exceptions/AppError";
 import { AuthScope } from "../../helpers/auth/scopes";
+import { UsersService } from "../../api-v1/users/users.service";
 
 interface UserCreateRequest {
   name: string;
@@ -17,7 +18,7 @@ interface UserCreateRequest {
 }
 
 @Tags("Authentication")
-@Route("authentication")
+@Route("auth")
 export default class AuthenticationController {
   @Hidden()
   public async loginPassword(
@@ -70,5 +71,14 @@ export default class AuthenticationController {
     }
 
     return formatAPIResponse(user);
+  }
+
+  @Get("/user")
+  public async user(
+    @Inject() id: number
+  ): Promise<ApiResponse<User>> {
+    const data = new UsersService().getUserById(id);
+
+    return formatAPIResponse(data);
   }
 }

@@ -28,10 +28,10 @@ export const jwtStrategy = new JwtStrategy.Strategy({
         return done(null, false);
 
     const user: Express.User = {
-        id: userModel.id,
-        email: userModel.email,
-        scopes: [userModel.Role!.title as AuthScope],
-      };
+      id: userModel.id,
+      email: userModel.email,
+      scopes: [userModel.Role!.title as AuthScope],
+    };
 
     return done(null, user);
 });

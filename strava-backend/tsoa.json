@@ -13,5 +13,8 @@
   },
   "routes": {
     "authenticationModule": "./src/helpers/auth/tsoa.ts"
+  },
+  "compilerOptions": {
+    "noUnusedParameters": false
   }
 }
