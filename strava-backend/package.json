@@ -32,7 +32,6 @@
     "express-jwt": "^8.4.1",
     "express-session": "^1.17.3",
     "helmet": "^6.0.1",
-    "http-status": "^1.6.2",
     "jwks-rsa": "^3.0.1",
     "nocache": "^3.0.4",
     "paginate-prisma": "^1.0.27",

@@ -2,8 +2,8 @@ import { createAccessToken } from "../../helpers/auth/loginUser";
 import { FilteredUserInterface } from "../../helpers/auth/types";
 
 export class AuthenticationService {
-  public async login({ id, email}: Express.User) {
-    const token = createAccessToken(id);
+  public async login({ id, email, scopes }: Express.User) {
+    const token = createAccessToken(id, scopes);
 
     const user: FilteredUserInterface = { id, email };
 

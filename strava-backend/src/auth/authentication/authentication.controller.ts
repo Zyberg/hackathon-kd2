@@ -1,13 +1,12 @@
 import { User } from "@prisma/client";
-import { Get, Post, Body, Route, Query, Hidden, Tags } from "tsoa";
+import { Post, Body, Route, Query, Hidden, Tags } from "tsoa";
 import { formatAPIResponse } from "../../helpers/formatAPIResponse";
 import { ApiResponse } from "../../types/generic/apiResponse";
-import type { DataTableQuery } from "../../types/generic/DataTable";
 import { AuthenticationService } from "./authentication.service";
 
-//TODO:
 import bcrypt from "bcrypt";
 import { prisma } from "../../boot/prisma";
+import { AppError, HttpCode } from "../../exceptions/AppError";
 
 interface UserCreateRequest {
   name: string;
@@ -50,11 +49,9 @@ export default class AuthenticationController {
       });
     } catch (e) {
         console.log(e)
-      // TODO: generic error: something went wrong
-      return formatAPIResponse(null);
+        throw new AppError({ description: "User creation failed", httpCode: HttpCode.INTERNAL_SERVER_ERROR, isOperational: true })
     }
 
-    // TODO: decide what to do after a signup
     return formatAPIResponse(user);
   }
 }

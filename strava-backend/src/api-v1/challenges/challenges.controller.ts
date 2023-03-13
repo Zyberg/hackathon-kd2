@@ -1,5 +1,5 @@
 import { PrismaClient, Challenge } from "@prisma/client";
-import { Get, Route, Tags } from "tsoa";
+import { Get, Route, Security, Tags } from "tsoa";
 
 const prisma = new PrismaClient();
 
@@ -11,6 +11,7 @@ interface ChallengeResponse {
 
 @Tags("Challenge")
 @Route("challenges")
+@Security("bearer_token")
 export default class UserController {
   @Get("/")
   public async getAllChallenges(): Promise<ChallengeResponse> {

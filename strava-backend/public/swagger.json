@@ -304,7 +304,13 @@
 				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"jwt": {
+				"type": "apiKey",
+				"name": "access_token",
+				"in": "query"
+			}
+		}
 	},
 	"info": {
 		"title": "rest-express",
@@ -334,7 +340,11 @@
 				"tags": [
 					"User"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearer_token": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "query",
@@ -399,7 +409,11 @@
 				"tags": [
 					"Challenge"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearer_token": []
+					}
+				],
 				"parameters": []
 			}
 		},
@@ -421,7 +435,11 @@
 				"tags": [
 					"Achievement"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearer_token": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "query",

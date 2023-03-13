@@ -4,7 +4,7 @@ export const generateToken = (payload: object, key: string, expiry: string): str
   return jwt.sign({...payload}, key, {expiresIn: expiry})
 }
 
-export const decodeToken = (token: string, secret:string): string|jwt.JwtPayload|Error => {
+export const decodeToken = (token: string, secret: string): string|jwt.JwtPayload|Error => {
   try {
     const decoded = jwt.verify(token, secret)
     return decoded

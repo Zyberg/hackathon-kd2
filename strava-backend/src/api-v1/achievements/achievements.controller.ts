@@ -1,5 +1,5 @@
 import {Achievement, User} from "@prisma/client";
-import {Get, Queries, Query, Route, Tags} from "tsoa";
+import {Get, Queries, Query, Route, Security, Tags} from "tsoa";
 import { formatAPIResponse } from "../../helpers/formatAPIResponse";
 import { ApiResponse } from "../../types/generic/apiResponse";
 import { DataTableQuery } from "../../types/generic/DataTable";
@@ -10,6 +10,7 @@ import {UsersService} from "../users/users.service";
 
 @Tags("Achievement")
 @Route("achievements")
+@Security("bearer_token")
 export default class AchievementController {
 
     @Get("/")
