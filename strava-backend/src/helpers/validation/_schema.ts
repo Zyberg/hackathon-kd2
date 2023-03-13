@@ -1,2 +1,2 @@
-const schema = {"$schema":"http://json-schema.org/draft-07/schema#","definitions":{"UserPostRequest":{"type":"object","properties":{"name":{"type":"string"}},"required":["name"]}}} as const;
+const schema = {"$schema":"http://json-schema.org/draft-07/schema#","definitions":{"UserPostRequest":{"type":"object","properties":{"email":{"format":"email","type":"string"},"name":{"type":"string"}},"required":["email","name"]}}} as const;
 export default schema.definitions;
