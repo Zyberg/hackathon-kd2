@@ -5,7 +5,6 @@ import Controller from "./challenges.controller";
 const challenges: Router = Router();
 const controller = new Controller();
 
-
 challenges.get("/", async (req: Request, res: Response) => {
     const response = await controller.getAllChallenges();
     return res.send(response);

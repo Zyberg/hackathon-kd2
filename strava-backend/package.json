@@ -8,6 +8,7 @@
     "predev": "npm run swagger",
     "prebuild": "npm run swagger",
     "build": "tsc",
+    "schema": "node ./src/helpers/validation/schemaGenerator.js",
     "generate-client": "npx swagger-typescript-api -p ./public/swagger.json -o ../strava-frontend/src/api -n ApiClient.ts --axios",
     "dev": "concurrently --kill-others \"npx prisma generate && nodemon --exec ts-node ./src/index.ts\" \"nodemon -x tsoa spec\"",
     "swagger": "tsoa spec"
@@ -21,6 +22,7 @@
   "dependencies": {
     "@prisma/client": "^4.11.0",
     "@quixo3/prisma-session-store": "^3.1.10",
+    "ajv": "^8.12.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -39,6 +41,7 @@
     "tsoa": "^5.1.1"
   },
   "devDependencies": {
+    "@types/ajv": "^1.0.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.13",
     "@types/dotenv": "^8.2.0",
@@ -57,7 +60,8 @@
     "ts-node": "10.9.1",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "4.9.5"
+    "typescript": "4.9.5",
+    "typescript-json-schema": "^0.55.0"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
