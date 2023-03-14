@@ -9,11 +9,11 @@ export const auth = {
     passport.authenticate("local", function (err: any, user?: Express.User) {
       if (err) return next(err);
 
+      //TODO: for some reason a thrown error is not being caught here
       if (!user)
-        throw new AppError({
-          httpCode: HttpCode.UNAUTHORIZED,
-          description: ApiMessage.Unauthorized,
-        });
+        return res
+          .status(HttpCode.UNAUTHORIZED)
+          .json(apiResponseBuilder.makeError(ApiMessage.WrongCredentials));
 
       req.user = user!!;
       next();
