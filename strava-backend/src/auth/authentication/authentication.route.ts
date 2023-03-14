@@ -6,11 +6,8 @@ import Controller from "./authentication.controller";
 import passport from "passport";
 import { prisma } from "../../boot/prisma";
 import { User } from "@prisma/client";
-import { createRefreshToken } from "../../helpers/auth/loginUser";
-import { getExpiry } from "../../helpers/auth/cookies";
 import { schema, validateBody } from "../../helpers/validation";
 import { auth as authMiddleware } from "../../helpers/auth/auth"
-import { errorHandlerMiddleware } from "../../helpers/errorHandler";
 
 const auth: Router = Router();
 const controller = new Controller();
@@ -44,22 +41,14 @@ passport.deserializeUser(
 
 // TODO: bad request meta
 auth.post('/login/password',
-  validateBody(schema.UserPostRequest),
+  validateBody(schema.UserLoginRequest),
   authMiddleware.local,
-  async (req, res) => {
-    const response = await controller.loginPassword(req.user!!, "", "");
-
-    return res
-      .cookie("refresh_cookie", createRefreshToken(req.user!!.id), {
-        expires: getExpiry(),
-        httpOnly: true,
-        // sameSite: "None",
-        // secure: true,
-      })
-      .status(200)
-      .json(response)
-  }
+  //@ts-ignore
+  controller.loginPassword
 )
+
+// TODO: test
+auth.post('/tokens/refresh', controller.refreshToken)
 
 auth.get('/user', authMiddleware.jwt, async (req, res) => {
   console.log(req.user);

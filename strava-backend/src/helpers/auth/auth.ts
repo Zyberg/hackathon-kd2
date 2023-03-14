@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import { AppError, HttpCode } from "../../exceptions/AppError";
-import { responseBuilder } from "../basicJsonResponse";
+import { ApiMessage } from "../../types/generic/apiMessages";
+import apiResponseBuilder from "../apiResponseBuilder";
 
 export const auth = {
   local: (req: Request, res: Response, next: NextFunction) => {
@@ -12,7 +13,7 @@ export const auth = {
       if (!user)
         return res
         .status(HttpCode.UNAUTHORIZED)
-        .json(responseBuilder.makeErrorResponse('Wrong Credentials'));
+        .json(apiResponseBuilder.makeError(ApiMessage.WrongCredentials));
         
       req.user = user!!;
       next();
@@ -23,9 +24,10 @@ export const auth = {
       if (err) return next(err);
 
       if (!user)
+      //TODO: automatically send correct ApiMessage by inferring from the httpCode
         throw new AppError({
           httpCode: HttpCode.UNAUTHORIZED,
-          description: "Unauthorized",
+          description: ApiMessage.Unauthorized,
         });
 
       req.user = user!!;

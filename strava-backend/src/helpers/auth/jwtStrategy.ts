@@ -4,8 +4,6 @@ import { prisma } from "../../boot/prisma";
 import type { Role, User } from "@prisma/client";
 import { AuthScope } from "./scopes";
 
-console.log('test', process.env.ACCESS_JWT_SECRET)
-
 export const jwtStrategy = new JwtStrategy.Strategy({
     jwtFromRequest: JwtStrategy.ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.ACCESS_JWT_SECRET

@@ -1,50 +1,43 @@
-// @ts-nocheck
-import type { PaginationResult } from "paginate-prisma";
 import { prisma, paginate } from "../../boot/prisma";
-import type { APIRequestAll } from "../../boot/prisma";
-import { User } from "@prisma/client";
+import { AppError } from "../../exceptions/AppError";
+import type { DataTableQuery } from "../../types/generic/DataTable";
+import { UserViewModel } from "../../types/users/user";
 
 const SEARCHABLE_FIELDS = ["name", "email"];
 
 export class UsersService {
-  public async getAllUsers(
-    params: APIRequestAll
-  ): Promise<PaginationResult | null> {
+  public async getAllUsers(params: DataTableQuery) {
+    let data;
+
     try {
-      const data = await paginate(prisma.user)(
-        params.q,
-        params,
-        {
-          include: {
-            challengesParticipant: {
-              include: {
-                challenge: true,
-              },
+      data = await paginate(prisma.user, SEARCHABLE_FIELDS)(params, {
+        include: {
+          challengesParticipant: {
+            include: {
+              challenge: true,
             },
           },
         },
-        SEARCHABLE_FIELDS
-      );
+      });
+    } catch (e: any) {
+      //TODO: test error
+      throw new AppError({ ...e, isOperational: true, httpCode: 500 });
+    }
 
-      return data;
-    } catch (e: Error) {
-      return null;
-    }
+    return data;
   }
-  
-  public async getUserById(id: number): Promise<User?> {
-    let user: User;
-    try {
-      user = await prisma.user.findFirst(
-        {
-          where: {
-            id,
-          }
-        }
-      );
-    } catch (e: Error) {
-      return undefined;
-    }
+
+  public async getUserById(id: number) {
+    const user: UserViewModel = await prisma.user.findFirstOrThrow({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      }
+    });
 
     return user;
   }

@@ -1,14 +1,15 @@
-// @ts-ignore
-import { Request } from "express";
 import type { PaginationResult } from "paginate-prisma";
 
-export interface ApiResponseMeta<T> {
-  success: boolean;
-  message: string;
-  data: T | null;
-  meta: PaginationResult | null
+interface ApiResponsePaginationMeta {
+  meta: PaginationResult;
 }
 
-export type RequestBody<T> = Request<{}, {}, T>;
+export interface ApiResponse<T> {
+  data: T,
+  status: {
+    success: boolean;
+    message: string;
+  }
+}
 
-export type ApiResponse<T> = ApiResponseMeta<T>;
+export type ApiResponsePaginated<T> = ApiResponse<T> & ApiResponsePaginationMeta

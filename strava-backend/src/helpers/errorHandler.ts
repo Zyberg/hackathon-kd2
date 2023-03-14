@@ -1,10 +1,11 @@
 import { AppError, HttpCode } from "../exceptions/AppError";
-import { responseBuilder } from "./basicJsonResponse";
 import type { Request, Response, NextFunction } from "express";
+import apiResponseBuilder from "./apiResponseBuilder";
+import { ApiMessage } from "../types/generic/apiMessages";
 
 export const notFound = (req: Request, res: Response, next: NextFunction) => {
   res.status(HttpCode.NOT_FOUND);
-  res.json(responseBuilder.makeErrorResponse("Requested Resource Not Found"));
+  res.json(apiResponseBuilder.makeError(ApiMessage.ResourceNotFound));
   res.end();
 };
 
@@ -28,7 +29,7 @@ class ErrorHandler {
   private handleTrustedError(error: AppError, response: Response): void {
     response
       .status(error.httpCode)
-      .json(responseBuilder.makeErrorResponse(error.message));
+      .json(apiResponseBuilder.makeError(error.message));
   }
 
   private handleCriticalError(
@@ -38,7 +39,7 @@ class ErrorHandler {
     if (response) {
       response
         .status(HttpCode.INTERNAL_SERVER_ERROR)
-        .json(responseBuilder.makeErrorResponse("Internal Server Error"));
+        .json(apiResponseBuilder.makeError(ApiMessage.InternalServerError));
     }
 
     console.log("Application encountered a critical error. Exiting");

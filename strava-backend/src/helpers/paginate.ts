@@ -1,17 +1,24 @@
-import { paginate as paginatePrisma, PAGINATION_ORDER } from "paginate-prisma";
-import { PaginationOptions, KeysFromPrismaModel } from "paginate-prisma";
-import type { APIRequestAll } from "../boot/prisma";
+import { paginate as paginatePrisma } from "paginate-prisma";
+import { PaginationOptions } from "paginate-prisma";
+import type { KeysFromPrismaModel } from "paginate-prisma";
+import { DataTableQuery } from "../types/generic/DataTable";
 
-export const mapQuery = (searchableFields: string[], q: string) => ({
-  OR: searchableFields.map((field) => ({ [field]: { contains: q } })),
-});
+export const mapQuery = <T>(
+  searchableFields: string[],
+  q: string | null
+) =>
+  q !== null
+    ? {
+        OR: searchableFields.map((field) => ({ [field]: { contains: q } })),
+      }
+    : {};
 
 export const makePaginateOptions = ({
   field,
   order,
   perPage: limit,
   page,
-}: APIRequestAll) => ({
+}: DataTableQuery) => ({
   page: +(page ?? 1),
   limit: +(limit ?? 10),
   sort: {
@@ -20,34 +27,38 @@ export const makePaginateOptions = ({
   },
 });
 
-export const paginate =
-  <T>(prismaModel: T) =>
-  async (
-    //@ts-ignore
-    query: string = null,
-    paginateParams: APIRequestAll,
+export const paginate = <T>(
+  prismaModel: T,
+  searchableFields: string[] = []
+) => {
+  return async (
+    paginateParams: DataTableQuery,
     //@ts-ignore
     additionalPrismaQuery: Omit<
       //@ts-ignore
       Exclude<Parameters<(typeof prismaModel)["findMany"]>[0], undefined>,
       "where" | "skip" | "take" | "orderBy"
-    > = {},
-    searchableFields: string[] = []
+    > = {}
   ) => {
-    let queryClause = {};
-    if (query != null) queryClause = mapQuery(searchableFields, query);
+    //@ts-ignore
+    let query: Exclude<
+      //@ts-ignore
+      Exclude<
+        //@ts-ignore
+        Parameters<(typeof prismaModel)["findMany"]>[0],
+        undefined
+      >["where"],
+      undefined
+    > = mapQuery(searchableFields, paginateParams.q || null);
 
-    let paginateOptions = makePaginateOptions(paginateParams);
+    //@ts-ignore
+    const paginateOptions: PaginationOptions<
+      KeysFromPrismaModel<typeof prismaModel>
+    > = makePaginateOptions(paginateParams);
 
     const { data, pages, page, limit, items } = await paginatePrisma(
       prismaModel
-    )(
-      //@ts-ignore
-      queryClause as Exclude<Exclude<Parameters<T["findMany"]>[0], undefined>["where"], undefined>,
-      //@ts-ignore
-      paginateOptions as PaginationOptions<ObjectDotNotation<extractGeneric<Exclude<Parameters<T["findMany"]>[0], undefined>["orderBy"]>, void>>,
-      additionalPrismaQuery
-    );
+    )(query, paginateOptions, additionalPrismaQuery);
 
     return {
       data,
@@ -59,3 +70,4 @@ export const paginate =
       },
     };
   };
+};

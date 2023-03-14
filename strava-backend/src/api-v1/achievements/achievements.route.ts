@@ -10,7 +10,6 @@ const controller = new Controller();
 achievements.get("/", async (req: Request, res: Response) => {
     const response = await controller.getAllAchievements(req.query);
 
-    console.log(req.query as DataTableQuery);
     return res.send(response);
 });
 

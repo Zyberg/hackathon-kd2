@@ -6,100 +6,34 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"User": {
+			"ApiResponse_any_": {
 				"properties": {
-					"roleId": {
-						"type": "number",
-						"format": "double"
-					},
-					"password": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string",
-						"nullable": true
-					},
-					"email": {
-						"type": "string"
-					},
-					"id": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"roleId",
-					"password",
-					"name",
-					"email",
-					"id"
-				],
-				"type": "object",
-				"description": "Model User"
-			},
-			"PaginationResult": {
-				"properties": {
-					"page": {
-						"type": "number",
-						"format": "double"
-					},
-					"pages": {
-						"type": "number",
-						"format": "double"
-					},
-					"limit": {
-						"type": "number",
-						"format": "double"
-					},
-					"items": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"page",
-					"pages",
-					"limit",
-					"items"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ApiResponseMeta_User-Array_": {
-				"properties": {
-					"success": {
-						"type": "boolean"
-					},
-					"message": {
-						"type": "string"
-					},
 					"data": {
-						"items": {
-							"$ref": "#/components/schemas/User"
-						},
-						"type": "array",
-						"nullable": true
+						"items": {},
+						"type": "array"
 					},
-					"meta": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/PaginationResult"
+					"status": {
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"success": {
+								"type": "boolean"
 							}
+						},
+						"required": [
+							"message",
+							"success"
 						],
-						"nullable": true
+						"type": "object"
 					}
 				},
 				"required": [
-					"success",
-					"message",
 					"data",
-					"meta"
+					"status"
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"ApiResponse_User-Array_": {
-				"$ref": "#/components/schemas/ApiResponseMeta_User-Array_"
 			},
 			"PAGINATION_ORDER": {
 				"enum": [
@@ -128,60 +62,6 @@
 						"format": "double"
 					}
 				},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Challenge": {
-				"properties": {
-					"unitId": {
-						"type": "number",
-						"format": "double"
-					},
-					"isActive": {
-						"type": "boolean"
-					},
-					"description": {
-						"type": "string"
-					},
-					"title": {
-						"type": "string"
-					},
-					"id": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"unitId",
-					"isActive",
-					"description",
-					"title",
-					"id"
-				],
-				"type": "object",
-				"description": "Model Challenge"
-			},
-			"ChallengeResponse": {
-				"properties": {
-					"success": {
-						"type": "boolean"
-					},
-					"message": {
-						"type": "string"
-					},
-					"data": {
-						"items": {
-							"$ref": "#/components/schemas/Challenge"
-						},
-						"type": "array",
-						"nullable": true
-					}
-				},
-				"required": [
-					"success",
-					"message",
-					"data"
-				],
 				"type": "object",
 				"additionalProperties": false
 			},
@@ -215,78 +95,178 @@
 				"type": "object",
 				"description": "Model Achievement"
 			},
-			"ApiResponseMeta_Achievement-Array_": {
+			"ApiResponse_Achievement-Array_": {
 				"properties": {
-					"success": {
-						"type": "boolean"
-					},
-					"message": {
-						"type": "string"
-					},
 					"data": {
 						"items": {
 							"$ref": "#/components/schemas/Achievement"
 						},
-						"type": "array",
-						"nullable": true
+						"type": "array"
 					},
-					"meta": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/PaginationResult"
+					"status": {
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"success": {
+								"type": "boolean"
 							}
+						},
+						"required": [
+							"message",
+							"success"
 						],
-						"nullable": true
+						"type": "object"
 					}
 				},
 				"required": [
-					"success",
-					"message",
 					"data",
-					"meta"
+					"status"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ApiResponse_Achievement-Array_": {
-				"$ref": "#/components/schemas/ApiResponseMeta_Achievement-Array_"
-			},
-			"ApiResponseMeta_User_": {
+			"FilteredUserInterface": {
 				"properties": {
-					"success": {
-						"type": "boolean"
+					"id": {
+						"type": "number",
+						"format": "double"
 					},
-					"message": {
+					"email": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"email"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AuthenticationServiceTokenResponseData": {
+				"properties": {
+					"token": {
 						"type": "string"
 					},
-					"data": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/User"
-							}
-						],
-						"nullable": true
+					"expires_in": {
+						"type": "number",
+						"format": "double"
 					},
-					"meta": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/PaginationResult"
-							}
-						],
-						"nullable": true
+					"user": {
+						"$ref": "#/components/schemas/FilteredUserInterface"
 					}
 				},
 				"required": [
-					"success",
-					"message",
-					"data",
-					"meta"
+					"token",
+					"expires_in",
+					"user"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ApiResponse_AuthenticationServiceTokenResponseData_": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/AuthenticationServiceTokenResponseData"
+					},
+					"status": {
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"success": {
+								"type": "boolean"
+							}
+						},
+						"required": [
+							"message",
+							"success"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"data",
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserLoginRequest": {
+				"properties": {
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"User": {
+				"properties": {
+					"roleId": {
+						"type": "number",
+						"format": "double"
+					},
+					"password": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string",
+						"nullable": true
+					},
+					"email": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"roleId",
+					"password",
+					"name",
+					"email",
+					"id"
+				],
+				"type": "object",
+				"description": "Model User"
+			},
 			"ApiResponse_User_": {
-				"$ref": "#/components/schemas/ApiResponseMeta_User_"
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/User"
+					},
+					"status": {
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"success": {
+								"type": "boolean"
+							}
+						},
+						"required": [
+							"message",
+							"success"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"data",
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
 			},
 			"AuthScope": {
 				"enum": [
@@ -318,6 +298,57 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"UserViewModel": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string",
+						"nullable": true
+					},
+					"email": {
+						"type": "string",
+						"format": "email"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"email"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ApiResponse_UserViewModel_": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/UserViewModel"
+					},
+					"status": {
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"success": {
+								"type": "boolean"
+							}
+						},
+						"required": [
+							"message",
+							"success"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"data",
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
@@ -346,7 +377,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ApiResponse_User-Array_"
+									"$ref": "#/components/schemas/ApiResponse_any_"
 								}
 							}
 						}
@@ -404,32 +435,6 @@
 						}
 					}
 				]
-			}
-		},
-		"/v1/challenges": {
-			"get": {
-				"operationId": "GetAllChallenges",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ChallengeResponse"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Challenge"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": []
 			}
 		},
 		"/v1/achievements": {
@@ -501,6 +506,60 @@
 				]
 			}
 		},
+		"/auth/login/password": {
+			"post": {
+				"operationId": "LoginPassword",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_AuthenticationServiceTokenResponseData_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserLoginRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/tokens/refresh": {
+			"post": {
+				"operationId": "RefreshToken",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_AuthenticationServiceTokenResponseData_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
 		"/auth/signup": {
 			"post": {
 				"operationId": "Signup",
@@ -542,7 +601,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ApiResponse_User_"
+									"$ref": "#/components/schemas/ApiResponse_UserViewModel_"
 								}
 							}
 						}

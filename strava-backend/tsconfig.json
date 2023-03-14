@@ -10,6 +10,12 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*.ts", "src/helpers/validation/schemaGenerator.js"],
+  "include": [
+    "src/**/*.ts",
+    "src/helpers/validation/schemaGenerator.js"
+  ],
+  "files": [
+    "src/types/express/index.d.ts",
+  ],
   "exclude": ["node_modules"]
 }

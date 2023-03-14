@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import "./boot/extend";
 import server from "./api";
 
 import { PrismaClient } from "@prisma/client";

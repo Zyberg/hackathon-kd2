@@ -1,84 +1,85 @@
-import { Role, User } from "@prisma/client";
-import { Post, Body, Route, Query, Hidden, Tags, Get, Inject } from "tsoa";
-import { formatAPIResponse } from "../../helpers/formatAPIResponse";
+import { User } from "@prisma/client";
+import {
+  Post,
+  Body,
+  Route,
+  Hidden,
+  Tags,
+  Get,
+  Inject,
+  Request,
+  Controller,
+} from "tsoa";
 import { ApiResponse } from "../../types/generic/apiResponse";
-import { AuthenticationService } from "./authentication.service";
+import {
+  AuthenticationService,
+  AuthenticationServiceTokenResponse,
+  AuthenticationServiceTokenResponseData,
+} from "./authentication.service";
 
-import bcrypt from "bcrypt";
-import { prisma } from "../../boot/prisma";
-import { AppError, HttpCode } from "../../exceptions/AppError";
-import { AuthScope } from "../../helpers/auth/scopes";
 import { UsersService } from "../../api-v1/users/users.service";
-
-interface UserCreateRequest {
-  name: string;
-  email: string;
-  password: string;
-  scope: AuthScope;
-}
-
+import { UserCreateRequest, UserLoginRequest, UserViewModel } from "../../types/users/user";
+import { Request as ExpressRequest } from "express";
+import apiResponseBuilder from "../../helpers/apiResponseBuilder";
 @Tags("Authentication")
 @Route("auth")
-export default class AuthenticationController {
-  @Hidden()
-  public async loginPassword(
-    /**
-     * @ignore
-     */
-    @Hidden() user: Express.User,
-    @Query() email: string,
-    @Query() password: string,
-  ): Promise<ApiResponse<User>> {
-    const data = await new AuthenticationService().login(user);
+export default class AuthenticationController extends Controller {
 
-    return formatAPIResponse(data);
+  @Post("/login/password")
+  public async loginPassword(
+    @Inject() req: ExpressRequest,
+    @Body() { email, password }: UserLoginRequest
+  ): Promise<ApiResponse<AuthenticationServiceTokenResponseData>> {
+    const data = await new AuthenticationService().login(req.user!!);
+
+    return AuthenticationController.tokenizedRoute(req, data);
+  }
+
+  @Post("/tokens/refresh")
+  public async refreshToken(
+    @Request() req: ExpressRequest
+  ): Promise<ApiResponse<AuthenticationServiceTokenResponseData>> {
+    const data = await new AuthenticationService().refreshToken(
+      req.cookies.refresh_cookie || ""
+    );
+
+    return AuthenticationController.tokenizedRoute(req, data);
   }
 
   @Post("/signup")
   public async signup(
-    @Body() { name, email, password, scope }: UserCreateRequest
+    @Body() req: UserCreateRequest
   ): Promise<ApiResponse<User>> {
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const data = await new AuthenticationService().signup(req);
 
-    let role: Role | undefined;
-    try {
-      role = await prisma.role.findFirstOrThrow({
-        where: {
-          title: scope,
-        }
-      });
-    } catch (e) {
-      throw new AppError({ description: "User creation failed", httpCode: HttpCode.INTERNAL_SERVER_ERROR, isOperational: true })
-    }
-
-    let user: User | undefined;
-    try {
-      user = await prisma.user.create({
-        data: {
-          email,
-          name,
-          password: hashedPassword.toString(),
-          Role: {
-            connect: {
-              id: role.id
-            }
-          }
-        },
-      });
-    } catch (e) {
-      throw new AppError({ description: "User creation failed", httpCode: HttpCode.INTERNAL_SERVER_ERROR, isOperational: true })
-    }
-
-    return formatAPIResponse(user);
+    return apiResponseBuilder.makeSuccess(data);
   }
 
   @Get("/user")
-  public async user(
-    @Inject() id: number
-  ): Promise<ApiResponse<User>> {
-    const data = new UsersService().getUserById(id);
+  public async user(@Inject() id: number): Promise<ApiResponse<UserViewModel>> {
+    const data = await new UsersService().getUserById(id);
 
-    return formatAPIResponse(data);
+    return apiResponseBuilder.makeSuccess(data);
+  }
+
+  @Hidden()
+  private static tokenizedRoute(
+    @Inject() req: ExpressRequest,
+    { refreshToken, expires, data }: AuthenticationServiceTokenResponse
+  ) {
+    const response = apiResponseBuilder.makeSuccess(data);
+
+    // TODO: test
+    req
+      .res!!.cookie("refresh_cookie", refreshToken, {
+        expires,
+        httpOnly: true,
+        // sameSite: "None",
+        // secure: true,
+      })
+      .status(200)
+      .json(response);
+
+    return response;
   }
 }

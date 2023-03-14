@@ -9,7 +9,6 @@ export const decodeToken = (token: string, secret: string): string|jwt.JwtPayloa
     const decoded = jwt.verify(token, secret)
     return decoded
   } catch (err) {
-    console.log(err)
     throw err
   }
 }
