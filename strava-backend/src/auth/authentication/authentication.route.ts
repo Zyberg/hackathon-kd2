@@ -7,7 +7,7 @@ import passport from "passport";
 import { prisma } from "../../boot/prisma";
 import { User } from "@prisma/client";
 import { schema, validateBody } from "../../helpers/validation";
-import { auth as authMiddleware } from "../../helpers/auth/auth"
+import { auth as authMiddleware } from "../../helpers/auth/auth";
 
 const auth: Router = Router();
 const controller = new Controller();
@@ -37,23 +37,40 @@ passport.deserializeUser(
 );
 // ----- END SESSION CONFIGURATION
 
-// TODO: bad request meta
-auth.post('/login/password',
+// Login via password
+auth.post(
+  "/login/password",
   validateBody(schema.UserLoginRequest),
   authMiddleware.local,
   //@ts-ignore
   controller.loginPassword
-)
+);
+
+// Login via Strava
+auth.get(
+  "/login/strava",
+  passport.authenticate("strava")
+);
+
+// TODO: add cookies afterwards
+auth.get(
+  "/strava/callback",
+  passport.authenticate("strava", { failureMessage: "failed login :(" }),
+  (req, res) => {
+    res.redirect(process.env.FRONTEND_URL || "");
+  }
+);
+
+auth.get("/login/strava", (req, res) => {});
 
 // TODO: test
-auth.post('/tokens/refresh', controller.refreshToken)
+auth.post("/tokens/refresh", controller.refreshToken);
 
-auth.get('/user', authMiddleware.jwt, async (req, res) => {
+auth.get("/user", authMiddleware.jwt, async (req, res) => {
   const response = await controller.user(req.user!.id);
 
   return res.send(response);
-})
-
+});
 
 auth.post("/signup/password", async function (req, res) {
   const response = await controller.signup(req.body);
@@ -68,6 +85,5 @@ auth.post("/logout", (req, res, next) => {
     res.redirect("/");
   });
 });
-
 
 export default auth;

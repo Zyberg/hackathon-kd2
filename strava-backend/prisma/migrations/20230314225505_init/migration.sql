@@ -1,8 +1,21 @@
 -- CreateTable
+CREATE TABLE `Session` (
+    `id` VARCHAR(191) NOT NULL,
+    `sid` VARCHAR(191) NOT NULL,
+    `data` TEXT NOT NULL,
+    `expiresAt` DATETIME(3) NOT NULL,
+
+    UNIQUE INDEX `Session_sid_key`(`sid`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NULL,
+    `password` VARCHAR(191) NOT NULL,
+    `roleId` INTEGER NOT NULL,
 
     UNIQUE INDEX `User_email_key`(`email`),
     PRIMARY KEY (`id`)
@@ -10,11 +23,22 @@ CREATE TABLE `User` (
 
 -- CreateTable
 CREATE TABLE `UserStravaProfile` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id_strava` INTEGER NOT NULL,
     `userId` INTEGER NOT NULL,
+    `accessToken` TEXT NOT NULL,
+    `refreshToken` TEXT NOT NULL,
     `data` JSON NULL,
 
     UNIQUE INDEX `UserStravaProfile_userId_key`(`userId`),
+    PRIMARY KEY (`id_strava`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Role` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(191) NOT NULL,
+
+    UNIQUE INDEX `Role_title_key`(`title`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -95,6 +119,9 @@ CREATE TABLE `ChallengeUnit` (
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `User` ADD CONSTRAINT `User_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `Role`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `UserStravaProfile` ADD CONSTRAINT `UserStravaProfile_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

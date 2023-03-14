@@ -5,8 +5,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import passport from "passport";
-import { localStrategy } from "./helpers/auth/localStrategy";
-import { jwtStrategy } from "./helpers/auth/jwtStrategy";
+import { localStrategy } from "./helpers/auth/strategies/localStrategy";
+import { jwtStrategy } from "./helpers/auth/strategies/jwtStrategy";
 import { session } from "./helpers/auth/session";
 
 import apiV1 from "./api-v1/index";
@@ -14,6 +14,7 @@ import { errorHandlerMiddleware, notFound } from "./helpers/errorHandler";
 import home from "./home";
 import docs from "./docs";
 import auth from "./auth";
+import { stravaStrategy } from "./helpers/auth/strategies/stravaStrategy";
 
 class App {
   public express: express.Application;
@@ -40,6 +41,7 @@ class App {
   private setPassport(): void {
     passport.use(localStrategy);
     passport.use(jwtStrategy);
+    passport.use(stravaStrategy);
   }
 
   private setRoutes(): void {

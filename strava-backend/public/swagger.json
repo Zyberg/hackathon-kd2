@@ -506,6 +506,28 @@
 				]
 			}
 		},
+		"/auth/login/strava": {
+			"post": {
+				"operationId": "LoginStrava",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_any_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
 		"/auth/login/password": {
 			"post": {
 				"operationId": "LoginPassword",

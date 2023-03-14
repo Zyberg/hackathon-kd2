@@ -1,9 +1,8 @@
-import passport from "passport";
 import LocalStrategy from "passport-local";
 import bcrypt from "bcrypt";
-import { prisma } from "../../boot/prisma";
+import { prisma } from "../../../boot/prisma";
 import type { Role, User } from "@prisma/client";
-import { AuthScope } from "./scopes";
+import { AuthScope } from "../scopes";
 
 export const localStrategy = new LocalStrategy.Strategy(
   {
@@ -34,7 +33,7 @@ export const localStrategy = new LocalStrategy.Strategy(
 
     const user: Express.User = {
       id: userModel.id,
-      email: userModel.email,
+      email: userModel.email!!, // Due to restrictions authentication, this string is never null
       scopes: [userModel.Role!.title as AuthScope],
     };
 

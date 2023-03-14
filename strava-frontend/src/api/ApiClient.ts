@@ -328,11 +328,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Authentication
+     * @name LoginStrava
+     * @request POST:/auth/login/strava
+     */
+    loginStrava: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/auth/login/strava`,
+        method: "POST",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Authentication
      * @name LoginPassword
      * @request POST:/auth/login/password
      */
     loginPassword: (data: UserLoginRequest, params: RequestParams = {}) =>
-      this.request<ApiResponseAuthenticationServiceTokenResponseData, any>({
+      this.request<ApiResponseAuthenticationServiceTokenResponseData, void>({
         path: `/auth/login/password`,
         method: "POST",
         body: data,
@@ -349,7 +363,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/auth/tokens/refresh
      */
     refreshToken: (params: RequestParams = {}) =>
-      this.request<ApiResponseAuthenticationServiceTokenResponseData, any>({
+      this.request<ApiResponseAuthenticationServiceTokenResponseData, void>({
         path: `/auth/tokens/refresh`,
         method: "POST",
         format: "json",

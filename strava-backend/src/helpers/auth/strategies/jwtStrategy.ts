@@ -1,8 +1,8 @@
 import JwtStrategy from "passport-jwt";
 import type { VerifiedCallback } from "passport-jwt"
-import { prisma } from "../../boot/prisma";
+import { prisma } from "../../../boot/prisma";
 import type { Role, User } from "@prisma/client";
-import { AuthScope } from "./scopes";
+import { AuthScope } from "../scopes";
 
 export const jwtStrategy = new JwtStrategy.Strategy({
     jwtFromRequest: JwtStrategy.ExtractJwt.fromAuthHeaderAsBearerToken(),

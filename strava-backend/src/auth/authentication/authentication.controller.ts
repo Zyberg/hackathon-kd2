@@ -32,6 +32,20 @@ import { AppError, HttpCode } from "../../exceptions/AppError";
 @Tags("Authentication")
 @Route("auth")
 export default class AuthenticationController extends Controller {
+  @Post("/login/strava")
+  public async loginStrava(
+    @Inject() req: ExpressRequest,
+  ) {
+    const data = await new AuthenticationService().login(req.user!!);
+
+    const response =  AuthenticationController.tokenizedRoute(req, data);
+
+    // Redirect UI back to the frontend:
+    req.res!!.redirect(process.env.FRONTEND_URL || "");
+
+    return response;
+  }
+
   @Post("/login/password")
   @Response("401", "Unauthorized")
   public async loginPassword(

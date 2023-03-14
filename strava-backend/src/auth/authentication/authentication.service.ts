@@ -33,7 +33,7 @@ export class AuthenticationService {
       process.env.REFRESH_JWT_SECRET as string
     );
     const { userId } = tokenDecoded as JwtPayload;
-
+1
     const user = await prisma.user.findFirstOrThrow({
       where: {
         id: userId,
