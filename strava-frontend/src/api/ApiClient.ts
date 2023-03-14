@@ -9,34 +9,13 @@
  * ---------------------------------------------------------------
  */
 
-/** Model User */
-export interface User {
-  password: string;
-  name: string | null;
-  email: string;
-  /** @format double */
-  id: number;
+export interface ApiResponseAny {
+  data: any[];
+  status: {
+    message: string;
+    success: boolean;
+  };
 }
-
-export interface PaginationResult {
-  /** @format double */
-  page: number;
-  /** @format double */
-  pages: number;
-  /** @format double */
-  limit: number;
-  /** @format double */
-  items: number;
-}
-
-export interface ApiResponseMetaUserArray {
-  success: boolean;
-  message: string;
-  data: User[] | null;
-  meta: PaginationResult | null;
-}
-
-export type ApiResponseUserArray = ApiResponseMetaUserArray;
 
 export enum PAGINATION_ORDER {
   ASC = "ASC",
@@ -53,23 +32,6 @@ export interface DataTableQuery {
   perPage?: number;
 }
 
-/** Model Challenge */
-export interface Challenge {
-  /** @format double */
-  unitId: number;
-  isActive: boolean;
-  description: string;
-  title: string;
-  /** @format double */
-  id: number;
-}
-
-export interface ChallengeResponse {
-  success: boolean;
-  message: string;
-  data: Challenge[] | null;
-}
-
 /** Model Achievement */
 export interface Achievement {
   /** @format double */
@@ -81,28 +43,87 @@ export interface Achievement {
   id: number;
 }
 
-export interface ApiResponseMetaAchievementArray {
-  success: boolean;
-  message: string;
-  data: Achievement[] | null;
-  meta: PaginationResult | null;
+export interface ApiResponseAchievementArray {
+  data: Achievement[];
+  status: {
+    message: string;
+    success: boolean;
+  };
 }
 
-export type ApiResponseAchievementArray = ApiResponseMetaAchievementArray;
-
-export interface ApiResponseMetaUser {
-  success: boolean;
-  message: string;
-  data: User | null;
-  meta: PaginationResult | null;
+export interface FilteredUserInterface {
+  /** @format double */
+  id: number;
+  email: string;
 }
 
-export type ApiResponseUser = ApiResponseMetaUser;
+export interface AuthenticationServiceTokenResponseData {
+  token: string;
+  /** @format double */
+  expires_in: number;
+  user: FilteredUserInterface;
+}
+
+export interface ApiResponseAuthenticationServiceTokenResponseData {
+  data: AuthenticationServiceTokenResponseData;
+  status: {
+    message: string;
+    success: boolean;
+  };
+}
+
+export interface UserLoginRequest {
+  /** @format email */
+  email: string;
+  password: string;
+}
+
+/** Model User */
+export interface User {
+  /** @format double */
+  roleId: number;
+  password: string;
+  name: string | null;
+  email: string;
+  /** @format double */
+  id: number;
+}
+
+export interface ApiResponseUser {
+  /** Model User */
+  data: User;
+  status: {
+    message: string;
+    success: boolean;
+  };
+}
+
+export enum AuthScope {
+  Admin = "Admin",
+  User = "User",
+}
 
 export interface UserCreateRequest {
   name: string;
   email: string;
   password: string;
+  scope: AuthScope;
+}
+
+export interface UserViewModel {
+  /** @format double */
+  id: number;
+  name: string | null;
+  /** @format email */
+  email: string;
+}
+
+export interface ApiResponseUserViewModel {
+  data: UserViewModel;
+  status: {
+    message: string;
+    success: boolean;
+  };
 }
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
@@ -243,13 +264,13 @@ export class HttpClient<SecurityDataType = unknown> {
  * @contact
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  users = {
+  v1 = {
     /**
      * No description
      *
      * @tags User
      * @name GetAllUsers
-     * @request GET:/users
+     * @request GET:/v1/users
      * @secure
      */
     getAllUsers: (
@@ -264,40 +285,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<ApiResponseUserArray, any>({
-        path: `/users`,
+      this.request<ApiResponseAny, any>({
+        path: `/v1/users`,
         method: "GET",
         query: query,
         secure: true,
         format: "json",
         ...params,
       }),
-  };
-  challenges = {
-    /**
-     * No description
-     *
-     * @tags Challenge
-     * @name GetAllChallenges
-     * @request GET:/challenges
-     * @secure
-     */
-    getAllChallenges: (params: RequestParams = {}) =>
-      this.request<ChallengeResponse, any>({
-        path: `/challenges`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-  };
-  achievements = {
+
     /**
      * No description
      *
      * @tags Achievement
      * @name GetAllAchievements
-     * @request GET:/achievements
+     * @request GET:/v1/achievements
      * @secure
      */
     getAllAchievements: (
@@ -313,7 +315,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<ApiResponseAchievementArray, any>({
-        path: `/achievements`,
+        path: `/v1/achievements`,
         method: "GET",
         query: query,
         secure: true,
@@ -321,20 +323,67 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
-  authentication = {
+  auth = {
+    /**
+     * No description
+     *
+     * @tags Authentication
+     * @name LoginPassword
+     * @request POST:/auth/login/password
+     */
+    loginPassword: (data: UserLoginRequest, params: RequestParams = {}) =>
+      this.request<ApiResponseAuthenticationServiceTokenResponseData, any>({
+        path: `/auth/login/password`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Authentication
+     * @name RefreshToken
+     * @request POST:/auth/tokens/refresh
+     */
+    refreshToken: (params: RequestParams = {}) =>
+      this.request<ApiResponseAuthenticationServiceTokenResponseData, any>({
+        path: `/auth/tokens/refresh`,
+        method: "POST",
+        format: "json",
+        ...params,
+      }),
+
     /**
      * No description
      *
      * @tags Authentication
      * @name Signup
-     * @request POST:/authentication/signup
+     * @request POST:/auth/signup
      */
     signup: (data: UserCreateRequest, params: RequestParams = {}) =>
       this.request<ApiResponseUser, any>({
-        path: `/authentication/signup`,
+        path: `/auth/signup`,
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Authentication
+     * @name User
+     * @request GET:/auth/user
+     */
+    user: (params: RequestParams = {}) =>
+      this.request<ApiResponseUserViewModel, any>({
+        path: `/auth/user`,
+        method: "GET",
         format: "json",
         ...params,
       }),

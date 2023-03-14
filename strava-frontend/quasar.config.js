@@ -96,17 +96,16 @@ module.exports = configure(function (/* ctx */) {
       open: true, // opens browser window automatically
       proxy: {
         // proxy all requests starting with /api to api
+        '/api/auth': {
+          target: process.env.API_URI,
+          changeOrigin: true,
+          rewrite: (url) => url.replace(/^\/api\/auth(.+)$/, process.env.AUTH_PREFIX + '/$1')
+        },
         '/api': {
-          target: 'http://localhost:3000',
-          // process.env.API_URI,
+          target: process.env.API_URI,
           changeOrigin: true,
           rewrite: (url) => url.replace(/^\/api(.+)$/, process.env.API_PREFIX + '/$1')
         },
-        '/auth': {
-          target: 'http://localhost:3000',
-          changeOrigin: true,
-
-        }
       }
     },
 

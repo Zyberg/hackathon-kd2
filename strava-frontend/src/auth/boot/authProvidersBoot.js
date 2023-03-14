@@ -24,7 +24,6 @@ export default boot(({ app }) => {
     providers: {
       custom: {
         features: {
-          //TODO:
           'identityPassword:register': useIdentityPasswordRegister,
           'identityPassword:login': useIdentityPasswordLogin,
           'identityPassword:logout': useIdentityPasswordLogout,

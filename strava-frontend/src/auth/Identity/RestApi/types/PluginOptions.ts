@@ -6,7 +6,6 @@ export interface RestApiEndpoints {
   register: string
   logout: string
   getUser: string
-  csrfCookie: string
   resetPassword: string
   forgotPassword: string
   password: string
@@ -17,7 +16,6 @@ export interface RestApiOptionsEndpoints {
   register?: string
   logout?: string
   getUser?: string
-  // csrfCookie?: string
   resetPassword?: string
   forgotPassword?: string
   password?: string

@@ -1,10 +1,10 @@
+import { AxiosResponse } from 'axios'
 import User from './User'
 
 export interface RestApiResponse<T> {
   isFinished: boolean
   statusCode: number | null
-  response: Response | null
-  asJson: () => Record<string | number, unknown> | undefined
+  response: AxiosResponse | null
   error: unknown
   data: T
   isFetching: boolean

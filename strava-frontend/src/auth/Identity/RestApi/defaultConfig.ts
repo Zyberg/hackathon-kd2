@@ -12,7 +12,6 @@ export default (): PluginOptions => {
       register: '/register',
       logout: '/logout',
       getUser: 'api/user',
-      // csrfCookie: '/restapi/csrf-cookie',
       resetPassword: '/reset-password',
       forgotPassword: '/forgot-password',
       password: '/user/password',

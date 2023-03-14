@@ -1,4 +1,5 @@
-import { makeFetchRequester, useVueUseAuthState } from '@vueauth/sanctum'
+import { useVueUseAuthState } from '@vueauth/sanctum'
+import makeApiRequester from 'src/auth/Identity/RestApi/implementations/makeApiRequester'
 
 export default {
   /**
@@ -6,7 +7,7 @@ export default {
    * If you want to use a different library for backend
    * requests you can provide an implemntation here.
    */
-  requester: makeFetchRequester,
+  requester: makeApiRequester,
 
   /**
    * Quasar Auth uses "createGlobalState" from "vueuse" to store
@@ -25,9 +26,6 @@ export default {
     register: '/auth/signup',
     logout: '/auth/logout',
     getUser: '/auth/user',
-
-    //TODO: check whether this contract needs it
-    csrfCookie: '/sanctum/csrf-cookie',
 
     //TODO: Implement backend for this
     resetPassword: '/auth/reset-password',

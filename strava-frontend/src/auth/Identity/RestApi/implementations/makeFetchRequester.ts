@@ -77,19 +77,11 @@ const makeFetchRequester = (
   const registerFetcher = useFetch(endpoints.register)
   const logoutFetcher = useFetch(endpoints.logout)
   const userFetcher = useFetch<Record<string | number, unknown> | null>(endpoints.getUser)
-  // const csrfTokenFetcher = useFetch(endpoints.csrfCookie)
   const resetPasswordFetcher = useFetch(endpoints.resetPassword)
   const forgotPasswordFetcher = useFetch(endpoints.forgotPassword)
   const updatePasswordFetcher = useFetch(endpoints.password)
 
-  // TODO: investigate, if rest api needs this
-  /*
-  async function fetchCsrfToken () {
-    await csrfTokenFetcher.get().execute()
-    return makeRestApiResponse(csrfTokenFetcher)
-  }
-  */
-
+  // TODO: investigate, if rest api needs csrf tokens in our case
   async function login (credentials: Record<string, string | number>) {
     // await fetchCsrfToken()
     await loginFetcher.post(credentials).execute()
@@ -135,7 +127,6 @@ const makeFetchRequester = (
   }
 
   return {
-    // fetchCsrfToken,
     login,
     register,
     logout,

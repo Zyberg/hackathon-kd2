@@ -61,4 +61,4 @@ export default boot(({ router }) => {
       },
     ]
   })
-})
+4})
