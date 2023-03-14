@@ -45,7 +45,6 @@ const makeApiRequester = (
   }
 
   async function login(credentials: Record<string, string | number>) {
-    console.log('clicked')
     //TODO: annoying type :)
     return await api.auth
       .loginPassword(credentials as any)
@@ -85,9 +84,7 @@ const makeApiRequester = (
       .user()
       .then(makeRestApiResponseSuccess)
       .catch((error) => {
-        console.log('out', error)
         if (axios.isAxiosError(error)) {
-          console.log('in')
           return makeRestApiResponseError(error as AxiosError);
         }
       });

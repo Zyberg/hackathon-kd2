@@ -39,7 +39,7 @@ const todoCount = computed(() => props.todos.length);
 
 async function fetch() {
   try {
-    const response = await api.users.getAllUsers();
+    const response = await api.v1.getAllUsers();
     users.value = response.data.data ?? [];
   } catch (e: any) {
     console.log('Error:' + e.toString());
