@@ -32,8 +32,6 @@ passport.deserializeUser(
       return cb(err);
     }
 
-    console.log('super weird', id, email)
-
     return user !== null ? cb(null, user) : cb(null, false);
   }
 );
@@ -51,14 +49,13 @@ auth.post('/login/password',
 auth.post('/tokens/refresh', controller.refreshToken)
 
 auth.get('/user', authMiddleware.jwt, async (req, res) => {
-  console.log(req.user);
+  const response = await controller.user(req.user!.id);
 
-  return res.json({'eh': 'e'});
+  return res.send(response);
 })
 
 
 auth.post("/signup/password", async function (req, res) {
-  console.log("body", req.body);
   const response = await controller.signup(req.body);
 
   return res.send(response);
