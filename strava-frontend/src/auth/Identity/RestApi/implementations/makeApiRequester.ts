@@ -85,7 +85,9 @@ const makeApiRequester = (
       .user()
       .then(makeRestApiResponseSuccess)
       .catch((error) => {
+        console.log('out', error)
         if (axios.isAxiosError(error)) {
+          console.log('in')
           return makeRestApiResponseError(error as AxiosError);
         }
       });

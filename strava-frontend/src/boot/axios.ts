@@ -24,7 +24,6 @@ const api = new Api({
   withCredentials: true,
 });
 
-
 api.instance.interceptors.request.use(
   (config) => {
     if (!config.headers) {
@@ -47,6 +46,8 @@ api.instance.interceptors.response.use(
   (response) => response,
   (error) => {
     const originalRequest = error.config;
+
+    if (error.request.responseURL.includes('tokens/refresh')) throw error;
 
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;

@@ -9,6 +9,7 @@ import {
   Inject,
   Request,
   Controller,
+  Response,
 } from "tsoa";
 import { ApiResponse } from "../../types/generic/apiResponse";
 import {
@@ -18,14 +19,21 @@ import {
 } from "./authentication.service";
 
 import { UsersService } from "../../api-v1/users/users.service";
-import { UserCreateRequest, UserLoginRequest, UserViewModel } from "../../types/users/user";
+import {
+  UserCreateRequest,
+  UserLoginRequest,
+  UserViewModel,
+} from "../../types/users/user";
 import { Request as ExpressRequest } from "express";
 import apiResponseBuilder from "../../helpers/apiResponseBuilder";
+import { ApiMessage } from "../../types/generic/apiMessages";
+import { AppError, HttpCode } from "../../exceptions/AppError";
+
 @Tags("Authentication")
 @Route("auth")
 export default class AuthenticationController extends Controller {
-
   @Post("/login/password")
+  @Response("401", "Unauthorized")
   public async loginPassword(
     @Inject() req: ExpressRequest,
     @Body() { email, password }: UserLoginRequest
@@ -36,9 +44,17 @@ export default class AuthenticationController extends Controller {
   }
 
   @Post("/tokens/refresh")
+  @Response("401", "Unauthorized")
   public async refreshToken(
     @Request() req: ExpressRequest
   ): Promise<ApiResponse<AuthenticationServiceTokenResponseData>> {
+    if (!req.cookies || req.cookies.refresh_cookie)
+      throw new AppError({
+        description: ApiMessage.Unauthorized,
+        httpCode: HttpCode.UNAUTHORIZED,
+        isOperational: true,
+      });
+
     const data = await new AuthenticationService().refreshToken(
       req.cookies.refresh_cookie || ""
     );

@@ -519,6 +519,9 @@
 								}
 							}
 						}
+					},
+					"401": {
+						"description": "Unauthorized"
 					}
 				},
 				"tags": [
@@ -551,6 +554,9 @@
 								}
 							}
 						}
+					},
+					"401": {
+						"description": "Unauthorized"
 					}
 				},
 				"tags": [

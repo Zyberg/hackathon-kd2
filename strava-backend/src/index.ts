@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import "express-async-errors";
+
 import server from "./api";
 
 import { PrismaClient } from "@prisma/client";

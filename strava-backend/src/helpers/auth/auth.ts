@@ -9,12 +9,12 @@ export const auth = {
     passport.authenticate("local", function (err: any, user?: Express.User) {
       if (err) return next(err);
 
-      //TODO: for some reason a thrown error is not being caught here
       if (!user)
-        return res
-        .status(HttpCode.UNAUTHORIZED)
-        .json(apiResponseBuilder.makeError(ApiMessage.WrongCredentials));
-        
+        throw new AppError({
+          httpCode: HttpCode.UNAUTHORIZED,
+          description: ApiMessage.Unauthorized,
+        });
+
       req.user = user!!;
       next();
     })(req, res, next);
@@ -24,7 +24,7 @@ export const auth = {
       if (err) return next(err);
 
       if (!user)
-      //TODO: automatically send correct ApiMessage by inferring from the httpCode
+        //TODO: automatically send correct ApiMessage by inferring from the httpCode
         throw new AppError({
           httpCode: HttpCode.UNAUTHORIZED,
           description: ApiMessage.Unauthorized,
