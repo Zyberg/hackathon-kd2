@@ -53,7 +53,7 @@ api.instance.interceptors.response.use(
       originalRequest._retry = true;
 
       return api.auth.refreshToken().then((res) => {
-        if (res.status === 201) {
+        if (res.status === 200) {
           LocalStorageService.setToken(res.data.data.token);
 
           api.instance.defaults.headers[

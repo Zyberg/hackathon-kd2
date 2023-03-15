@@ -8,6 +8,8 @@ import { prisma } from "../../boot/prisma";
 import { User } from "@prisma/client";
 import { schema, validateBody } from "../../helpers/validation";
 import { auth as authMiddleware } from "../../helpers/auth/auth";
+import { AuthScope } from "../../helpers/auth/scopes";
+import { AuthenticationService } from "./authentication.service";
 
 const auth: Router = Router();
 const controller = new Controller();
@@ -56,9 +58,8 @@ auth.get(
 auth.get(
   "/strava/callback",
   passport.authenticate("strava", { failureMessage: "failed login :(" }),
-  (req, res) => {
-    res.redirect(process.env.FRONTEND_URL || "");
-  }
+  //@ts-ignore
+  controller.loginStrava,
 );
 
 auth.get("/login/strava", (req, res) => {});

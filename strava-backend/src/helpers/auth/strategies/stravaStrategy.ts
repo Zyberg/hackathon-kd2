@@ -65,7 +65,7 @@ export const stravaStrategy = new StravaStrategy.Strategy(
         },
       });
 
-      done(null, makeExpressUser(userModel));
+      return done(null, makeExpressUser(userModel));
     }
 
     // If a strava profile does not exist

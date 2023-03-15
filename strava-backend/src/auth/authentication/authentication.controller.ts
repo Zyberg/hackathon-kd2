@@ -33,17 +33,20 @@ import { AppError, HttpCode } from "../../exceptions/AppError";
 @Route("auth")
 export default class AuthenticationController extends Controller {
   @Post("/login/strava")
-  public async loginStrava(
-    @Inject() req: ExpressRequest,
-  ) {
-    const data = await new AuthenticationService().login(req.user!!);
+  public async loginStrava(@Inject() req: ExpressRequest) {
+    const { refreshToken, expires } =
+      await new AuthenticationService().login(req.user!!);
 
-    const response =  AuthenticationController.tokenizedRoute(req, data);
-
-    // Redirect UI back to the frontend:
-    req.res!!.redirect(process.env.FRONTEND_URL || "");
-
-    return response;
+    AuthenticationController.setJwtCookies(
+      req,
+      refreshToken,
+      expires,
+      true,
+      "none"
+    )
+      .header("Access-Control-Allow-Credentials", "true")
+      .header("Access-Control-Allow-Origin", process.env.FRONTEND_URL)
+      .redirect(302, process.env.FRONTEND_URL || "");
   }
 
   @Post("/login/password")
@@ -62,7 +65,7 @@ export default class AuthenticationController extends Controller {
   public async refreshToken(
     @Request() req: ExpressRequest
   ): Promise<ApiResponse<AuthenticationServiceTokenResponseData>> {
-    if (!req.cookies || req.cookies.refresh_cookie)
+    if (!req.cookies || !req.cookies.refresh_cookie)
       throw new AppError({
         description: ApiMessage.Unauthorized,
         httpCode: HttpCode.UNAUTHORIZED,
@@ -99,17 +102,28 @@ export default class AuthenticationController extends Controller {
   ) {
     const response = apiResponseBuilder.makeSuccess(data);
 
-    // TODO: test
-    req
-      .res!!.cookie("refresh_cookie", refreshToken, {
-        expires,
-        httpOnly: true,
-        // sameSite: "None",
-        // secure: true,
-      })
-      .status(200)
-      .json(response);
+    this.setJwtCookies(req, refreshToken, expires).json(response);
 
     return response;
+  }
+
+  @Hidden()
+  private static setJwtCookies(
+    @Inject() req: ExpressRequest,
+    refreshToken: string,
+    expires: Date,
+    secure?: boolean,
+    sameSite?: "none"
+  ) {
+    const config: any = {
+      expires,
+      httpOnly: true,
+    };
+
+    if (secure !== undefined) config.secure = secure;
+
+    if (sameSite !== undefined) config.sameSite = sameSite;
+
+    return req.res!!.cookie("refresh_cookie", refreshToken, config).status(200);
   }
 }

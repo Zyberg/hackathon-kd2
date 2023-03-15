@@ -1,6 +1,7 @@
 import cors from "cors";
 import nocache from "nocache";
 import express from "express";
+import cookieParser from "cookie-parser"
 import helmet from "helmet";
 import morgan from "morgan";
 
@@ -33,6 +34,7 @@ class App {
     this.express.use(nocache());
     this.express.use(express.json());
     this.express.use(express.urlencoded({ extended: true }));
+    this.express.use(cookieParser())
     this.express.use(session);
     this.express.use(helmet());
     this.express.use(express.static("public"));

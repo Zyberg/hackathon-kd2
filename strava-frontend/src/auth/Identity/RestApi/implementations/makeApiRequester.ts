@@ -44,9 +44,9 @@ const makeApiRequester = (
     };
   }
 
-  async function login(credentials: Record<string, string | number>) {
+  function login(credentials: Record<string, string | number>) {
     //TODO: annoying type :)
-    return await api.auth
+    return api.auth
       .loginPassword(credentials as any)
       .then(response => {
         if (response.data && response.data.data.token)
@@ -62,9 +62,9 @@ const makeApiRequester = (
       });
   }
 
-  async function register(credentials: Record<string, string | number>) {
+  function register(credentials: Record<string, string | number>) {
     //TODO: annoying type :)
-    return await api.auth
+    return api.auth
       .signup(credentials as any)
       .then(makeRestApiResponseSuccess)
       .catch((error) => {
@@ -79,6 +79,7 @@ const makeApiRequester = (
     throw new Error('Not implemented');
   }
 
+  //TODO: handle errors better
   async function getUser() {
     return await api.auth
       .user()
