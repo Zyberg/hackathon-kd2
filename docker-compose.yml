@@ -5,7 +5,7 @@ services:
 
     restart: unless-stopped
 
-    env_file: ./.env
+    env_file: strava-backend/.env
     
     environment:
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
@@ -18,20 +18,21 @@ services:
       - db-config:/etc/mysql
       - db-data:/var/lib/mysql
       - ./db/backup/files/:/data_backup/data
+  
   ping-api:
     environment:
       - NODE_ENV=development
 
-    env_file: ./.env
+    env_file: strava-backend/.env
 
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: strava-backend/Dockerfile.dev
 
     container_name: ping-api
 
     volumes: 
-      - .:/usr/api
+      - ./strava-backend:/usr/api
 
     depends_on:
       - mysqldb
@@ -46,6 +47,25 @@ services:
       - "3000:3000"
 
     command: npm run dev
+
+  quasar:
+    env_file: strava-frontend/.env
+
+    build:
+      context: .
+      dockerfile: strava-frontend/Dockerfile
+      target: 'develop-stage'
+
+    depends_on:
+      - ping-api
+
+    ports:
+    - '9000:9000'
+
+    volumes:
+    - '.:/usr/app'
+
+    command: /bin/sh -c "yarn && quasar dev"
 
 volumes:
   db-config:

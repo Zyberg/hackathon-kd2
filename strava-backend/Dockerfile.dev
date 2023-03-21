@@ -2,7 +2,7 @@ FROM node:lts-alpine
 
 WORKDIR /usr/api
 
-COPY package*.json ./
+COPY strava-backend/package*.json ./
 
 RUN npm install
 COPY . .

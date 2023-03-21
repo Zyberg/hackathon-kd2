@@ -1,9 +1,6 @@
 // Plugin
 export { RestApiPlugin } from './RestApiPlugin'
 
-// RestApi Implementations
-export { makeFetchRequester } from './implementations/makeFetchRequester'
-
 // Implementations
 export { useIdentityPasswordLogin } from './implementations/useIdentityPasswordLogin'
 export { useIdentityPasswordRegister } from './implementations/useIdentityPasswordRegister'
