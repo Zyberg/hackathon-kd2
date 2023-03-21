@@ -8,7 +8,7 @@ run-image:
 
 # Create an image and start the app container using docker-compose
 up-dev:
-	docker-compose -f ./strava-backend/docker-compose.yml -f ./strava-frontend/docker-compose.yml up --build 
+	docker-compose up --build 
 
 # Stop a container started using docker-compose
 down:
