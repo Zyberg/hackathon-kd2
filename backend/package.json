@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "prisma migrate deploy && ts-node src/index.ts",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\"",
     "predev": "npm run swagger",
     "prebuild": "npm run swagger",

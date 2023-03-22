@@ -55,6 +55,7 @@ export default class AuthenticationController extends Controller {
     @Inject() req: ExpressRequest,
     @Body() { email, password }: UserLoginRequest
   ): Promise<ApiResponse<AuthenticationServiceTokenResponseData>> {
+    console.log('in')
     const data = await new AuthenticationService().login(req.user!!);
 
     return AuthenticationController.tokenizedRoute(req, data);

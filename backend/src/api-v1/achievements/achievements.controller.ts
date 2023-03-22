@@ -7,7 +7,7 @@ import { AchievementsService } from "./achievements.service";
 
 @Tags("Achievement")
 @Security("jwt")
-@Route("v1/achievements")
+@Route("api/achievements")
 export default class AchievementController extends Controller {
   @Get("/")
   public async getAllAchievements(

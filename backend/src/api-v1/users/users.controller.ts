@@ -5,7 +5,7 @@ import { UsersService } from "./users.service";
 
 @Tags("User")
 @Security("jwt")
-@Route("v1/users")
+@Route("api/users")
 export default class UserController extends Controller {
   @Get("/")
   public async getAllUsers(@Queries() query: DataTableQuery) {

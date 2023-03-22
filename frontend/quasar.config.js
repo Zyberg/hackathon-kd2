@@ -97,11 +97,6 @@ module.exports = configure(function (/* ctx */) {
       open: false, // opens browser window automatically
       proxy: {
         // proxy all requests starting with /api to api
-        '/api/auth': {
-          target: process.env.API_URI,
-          changeOrigin: true,
-          rewrite: (url) => url.replace(/^\/api\/auth(.+)$/, process.env.AUTH_PREFIX + '/$1')
-        },
         '/api': {
           target: process.env.API_URI,
           changeOrigin: true,

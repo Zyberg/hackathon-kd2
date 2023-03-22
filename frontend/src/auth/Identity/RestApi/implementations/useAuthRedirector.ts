@@ -1,7 +1,7 @@
-import useAuthState from '../implementations/useAuthState'
+import useAuthState from './useAuthState'
 import { ref, unref, watch, WatchStopHandle, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
-import useFetchUser from '../implementations/useFetchUser'
+import useFetchUser from './useFetchUser'
 import { UseAuthRedirector, UseAuthRedirectorReturn } from '@vueauth/core'
 
 type UserOnCheckedFunction = (user: unknown | null) => void

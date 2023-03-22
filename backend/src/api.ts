@@ -25,6 +25,7 @@ class App {
     this.setMiddlewares();
     this.setPassport();
     this.setRoutes();
+    this.setSpa();
     this.catchErrors();
   }
 
@@ -49,8 +50,14 @@ class App {
   private setRoutes(): void {
     this.express.use("/", home);
     this.express.use("/docs", docs);
-    this.express.use("/v1", apiV1);
-    this.express.use("/auth", auth);
+    this.express.use("/api/auth", auth);
+    this.express.use("/api", apiV1);
+  }
+
+  private setSpa(): void {
+    this.express.get(/^\/(?!api($|\/.*))/, function (req, res) {
+      res.sendFile('index.html', { root: "public" });
+    });
   }
 
   private catchErrors(): void {
