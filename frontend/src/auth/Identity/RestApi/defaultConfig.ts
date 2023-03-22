@@ -1,10 +1,10 @@
 import { useVueUseAuthState } from './implementations/useVueUseAuthState'
 import { PluginOptions } from './types/PluginOptions'
-import { makeFetchRequester } from './implementations/makeFetchRequester'
+import { makeApiRequester } from './implementations/makeApiRequester'
 
 export default (): PluginOptions => {
   return {
-    makeRequester: makeFetchRequester,
+    makeRequester: makeApiRequester,
     useAuthState: useVueUseAuthState,
     baseUrl: undefined,
     endpoints: {

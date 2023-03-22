@@ -1,0 +1,18 @@
+version: "3"
+services:
+  quasar:
+
+    env_file: .env
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: 'develop-stage'
+
+    ports:
+    - '9000:9000'
+
+    volumes:
+    - '.:/usr/app'
+
+    command: /bin/sh -c "yarn && quasar dev"

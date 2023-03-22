@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "prisma migrate deploy && ts-node src/index.ts",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\"",
     "predev": "npm run swagger",
     "prebuild": "npm run swagger",
-    "build": "tsc",
+    "build": "tsc --skipLibCheck",
+    "migrate": "prisma migrate dev",
     "schema": "node ./src/helpers/validation/schemaGenerator.js",
     "generate-client": "npx swagger-typescript-api -p ./public/swagger.json -o ../strava-frontend/src/api -n ApiClient.ts --axios",
-    "dev": "concurrently --kill-others \"npx prisma generate && nodemon --exec ts-node ./src/index.ts\" \"nodemon -x tsoa spec\"",
+    "dev": "prisma migrate dev && concurrently --kill-others \"npx prisma generate && nodemon --exec ts-node ./src/index.ts\" \"nodemon -x tsoa spec\"",
     "swagger": "tsoa spec"
   },
   "nodemonConfig": {
