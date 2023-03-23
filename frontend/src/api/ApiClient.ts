@@ -35,7 +35,17 @@ export interface DataTableQuery {
 /** Model Challenge */
 export interface Challenge {
   /** @format double */
+  parentId: number | null;
+  type: string;
+  /** @format double */
+  goalCount: number;
+  /** @format date-time */
+  endAt: string;
+  /** @format date-time */
+  startAt: string;
+  /** @format double */
   unitId: number;
+  isComplete: boolean;
   isActive: boolean;
   description: string;
   title: string;
@@ -78,8 +88,10 @@ export interface ChallengeViewModel {
   /** @format double */
   goalCount: number;
   type: ChallengeType;
+  isActive: boolean;
+  isComplete: boolean;
   /** @format double */
-  parentId?: number;
+  parentId: number | null;
 }
 
 export interface ChallengeCreateModel {
@@ -96,7 +108,8 @@ export interface ChallengeCreateModel {
   goalCount: number;
   type: ChallengeType;
   /** @format double */
-  parentId?: number;
+  parentId: number | null;
+  isComplete: boolean;
 }
 
 export interface ChallengeUpdateModel {
@@ -115,7 +128,8 @@ export interface ChallengeUpdateModel {
   goalCount: number;
   type: ChallengeType;
   /** @format double */
-  parentId?: number;
+  parentId: number | null;
+  isComplete: boolean;
 }
 
 export interface Achievement {
