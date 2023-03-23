@@ -91,7 +91,7 @@ export default {
         editMode.value = true;
         challenge.value = await api.challenges.getChallengeById(id).then(r => r.data)
         const a = new Date(challenge.value.startAt)
-        console.log(a.toLocaleDateString())
+        
       }
     })
 
