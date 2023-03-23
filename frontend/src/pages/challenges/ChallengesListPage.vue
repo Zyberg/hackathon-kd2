@@ -1,56 +1,50 @@
 <template>
-  <q-page>
-		<DataTable
-			title="Challenges"
-			:columns="columns"
-			:paginationInitial="paginationInitial"
-			:fetch="fetch"
-			@row-click="onRowClick"
-			@create-new="onCreateNew"
-		/>
-  </q-page>
+  <div>
+    <q-input v-model="search" label="Search" dense outlined/>
+    <div class="flex justify-start">
+      <div class="q-mt-md" v-for="challenge in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" :key="challenge">
+        <ChallengeCard/>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import { api } from 'boot/axios';
-import { useRouter } from 'vue-router'
-import DataTable from 'components/DataTable.vue';
+// import {api} from 'src/boot/axios';
+import {ref, computed} from 'vue'
+import ChallengeCard from "components/challenges/ChallengeCard.vue";
+
 
 export default {
-	components: { DataTable },
-  name: 'ChallengesListPage',
-	setup() {
-		const router = useRouter();
+  name: 'ChallengesList',
+  components: {
+    ChallengeCard,
+  },
+  setup() {
+    const search = ref('')
+    const page = ref(1)
+    const pageSize = 20 // number of challenges per page
 
-		return {
-			columns: [
-				{
-					name: 'id',
-					required: true,
-					label: 'ID',
-					align: 'left',
-					field: 'id',
-					sortable: true,
-				},
-				{ name: 'title', label: 'Title', field: 'title', sortable: true },
-			],
-			paginationInitial: {
-				sortBy: 'id',
-				descending: true,
-				page: 1,
-				rowsPerPage: 10,
-				rowsNumber: 0,
-			},
-			fetch: ({ query }) => api.challenges.getAllChallenges(query).then(r => r.data),
+    // const challenges = api.challenges.getAllChallenges({isActive: true})
 
-			onRowClick: ({ evt, row, index }) => {
-				router.push(`/challenges/${row.id}`);
-			},
+    const challenge = {
+      title: 'RUN PUMA Fueled By NITRO 42km',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      isActive: true,
+      unitId: 0,
+      type: 'Running'
+    };
 
-			onCreateNew: ({ evt, go }) => {
-				router.push('/challenges/create');
-			},
-		}
-	}
+    // const numPages = computed(() =>
+    //   Math.ceil(challenges.length / pageSize)
+    // )
+
+    return {
+      search,
+      page,
+      challenge,
+      // numPages,
+    }
+  },
 }
 </script>
