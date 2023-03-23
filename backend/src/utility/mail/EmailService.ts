@@ -11,11 +11,9 @@ class EmailService {
     return this._service;
   }
 
-  // sendEmail(/*Čia kažkokie paramterai general turi būti */)
-  sendEmail(sender_email:string, receiver_email:string, email_subject:string, email_body:string)
+  async sendEmail(data:any)
   {
-    MailgunApiService.sendEmail(sender_email, receiver_email,email_subject, email_body)
-    throw Error("Not implemented");
+    await MailgunApiService.sendEmail(data)
   }
 }
 
