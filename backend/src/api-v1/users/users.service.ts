@@ -27,6 +27,14 @@ export class UsersService {
     return data;
   }
 
+  public async deleteUserById(id: number) {
+    return await prisma.user.delete({
+      where: {
+        id,
+      }
+    });
+  }
+
   public async getUserById(id: number): Promise<UserViewModel> {
     const user = await prisma.user.findFirstOrThrow({
       where: {
