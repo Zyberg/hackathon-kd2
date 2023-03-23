@@ -57,7 +57,7 @@ export default boot(({ router }) => {
         path: 'achievements',
         name: 'achievements',
         component: () => import('src/pages/AchievementsPage.vue'),
-        meta: { unauthOnly: true, role: ['Admin'] },
+        meta: { authOnly: true, role: ['Admin'] },
       },
       {
         path: 'challenges',
@@ -67,7 +67,7 @@ export default boot(({ router }) => {
       },
       {
         path: 'challenges/create',
-        name: 'create',
+        name: 'adminChallengeCreate',
         component: () => import('pages/challenges/ChallengeCreatePage.vue'),
         meta: { authOnly: true, role: ['Admin'] },
       },

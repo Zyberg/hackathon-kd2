@@ -17,6 +17,7 @@
 import { api } from 'boot/axios';
 import { useRouter } from 'vue-router'
 import DataTable from 'components/DataTable.vue';
+import { route } from 'quasar/wrappers';
 
 export default {
 	components: { DataTable },
@@ -53,7 +54,7 @@ export default {
 			},
 
 			onCreateNew: ({ evt, go }) => {
-				router.push('/challenges/create');
+				router.push({ name: 'adminChallengeCreate'});
 			},
 
 			onEdit: async (row) => {

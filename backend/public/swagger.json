@@ -65,6 +65,49 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"GetAllChallengesQuery": {
+				"properties": {
+					"q": {
+						"type": "string"
+					},
+					"field": {
+						"type": "string"
+					},
+					"order": {
+						"$ref": "#/components/schemas/PAGINATION_ORDER"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"perPage": {
+						"type": "number",
+						"format": "double"
+					},
+					"isActive": {
+						"type": "boolean"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ChallengeViewModel": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"title"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ChallengeCreateModel": {
 				"properties": {
 					"title": {
