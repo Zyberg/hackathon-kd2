@@ -1,0 +1,94 @@
+<template>
+  <div class="q-pa-md">
+    <h1>Create Sports Challenge</h1>
+    <q-form @submit.prevent="submitChallenge">
+      <q-input
+        v-model="challengeName"
+        label="Challenge Name"
+        dense
+        outlined
+        required
+      />
+      <q-date
+        v-model="startDate"
+        label="Start Date"
+        dense
+        outlined
+        required
+      />
+      <q-date v-model="endDate" label="End Date" dense outlined required />
+      <q-select
+        v-model="activityType"
+        label="Activity Type"
+        dense
+        outlined
+        options-dense
+        required
+        :options="activityTypes"
+      />
+      <q-input
+        v-model.number="goalDistance"
+        label="Goal Distance (miles)"
+        type="number"
+        dense
+        outlined
+        required
+      />
+      <div class="q-mt-md">
+        <q-btn type="submit" color="primary" label="Create Challenge" />
+      </div>
+    </q-form>
+  </div>
+</template>
+
+<script>
+import { ref } from 'vue';
+
+export default {
+  setup() {
+    const challengeName = ref('');
+    const startDate = ref('');
+    const endDate = ref('');
+    const activityType = ref('');
+    const goalDistance = ref('');
+
+    const activityTypes = [
+      {
+        label: 'Running',
+        value: 'Running'
+      },
+      {
+        label: 'Cycling',
+        value: 'Cycling'
+      },
+      {
+        label: 'Swimming',
+        value: 'Swimming'
+      }
+    ];
+
+    const submitChallenge = () => {
+      // Use the data to create a new challenge
+      const newChallenge = {
+        name: challengeName.value,
+        startDate: startDate.value,
+        endDate: endDate.value,
+        activityType: activityType.value,
+        goalDistance: goalDistance.value
+      };
+      console.log(newChallenge);
+      // You can use this data to make an API request to save the challenge
+    };
+
+    return {
+      challengeName,
+      startDate,
+      endDate,
+      activityType,
+      goalDistance,
+      activityTypes,
+      submitChallenge
+    };
+  }
+};
+</script>
