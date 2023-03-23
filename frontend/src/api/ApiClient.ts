@@ -116,6 +116,7 @@ export interface UserViewModel {
   name: string | null;
   /** @format email */
   email: string;
+  role: string;
 }
 
 export interface ApiResponseUserViewModel {
