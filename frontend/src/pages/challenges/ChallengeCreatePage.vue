@@ -3,13 +3,27 @@
     <h1>Create Sports Challenge</h1>
     <q-form @submit.prevent="submitChallenge">
       <q-input
-        v-model="challengeName"
+        v-model="title"
         label="Challenge Name"
         dense
         rounded
         outlined
         required
       />
+      <q-input
+        v-model="description"
+        label="Challenge description"
+        dense
+        rounded
+        outlined
+        required
+      />
+      <q-toggle
+      color="pink"
+      false-value="Disagreed"
+      true-value="Agreed"
+      v-model="pinkModel"
+    ></q-toggle>
       <q-date
         v-model="startDate"
         label="Start Date"
@@ -49,9 +63,9 @@
         <q-btn type="submit" class="primary-button" label="Create Challenge" />
         <q-btn class="primary-button">TEXTAS</q-btn>
         <q-btn class="secondary-button">TEXTAS</q-btn>
-        <q-checkbox modelValue="false" />
+        <!-- <q-checkbox modelValue="false" />
         <q-radio />
-        <q-toggle />
+        <q-toggle /> -->
       </div>
     </q-form>
   </div>
