@@ -7,6 +7,8 @@ export interface ChallengeViewModel {
   endAt: Date;
   goalCount: number;
   type: ChallengeType;
+  isActive: boolean;
+  isComplete: boolean;
   parentId: number | null;
 }
 
@@ -25,6 +27,7 @@ export interface ChallengeCreateModel {
   goalCount: number;
   type: ChallengeType;
   parentId: number | null;
+  isComplete: boolean;
 }
 
 export interface ChallengeUpdateModel {
@@ -38,4 +41,5 @@ export interface ChallengeUpdateModel {
   goalCount: number;
   type: ChallengeType;
   parentId: number | null;
+  isComplete: boolean;
 }

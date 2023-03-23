@@ -92,6 +92,7 @@ model Challenge {
   title        String
   description  String
   isActive     Boolean
+  isComplete   Boolean             @default(false)
   unit         ChallengeUnit       @relation(fields: [unitId], references: [id])
   unitId       Int // relation scalar field (used in the `@relation` attribute above)
   participants ChallengesOnUsers[]
@@ -100,10 +101,10 @@ model Challenge {
   endAt   DateTime
 
   goalCount Int
-  type  String // TODO: [GoalMax, GoalCount]
+  type      String // TODO: [GoalMax, GoalCount]
 
-  parent Challenge? @relation("ChallengeSelf", fields: [parentId], references: [id])
-  parentId Int? 
+  parent   Challenge? @relation("ChallengeSelf", fields: [parentId], references: [id])
+  parentId Int?
 
   child Challenge[] @relation("ChallengeSelf")
 }

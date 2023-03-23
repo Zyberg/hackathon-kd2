@@ -91,6 +91,9 @@
 						"type": "number",
 						"format": "double"
 					},
+					"isComplete": {
+						"type": "boolean"
+					},
 					"isActive": {
 						"type": "boolean"
 					},
@@ -112,6 +115,7 @@
 					"endAt",
 					"startAt",
 					"unitId",
+					"isComplete",
 					"isActive",
 					"description",
 					"title",
@@ -208,6 +212,12 @@
 					"type": {
 						"$ref": "#/components/schemas/ChallengeType"
 					},
+					"isActive": {
+						"type": "boolean"
+					},
+					"isComplete": {
+						"type": "boolean"
+					},
 					"parentId": {
 						"type": "number",
 						"format": "double",
@@ -221,6 +231,8 @@
 					"endAt",
 					"goalCount",
 					"type",
+					"isActive",
+					"isComplete",
 					"parentId"
 				],
 				"type": "object",
@@ -260,6 +272,9 @@
 						"type": "number",
 						"format": "double",
 						"nullable": true
+					},
+					"isComplete": {
+						"type": "boolean"
 					}
 				},
 				"required": [
@@ -270,7 +285,8 @@
 					"endAt",
 					"goalCount",
 					"type",
-					"parentId"
+					"parentId",
+					"isComplete"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -313,6 +329,9 @@
 						"type": "number",
 						"format": "double",
 						"nullable": true
+					},
+					"isComplete": {
+						"type": "boolean"
 					}
 				},
 				"required": [
@@ -325,7 +344,8 @@
 					"endAt",
 					"goalCount",
 					"type",
-					"parentId"
+					"parentId",
+					"isComplete"
 				],
 				"type": "object",
 				"additionalProperties": false

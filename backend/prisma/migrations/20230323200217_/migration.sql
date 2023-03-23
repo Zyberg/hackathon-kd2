@@ -83,6 +83,7 @@ CREATE TABLE `Challenge` (
     `title` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
     `isActive` BOOLEAN NOT NULL,
+    `isComplete` BOOLEAN NOT NULL DEFAULT false,
     `unitId` INTEGER NOT NULL,
     `startAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `endAt` DATETIME(3) NOT NULL,

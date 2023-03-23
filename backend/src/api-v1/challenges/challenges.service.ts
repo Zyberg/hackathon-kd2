@@ -32,13 +32,15 @@ export class ChallengesService {
       },
     });
 
-    const { title, startAt, endAt, goalCount, type, parentId } = challenge;
+    const { title, startAt, endAt, goalCount, type, parentId, isActive, isComplete } = challenge;
 
     return {
       id,
       title,
       startAt,
       endAt,
+      isActive,
+      isComplete,
       goalCount,
       type: type as ChallengeType,
       parentId: parentId,
