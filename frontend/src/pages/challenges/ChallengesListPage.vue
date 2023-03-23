@@ -25,17 +25,22 @@
 // import {api} from 'src/boot/axios';
 import {ref, computed} from 'vue'
 import ChallengeCard from "components/challenges/ChallengeCard.vue";
+import DataTable from 'components/DataTable.vue';
+import { api } from 'boot/axios';
+import { useRouter } from 'vue-router'
 
 
 export default {
   name: 'ChallengesList',
   components: {
     ChallengeCard,
+	DataTable,
   },
   setup() {
     const search = ref('')
     const page = ref(1)
     const pageSize = 20 // number of challenges per page
+	const router = useRouter();
 
     // const challenges = api.challenges.getAllChallenges({isActive: true})
 
@@ -56,11 +61,7 @@ export default {
       page,
       challenge,
       // numPages,
-    }
-  },
-}
-		return {
-			columns: [
+	  columns: [
 				{
 					name: 'id',
 					required: true,
@@ -84,7 +85,10 @@ export default {
 			fetch: ({ query }) => api.challenges.getAllChallenges(query).then(r => r.data),
 
 			onRowClick: ({ evt, row, index }) => {
-				router.push(`/challenges/${row.id}`);
+				router.push({
+					name: 'adminChallengeUpdate',
+					params: {id: row.id}
+				})
 			},
 
 			onCreateNew: ({ evt, go }) => {
@@ -101,7 +105,8 @@ export default {
 			onDelete: async (row) => {
 				const response = await api.challenges.delete(row.id);
 			},
-		}
-	}
+    }
+  },
 }
+
 </script>

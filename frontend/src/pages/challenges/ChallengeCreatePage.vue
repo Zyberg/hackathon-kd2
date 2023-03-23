@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <h2>Create Sports Challenge</h2>
+    <h2>{{ editMode ? 'Edit challenge' : 'Create challenge' }}</h2>
     <q-form @submit.prevent="submitChallenge">
       <q-input v-model="challenge.title" label="Challenge title" dense rounded outlined required />
       <q-input v-model="challenge.description" label="Challenge description" dense rounded outlined required />
@@ -23,9 +23,7 @@
         :options="challengeTypes" />
       <q-input v-model.number="challenge.goalCount" label="Goal Distance (miles)" type="number" dense rounded outlined required />
       <div class="q-mt-md">
-        <q-btn type="submit" class="primary-button" label=buttonText />
-        <q-btn class="primary-button">TEXTAS</q-btn>
-        <q-btn class="secondary-button">TEXTAS</q-btn>
+        <q-btn type="submit" class="primary-button">{{ editMode ? 'Save challenge Group' : 'Create challenge' }}</q-btn>
       </div>
     </q-form>
   </div>
@@ -51,8 +49,10 @@ export default {
       goalCount: 0,
       type: "GoalMax",
       parentId:	null,
-      id: 6,
+      id: null,
     })
+
+    const editMode = ref(false);
 
 
     // const activityTypes = [
@@ -74,9 +74,9 @@ export default {
 
 
     const submitChallenge = () => {
-      console.log(challenge.value.startAt)
       challenge.value.startAt = new Date(challenge.value.startAt).toISOString()
       challenge.value.endAt = new Date(challenge.value.endAt).toISOString()
+      challenge.value.unitId = +challenge.value.unitId
       if(route.params.id){
         api.challenges.update(route.params.id, challenge.value)
       } else {
@@ -84,19 +84,14 @@ export default {
       }
     };
 
-    const buttonText = () => {
-      if(route.params.id) {
-        return 'Edit challenge'
-      } else {
-        return 'Create challenge'
-      }
-    }
-
     onMounted(async () => {
 
       const id = route.params.id;
       if (id) {
+        editMode.value = true;
         challenge.value = await api.challenges.getChallengeById(id).then(r => r.data)
+        const a = new Date(challenge.value.startAt)
+        console.log(a.toLocaleDateString())
       }
     })
 
@@ -106,6 +101,7 @@ export default {
       challenge,
       challengeTypes,
       submitChallenge,
+      editMode,
     };
   },
 };
