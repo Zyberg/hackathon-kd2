@@ -57,7 +57,10 @@ export default {
 			},
 
 			onEdit: async (row) => {
-				router.push(`/challenges/${row.id}`);
+				router.push({
+					name: 'adminChallengeUpdate',
+					params: {id: row.id}
+				})
 			},
 
 			onDelete: async (row) => {

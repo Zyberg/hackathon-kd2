@@ -32,11 +32,13 @@ export class ChallengesService {
       },
     });
 
-    const { title, startAt, endAt, goalCount, type, parentId, isActive, isComplete } = challenge;
+    const { title, description, unitId, startAt, endAt, goalCount, type, parentId, isActive, isComplete } = challenge;
 
     return {
       id,
       title,
+      description,
+      unitId,
       startAt,
       endAt,
       isActive,
@@ -86,6 +88,7 @@ export class ChallengesService {
         },
       });
     } catch (e: any) {
+      console.log(e)
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
 

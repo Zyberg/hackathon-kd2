@@ -3,6 +3,8 @@ import { challengeUnit } from "../challengeUnits/challengeUnit"
 export interface ChallengeViewModel {
   id: number;
   title: string;
+  description: string;
+  unitId: number;
   startAt: Date;
   endAt: Date;
   goalCount: number;

@@ -73,7 +73,7 @@ export default boot(({ router }) => {
       },
       {
         path: 'challenges/:id',
-        name: 'adminChallengeupdate',
+        name: 'adminChallengeUpdate',
         component: () => import('pages/challenges/ChallengeCreatePage.vue'),
         meta: { authOnly: true, role: ['Admin'] },
       },
