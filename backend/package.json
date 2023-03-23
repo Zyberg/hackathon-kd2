@@ -10,7 +10,7 @@
     "build": "tsc --skipLibCheck",
     "migrate": "prisma migrate dev",
     "schema": "node ./src/helpers/validation/schemaGenerator.js",
-    "generate-client": "npx swagger-typescript-api -p ./public/swagger.json -o ../strava-frontend/src/api -n ApiClient.ts --axios",
+    "generate-client": "npx swagger-typescript-api -p ./public/swagger.json -o ../frontend/src/api -n ApiClient.ts --axios",
     "dev": "prisma migrate dev && concurrently --kill-others \"npx prisma generate && nodemon --exec ts-node ./src/index.ts\" \"nodemon -x tsoa spec\"",
     "swagger": "tsoa spec"
   },
