@@ -37,7 +37,7 @@ model User {
 //TODO: avoid storing json
 model UserStravaProfile {
   id_strava    Int    @id
-  user         User   @relation(fields: [userId], references: [id])
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       Int    @unique
   accessToken  String @db.Text
   refreshToken String @db.Text
@@ -78,7 +78,7 @@ model UserGroupsOnUsers {
   userGroup   UserGroup @relation(fields: [userGroupId], references: [id])
   userGroupId Int // relation scalar field (used in the `@relation` attribute above)
 
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int // relation scalar field (used in the `@relation` attribute above)
 
   assignedAt DateTime @default(now())
@@ -103,13 +103,13 @@ model ChallengesOnUsers {
   challenge   Challenge @relation(fields: [challengeId], references: [id])
   challengeId Int // relation scalar field (used in the `@relation` attribute above)
 
-  user   User @relation(fields: [userId], references: [id], name: "ChallengesParticipant")
+  user   User @relation(fields: [userId], references: [id], name: "ChallengesParticipant", onDelete: Cascade)
   userId Int // relation scalar field (used in the `@relation` attribute above)
 
   userPoints PointsOnUserChallenge[]
 
   invitedAt   DateTime @default(now())
-  invitedBy   User     @relation(fields: [invitedById], references: [id], name: "ChallengesInviter")
+  invitedBy   User     @relation(fields: [invitedById], references: [id], name: "ChallengesInviter", onDelete: Cascade)
   invitedById Int // relation scalar field (used in the `@relation` attribute above)
 }
 
@@ -127,7 +127,7 @@ model AchievementsOnUsers {
   achievement   Achievement @relation(fields: [achievementId], references: [id])
   achievementId Int // relation scalar field (used in the `@relation` attribute above)
 
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int // relation scalar field (used in the `@relation` attribute above)
 
   @@id([achievementId, userId])

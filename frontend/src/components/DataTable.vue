@@ -16,7 +16,7 @@
       <template v-slot:body-cell-actions="props" v-if="isEditable || isDeletable">
         <q-td :props="props">
           <q-btn v-if="isEditable" icon="mode_edit" @click.stop="onEdit(props.row)"></q-btn>
-          <q-btn v-if="isDeletable" icon="delete" @click.stop="onDelete(props.row)"></q-btn>
+          <q-btn v-if="isDeletable" icon="delete" @click.stop="onDeleteInner(props.row)"></q-btn>
         </q-td>
       </template>
     </q-table>
@@ -82,6 +82,11 @@ export default {
       emit('create-new', { evt, go });
     }
 
+    async function onDeleteInner(row) {
+      await rootProps.onDelete(row);
+      await onRequest({ pagination: pagination.value });
+    }
+
     onMounted(() => {
       // get initial data from server (1st page)
       tableRef.value.requestServerInteraction();
@@ -97,6 +102,7 @@ export default {
       onRequest,
       onRowClick,
       onCreateNew,
+      onDeleteInner,
     };
   },
   computed: {
@@ -104,7 +110,6 @@ export default {
       return !!this.onEdit;
     },
     isDeletable() {
-      console.log(!!this.onDelete)
       return !!this.onDelete;
     }
   }

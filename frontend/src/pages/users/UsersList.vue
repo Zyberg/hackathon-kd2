@@ -52,7 +52,6 @@ export default {
 
       onDelete: async (row) => {
         const response = await api.users.deleteUserById(row.id);
-        console.log('d',response)
       },
 
 			onCreateNew: ({ evt, go }) => {

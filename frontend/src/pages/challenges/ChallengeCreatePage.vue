@@ -76,7 +76,6 @@ export default {
         activityType: activityType.value,
         goalDistance: goalDistance.value
       };
-      console.log(newChallenge);
       // You can use this data to make an API request to save the challenge
     };
 

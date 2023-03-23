@@ -28,11 +28,17 @@ export class UsersService {
   }
 
   public async deleteUserById(id: number) {
-    return await prisma.user.delete({
-      where: {
-        id,
-      }
-    });
+    try {
+      return await prisma.user.delete({
+        where: {
+          id,
+        }
+      });
+    } catch(e: any) {
+      console.log(e)
+      throw new AppError({ ...e, isOperational: true, httpCode: 500 });
+    }
+    
   }
 
   public async getUserById(id: number): Promise<UserViewModel> {

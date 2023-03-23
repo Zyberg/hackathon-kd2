@@ -102,7 +102,6 @@ module.exports = configure(function (/* ctx */) {
           target: process.env.API_URI,
           changeOrigin: true,
           rewrite: (url) => {
-            console.log(url.replace(/^\/api(.+)$/, process.env.API_PREFIX + '$1'))
             return url.replace(/^\/api(.+)$/, process.env.API_PREFIX + '$1')
           }
         },
