@@ -51,7 +51,7 @@ export default boot(({ router }) => {
         path: 'users/example',
         name: 'usersExample',
         component: () => import('src/pages/UserProfilePage.vue'),
-        meta: { unauthOnly: true, role: ['Admin'] },
+        meta: { authOnly: true, role: ['User'] },
       },
       {
         path: 'achievements',
