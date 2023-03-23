@@ -143,6 +143,12 @@ export interface UnitCreateModel {
   title: string;
 }
 
+export interface UserGroupCreateModel {
+  /** @format double */
+  id: number;
+  title: string;
+}
+
 export interface FilteredUserInterface {
   /** @format double */
   id: number;
@@ -720,6 +726,107 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     delete: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/units/${id}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+  };
+  userGroups = {
+    /**
+     * No description
+     *
+     * @tags UserGroup
+     * @name GetAllUserGroups
+     * @request GET:/userGroups
+     * @secure
+     */
+    getAllUserGroups: (
+      query?: {
+        q?: string;
+        field?: string;
+        order?: PAGINATION_ORDER;
+        /** @format double */
+        page?: number;
+        /** @format double */
+        perPage?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ApiResponseAny, any>({
+        path: `/userGroups`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags UserGroup
+     * @name Create
+     * @request POST:/userGroups
+     * @secure
+     */
+    create: (data: UserGroupCreateModel, params: RequestParams = {}) =>
+      this.request<UserGroupCreateModel, any>({
+        path: `/userGroups`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags UserGroup
+     * @name GetUserGroupById
+     * @request GET:/userGroups/{id}
+     * @secure
+     */
+    getUserGroupById: (id: number, params: RequestParams = {}) =>
+      this.request<UserGroupCreateModel, any>({
+        path: `/userGroups/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags UserGroup
+     * @name Update
+     * @request PUT:/userGroups/{id}
+     * @secure
+     */
+    update: (id: number, data: UserGroupCreateModel, params: RequestParams = {}) =>
+      this.request<UserGroupCreateModel, any>({
+        path: `/userGroups/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags UserGroup
+     * @name Delete
+     * @request DELETE:/userGroups/{id}
+     * @secure
+     */
+    delete: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/userGroups/${id}`,
         method: "DELETE",
         secure: true,
         ...params,

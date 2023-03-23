@@ -103,7 +103,7 @@ model Challenge {
   type  String // TODO: [GoalMax, GoalCount]
 
   parent Challenge? @relation("ChallengeSelf", fields: [parentId], references: [id])
-  parentId Int 
+  parentId Int? 
 
   child Challenge[] @relation("ChallengeSelf")
 }
