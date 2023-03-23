@@ -7,12 +7,19 @@ import { AchievementsService } from "./achievements.service";
 @Tags("Achievement")
 @Security("jwt")
 @Route("achievements")
-export default class ChallengesController extends Controller {
+export default class AchievementsController extends Controller {
   @Get("/")
   public async getAllAchievements(@Queries() query: DataTableQuery) {
     const data = await new AchievementsService().getAllAchievements(query);
 
     return apiResponseBuilder.makePaginatedSuccess(data);
+  }
+
+  @Get("/{id}")
+  public async getAchievementById(id: number) {
+    const data = await new AchievementsService().getAchievementById(id);
+
+    return data;
   }
 
   @Post("/")

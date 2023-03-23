@@ -7,8 +7,14 @@ import { schema, validateBody } from "../../helpers/validation";
 const units: Router = Router();
 const controller = new Controller();
 
-  units.get("/",  async (req: Request, res: Response) => {
+units.get("/",  async (req: Request, res: Response) => {
     const response = await controller.getAllUnits(req.query);
+
+    return res.send(response);
+});
+
+units.get("/:id",  async (req: Request, res: Response) => {
+    const response = await controller.getUnitById(+req.params.id);
 
     return res.send(response);
 });

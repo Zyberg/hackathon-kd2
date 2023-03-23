@@ -18,6 +18,22 @@ export class AchievementsService {
     return data;
   }
 
+  public async getAchievementById(id: number): Promise<Achievement> {
+    const achievement = await prisma.achievement.findFirstOrThrow({
+      where: {
+        id,
+      },
+    });
+
+    return { 
+      id: achievement.id, 
+      title: achievement.title, 
+      description: achievement.description, 
+      imagePath: achievement.imagePath, 
+      max_users: achievement.max_users 
+    };
+  }
+
 
   public async createAchievement(payload: Achievement): Promise<Achievement> {
     const { title, description, imagePath, max_users } = payload;

@@ -14,6 +14,12 @@ const controller = new Controller();
     return res.send(response);
 });
 
+achievements.get("/:id",  async (req: Request, res: Response) => {
+    const response = await controller.getAchievementById(+req.params.id);
+
+    return res.send(response);
+});
+
 achievements.post("/", validateBody(schema.Achievement), async (req: Request, res: Response) => {
     const response = await controller.create(req.body);
     

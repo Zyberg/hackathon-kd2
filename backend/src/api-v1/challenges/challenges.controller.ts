@@ -15,6 +15,13 @@ export default class ChallengesController extends Controller {
     return apiResponseBuilder.makePaginatedSuccess(data);
   }
 
+  @Get("/{id}")
+  public async getChallengeById(id: number) {
+    const data = await new ChallengesService().getChallengeById(id);
+
+    return data;
+  }
+
   @Post("/")
   public async create(@Body() req: ChallengeCreateModel) {
     const data = await new ChallengesService().createChallenge(req);
