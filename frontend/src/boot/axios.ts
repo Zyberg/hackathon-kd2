@@ -17,7 +17,6 @@ declare module '@vue/runtime-core' {
 // for each client)
 
 const api = new Api({
-  baseURL: '/api',
   headers: {
     Accept: 'application/json',
   },

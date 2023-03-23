@@ -4,6 +4,7 @@
   "spec": {
     "outputDirectory": "public",
     "specVersion": 3,
+    "basePath": "/api",
     "securityDefinitions": {
       "jwt": {
         "type": "http",
