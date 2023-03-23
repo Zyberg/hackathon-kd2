@@ -1,4 +1,8 @@
 export interface UnitCreateModel {
-  id: number;
   title: string
+}
+
+export interface UnitUpdateModel {
+  id: number;
+  title: string;
 }

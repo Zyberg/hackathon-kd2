@@ -1,7 +1,7 @@
 import { prisma, paginate } from "../../boot/prisma";
 import { AppError } from "../../exceptions/AppError";
 import type { DataTableQuery } from "../../types/generic/DataTable";
-import { UnitCreateModel } from "../../types/units/unit";
+import { UnitCreateModel, UnitUpdateModel } from "../../types/units/unit";
 
 const SEARCHABLE_FIELDS = ["id", "title"];
 
@@ -18,7 +18,7 @@ export class UnitsService {
     return data;
   }
 
-  public async getUnitById(id: number): Promise<UnitCreateModel> {
+  public async getUnitById(id: number): Promise<UnitUpdateModel> {
     const unit = await prisma.challengeUnit.findFirstOrThrow({
       where: {
         id,
@@ -28,7 +28,7 @@ export class UnitsService {
     return { id: unit.id, title: unit.title };
   }
 
-  public async createUnit(payload: UnitCreateModel): Promise<UnitCreateModel> {
+  public async createUnit(payload: UnitCreateModel): Promise<UnitUpdateModel> {
     const { title } = payload;
     let unit;
 
@@ -46,7 +46,7 @@ export class UnitsService {
 
   }
 
-  public async updateUnit(id: number, payload: UnitCreateModel): Promise<UnitCreateModel> {
+  public async updateUnit(id: number, payload: UnitCreateModel): Promise<UnitUpdateModel> {
     let unit;
 
     try {

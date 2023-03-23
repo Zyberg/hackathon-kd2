@@ -20,4 +20,11 @@ export default class UserController extends Controller {
 
     return apiResponseBuilder.makeSuccess({});
   }
+
+  @Get('/{id}')
+  public async getUserById(id: number) {
+    const data = await new UsersService().getUserById(id);
+
+    return data;
+  }
 }

@@ -1,7 +1,7 @@
 import { prisma, paginate } from "../../boot/prisma";
 import { AppError } from "../../exceptions/AppError";
 import type { DataTableQuery } from "../../types/generic/DataTable";
-import { UserGroupCreateModel } from "../../types/userGroup/userGroup";
+import { UserGroupCreateModel, UserGroupUpdateModel } from "../../types/userGroup/userGroup";
 
 const SEARCHABLE_FIELDS = ["id", "title"];
 
@@ -18,7 +18,7 @@ export class UserGroupsService {
     return data;
   }
 
-  public async getUserGroupById(id: number): Promise<UserGroupCreateModel> {
+  public async getUserGroupById(id: number): Promise<UserGroupUpdateModel> {
     const userGroup = await prisma.userGroup.findFirstOrThrow({
       where: {
         id,
@@ -28,7 +28,7 @@ export class UserGroupsService {
     return { id: userGroup.id, title: userGroup.title };
   }
 
-  public async createUserGroup(payload: UserGroupCreateModel): Promise<UserGroupCreateModel> {
+  public async createUserGroup(payload: UserGroupCreateModel): Promise<UserGroupUpdateModel> {
     const { title } = payload;
     let group;
 
