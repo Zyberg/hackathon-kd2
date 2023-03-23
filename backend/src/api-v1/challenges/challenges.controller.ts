@@ -1,6 +1,8 @@
+import { Challenge } from "@prisma/client";
 import { Controller, Get, Queries, Route, Security, Tags, Post, Request, Put, Delete, Body } from "tsoa";
 import apiResponseBuilder from "../../helpers/apiResponseBuilder";
-import { ChallengeCreateModel } from "../../types/challenges/challenge";
+import { ChallengeCreateModel, ChallengeUpdateModel } from "../../types/challenges/challenge";
+import { ApiResponse } from "../../types/generic/apiResponse";
 import type { DataTableQuery, GetAllChallengesQuery } from "../../types/generic/DataTable";
 import { ChallengesService } from "./challenges.service";
 
@@ -10,7 +12,7 @@ import { ChallengesService } from "./challenges.service";
 @Route("challenges")
 export default class ChallengesController extends Controller {
   @Get("/")
-  public async getAllChallenges(@Queries() query: GetAllChallengesQuery) {
+  public async getAllChallenges(@Queries() query: GetAllChallengesQuery): Promise<ApiResponse<Challenge[]>> {
     const data = await new ChallengesService().getAllChallenges(query);
 
     return apiResponseBuilder.makePaginatedSuccess(data);
@@ -31,7 +33,7 @@ export default class ChallengesController extends Controller {
   }
 
   @Put("/{id}")
-  public async update(id: number, @Body() req: ChallengeCreateModel) {
+  public async update(id: number, @Body() req: ChallengeUpdateModel) {
     const data = await new ChallengesService().updateChallenge(id, req)
 
     return data;

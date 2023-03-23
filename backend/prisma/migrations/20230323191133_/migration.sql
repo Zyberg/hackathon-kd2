@@ -43,6 +43,23 @@ CREATE TABLE `Role` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `TokenBlacklistedOnUsers` (
+    `tokenId` INTEGER NOT NULL,
+    `userId` INTEGER NOT NULL,
+    `assignedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`tokenId`, `userId`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `TokenBlacklisted` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `token` TEXT NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `UserGroup` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(191) NOT NULL,
@@ -67,6 +84,11 @@ CREATE TABLE `Challenge` (
     `description` VARCHAR(191) NOT NULL,
     `isActive` BOOLEAN NOT NULL,
     `unitId` INTEGER NOT NULL,
+    `startAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `endAt` DATETIME(3) NOT NULL,
+    `goalCount` INTEGER NOT NULL,
+    `type` VARCHAR(191) NOT NULL,
+    `parentId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -124,31 +146,40 @@ CREATE TABLE `ChallengeUnit` (
 ALTER TABLE `User` ADD CONSTRAINT `User_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `Role`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `UserStravaProfile` ADD CONSTRAINT `UserStravaProfile_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `UserStravaProfile` ADD CONSTRAINT `UserStravaProfile_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `TokenBlacklistedOnUsers` ADD CONSTRAINT `TokenBlacklistedOnUsers_tokenId_fkey` FOREIGN KEY (`tokenId`) REFERENCES `TokenBlacklisted`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `TokenBlacklistedOnUsers` ADD CONSTRAINT `TokenBlacklistedOnUsers_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `UserGroupsOnUsers` ADD CONSTRAINT `UserGroupsOnUsers_userGroupId_fkey` FOREIGN KEY (`userGroupId`) REFERENCES `UserGroup`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `UserGroupsOnUsers` ADD CONSTRAINT `UserGroupsOnUsers_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `UserGroupsOnUsers` ADD CONSTRAINT `UserGroupsOnUsers_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Challenge` ADD CONSTRAINT `Challenge_unitId_fkey` FOREIGN KEY (`unitId`) REFERENCES `ChallengeUnit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `Challenge` ADD CONSTRAINT `Challenge_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `Challenge`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `ChallengesOnUsers` ADD CONSTRAINT `ChallengesOnUsers_challengeId_fkey` FOREIGN KEY (`challengeId`) REFERENCES `Challenge`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ChallengesOnUsers` ADD CONSTRAINT `ChallengesOnUsers_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `ChallengesOnUsers` ADD CONSTRAINT `ChallengesOnUsers_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ChallengesOnUsers` ADD CONSTRAINT `ChallengesOnUsers_invitedById_fkey` FOREIGN KEY (`invitedById`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `ChallengesOnUsers` ADD CONSTRAINT `ChallengesOnUsers_invitedById_fkey` FOREIGN KEY (`invitedById`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `AchievementsOnUsers` ADD CONSTRAINT `AchievementsOnUsers_achievementId_fkey` FOREIGN KEY (`achievementId`) REFERENCES `Achievement`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `AchievementsOnUsers` ADD CONSTRAINT `AchievementsOnUsers_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `AchievementsOnUsers` ADD CONSTRAINT `AchievementsOnUsers_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `PointsOnUserChallenge` ADD CONSTRAINT `PointsOnUserChallenge_userChallengeId_fkey` FOREIGN KEY (`userChallengeId`) REFERENCES `ChallengesOnUsers`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

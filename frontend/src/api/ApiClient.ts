@@ -32,6 +32,34 @@ export interface DataTableQuery {
   perPage?: number;
 }
 
+/** Model Challenge */
+export interface Challenge {
+  /** @format double */
+  parentId: number;
+  type: string;
+  /** @format double */
+  goalCount: number;
+  /** @format date-time */
+  endAt: string;
+  /** @format date-time */
+  startAt: string;
+  /** @format double */
+  unitId: number;
+  isActive: boolean;
+  description: string;
+  title: string;
+  /** @format double */
+  id: number;
+}
+
+export interface ApiResponseChallengeArray {
+  data: Challenge[];
+  status: {
+    message: string;
+    success: boolean;
+  };
+}
+
 export interface GetAllChallengesQuery {
   q?: string;
   field?: string;
@@ -43,10 +71,24 @@ export interface GetAllChallengesQuery {
   isActive?: boolean;
 }
 
+export enum ChallengeType {
+  GoalMax = "GoalMax",
+  GoalCount = "GoalCount",
+}
+
 export interface ChallengeViewModel {
   /** @format double */
   id: number;
   title: string;
+  /** @format date-time */
+  startAt: string;
+  /** @format date-time */
+  endAt: string;
+  /** @format double */
+  goalCount: number;
+  type: ChallengeType;
+  /** @format double */
+  parentId?: number;
 }
 
 export interface ChallengeCreateModel {
@@ -55,11 +97,39 @@ export interface ChallengeCreateModel {
   isActive: boolean;
   /** @format double */
   unitId: number;
+  /** @format date-time */
+  startAt?: string;
+  /** @format date-time */
+  endAt: string;
+  /** @format double */
+  goalCount: number;
+  type: ChallengeType;
+  /** @format double */
+  parentId?: number;
+}
+
+export interface ChallengeUpdateModel {
+  /** @format double */
+  id: number;
+  title: string;
+  description: string;
+  isActive: boolean;
+  /** @format double */
+  unitId: number;
+  /** @format date-time */
+  startAt: string;
+  /** @format date-time */
+  endAt: string;
+  /** @format double */
+  goalCount: number;
+  type: ChallengeType;
+  /** @format double */
+  parentId?: number;
 }
 
 export interface Achievement {
   /** @format double */
-  id: number;
+  id?: number;
   title: string;
   imagePath: string;
   description: string;
@@ -356,7 +426,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<ApiResponseAny, any>({
+      this.request<ApiResponseChallengeArray, any>({
         path: `/challenges`,
         method: "GET",
         query: query,
@@ -374,7 +444,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     create: (data: ChallengeCreateModel, params: RequestParams = {}) =>
-      this.request<ChallengeCreateModel, any>({
+      this.request<ChallengeViewModel, any>({
         path: `/challenges`,
         method: "POST",
         body: data,
@@ -409,7 +479,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/challenges/{id}
      * @secure
      */
-    update: (id: number, data: ChallengeCreateModel, params: RequestParams = {}) =>
+    update: (id: number, data: ChallengeUpdateModel, params: RequestParams = {}) =>
       this.request<ChallengeCreateModel, any>({
         path: `/challenges/${id}`,
         method: "PUT",
