@@ -15,6 +15,7 @@ import { errorHandlerMiddleware, notFound } from "./helpers/errorHandler";
 import home from "./home";
 import docs from "./docs";
 import auth from "./auth";
+import wip from "./wip";
 import { stravaStrategy } from "./helpers/auth/strategies/stravaStrategy";
 
 class App {
@@ -52,6 +53,9 @@ class App {
     this.express.use("/docs", docs);
     this.express.use("/api/auth", auth);
     this.express.use("/api", apiV1);
+
+    // WIP:
+    this.express.use('/wip', wip)
   }
 
   private setSpa(): void {
