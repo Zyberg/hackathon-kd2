@@ -18,6 +18,9 @@ const makeApiRequester = (
     getRestApiConfig();
   baseURL = baseURL ?? configuredBaseUrl;
 
+
+  console.log('makeapireq')
+
   function makeRestApiResponseSuccess<T>(
     response: AxiosResponse<T>
   ): RestApiResponse<T> {
@@ -88,6 +91,7 @@ const makeApiRequester = (
 
   //TODO: handle errors better
   async function getUser() {
+    console.log('get user')
     return await api.auth
       .user()
       .then(makeRestApiResponseSuccess)

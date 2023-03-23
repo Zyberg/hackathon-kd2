@@ -21,7 +21,7 @@ export default () => {
     await register()
     if (!hasErrors.value) {
       if (!emailConfirm) {
-        router.push({ name: 'dashboard' })
+        router.push({ name: 'UserDashboard' })
       }
       registered.value = true
     }

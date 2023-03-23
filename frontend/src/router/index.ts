@@ -5,6 +5,8 @@ import {
   createWebHashHistory,
   createWebHistory,
 } from 'vue-router';
+import { NavigationGuardNext, routeLocationKey, RouteLocationNormalized } from 'vue-router'
+import { useAuthState } from '@vueauth/core'
 
 import routes from './routes';
 

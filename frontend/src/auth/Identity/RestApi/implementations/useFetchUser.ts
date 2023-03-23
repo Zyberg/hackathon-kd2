@@ -9,6 +9,8 @@ const useFetchUser: UseFetchUser = () => {
   const { makeRequester } = getRestApiConfig()
   const { getUser } = makeRequester()
 
+  console.log('useFetchuser ???')
+
   const { loading } = createGlobalState(() => {
     return {
       loading: ref(false),

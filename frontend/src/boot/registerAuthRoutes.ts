@@ -1,5 +1,6 @@
 import { boot } from 'quasar/wrappers'
 
+
 export default boot(({ router }) => {
   router.addRoute('/', {
     name: 'auth.register',
@@ -29,50 +30,63 @@ export default boot(({ router }) => {
     component: () => import('src/auth/pages/PasswordResetViaEmailPage.vue')
   })
 
-  // Authenticated user routes
-  //TODO: differentiate by roles
-  router.addRoute('/', {
-    path: '/',
+  // Authenticated user Admin routes
+  router.addRoute('/admin', {
+    path: '/admin',
     component: () => import('layouts/AdminLayout.vue'),
     children: [
       {
         path: '',
-        name: 'dashboard',
+        name: 'AdminDashboard',
         component: () => import('src/pages/UserDashboard.vue'),
-        meta: { authOnly: true }
+        meta: { authOnly: true, role: ['Admin'] }
       },
       {
-        path: '/users',
+        path: 'users',
         name: 'users',
         component: () => import('src/pages/users/UsersList.vue'),
-        meta: { authOnly: true }
+        meta: { authOnly: true, role: ['Admin'] }
       },
       {
-        path: '/achievements',
+        path: 'achievements',
         name: 'achievements',
         component: () => import('src/pages/AchievementsPage.vue'),
-        meta: { authOnly: true }
+        meta: { authOnly: true, role: ['Admin'] }
       },
       {
-        path: '/challenges',
+        path: 'challenges',
         name: 'challenges',
         component: () => import('pages/challenges/ChallengesListPage.vue'),
-        meta: { unauthOnly: true },
+        meta: { unauthOnly: true, role: ['Admin'] },
       },
       {
-        path: '/challenges/create',
+        path: 'challenges/create',
         name: 'create',
         component: () => import('pages/challenges/ChallengeCreatePage.vue'),
-        meta: { unauthOnly: true },
+        meta: { unauthOnly: true, role: ['Admin'] },
       },
       {
-        path: '/challenges/example',
+        path: 'challenges/example',
         name: 'example',
         component: () => import('pages/challenges/ChallengeViewPage.vue'),
-        meta: { unauthOnly: true },
+        meta: { unauthOnly: true, role: ['Admin'] },
       },
     ]
   })
 
-  router.replace({ name: 'dashboard' })
+  // Authenticated user User routes
+  router.addRoute('/', {
+    path: '/',
+    component: () => import('layouts/UserLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'UserDashboard',
+        component: () => import('src/pages/BasicUserPage.vue'),
+        meta: { authOnly: true, role: ['User'] }
+      },
+    ]
+  })
+
+  router.replace({ name: 'UserDashboard' })
 })
