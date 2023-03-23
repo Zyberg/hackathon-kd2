@@ -15,6 +15,7 @@ import { errorHandlerMiddleware, notFound } from "./helpers/errorHandler";
 import home from "./home";
 import docs from "./docs";
 import auth from "./auth";
+import wip from "./wip";
 import { stravaStrategy } from "./helpers/auth/strategies/stravaStrategy";
 
 class App {

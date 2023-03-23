@@ -1,6 +1,4 @@
 import { PrismaClient, Prisma } from "@prisma/client";
-import { AuthScope } from "../src/helpers/auth/scopes";
-import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 

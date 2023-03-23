@@ -54,7 +54,6 @@ auth.get(
   passport.authenticate("strava")
 );
 
-// TODO: add cookies afterwards
 auth.get(
   "/strava/callback",
   passport.authenticate("strava", { failureMessage: "failed login :(" }),
