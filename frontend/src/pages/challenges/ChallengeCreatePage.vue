@@ -19,11 +19,27 @@
         required
       />
       <q-toggle
+      :label="isActive"
       color="pink"
-      false-value="Disagreed"
-      true-value="Agreed"
+      false-value="Not active"
+      true-value="Active"
       v-model="pinkModel"
     ></q-toggle>
+    <!-- change to select when there will be unit enums -->
+    <q-input
+        v-model="unitId"
+        label="unit id"
+        filled
+        mask="#.#"
+        fill-mask="0"
+        reverse-fill-mask
+        hint="Mask: #.#"
+        input-class="text-right"
+        dense
+        rounded
+        outlined
+        required
+      />
       <q-date
         v-model="startDate"
         label="Start Date"

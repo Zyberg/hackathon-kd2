@@ -69,7 +69,8 @@
 				"properties": {
 					"parentId": {
 						"type": "number",
-						"format": "double"
+						"format": "double",
+						"nullable": true
 					},
 					"type": {
 						"type": "string"
