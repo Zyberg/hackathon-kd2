@@ -7,20 +7,25 @@ import { schema, validateBody } from "../../helpers/validation";
 const units: Router = Router();
 const controller = new Controller();
 
-  units.get("/",  async (req: Request, res: Response) => {
+units.get("/",  async (req: Request, res: Response) => {
     const response = await controller.getAllUnits(req.query);
 
     return res.send(response);
 });
 
-units.post("/",  async (req: Request, res: Response) => {
-    validateBody(schema.challengeUnit)
+units.get("/:id",  async (req: Request, res: Response) => {
+    const response = await controller.getUnitById(+req.params.id);
+
+    return res.send(response);
+});
+
+units.post("/", validateBody(schema.challengeUnit), async (req: Request, res: Response) => {
     const response = await controller.create(req.body);
     
     return res.send(response);
 });
 
-units.put("/:id",  async (req: Request, res: Response) => {
+units.put("/:id", validateBody(schema.challengeUnit), async (req: Request, res: Response) => {
     const response = await controller.update(+req.params.id, req.body);
 
     return res.send(response);

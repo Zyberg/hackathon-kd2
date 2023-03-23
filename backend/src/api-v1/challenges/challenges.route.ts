@@ -14,14 +14,19 @@ challenges.get("/",  async (req: Request, res: Response) => {
     return res.send(response);
 });
 
-challenges.post("/",  async (req: Request, res: Response) => {
-    validateBody(schema.ChallengeCreateModel)
+challenges.get("/:id",  async (req: Request, res: Response) => {
+    const response = await controller.getChallengeById(+req.params.id);
+
+    return res.send(response);
+});
+
+challenges.post("/", validateBody(schema.Achievement), async (req: Request, res: Response) => {
     const response = await controller.create(req.body);
     
     return res.send(response);
 });
 
-challenges.put("/:id",  async (req: Request, res: Response) => {
+challenges.put("/:id", validateBody(schema.Achievement),  async (req: Request, res: Response) => {
     const response = await controller.update(+req.params.id, req.body);
 
     return res.send(response);

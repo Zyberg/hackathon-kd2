@@ -15,6 +15,13 @@ export default class UnitsController extends Controller {
     return apiResponseBuilder.makePaginatedSuccess(data);
   }
 
+  @Get("/{id}")
+  public async getUnitById(id: number) {
+    const data = await new UnitsService().getUnitById(id);
+
+    return data;
+  }
+
   @Post("/")
   public async create(@Body() req: UnitCreateModel) {
     const data = await new UnitsService().createUnit(req);

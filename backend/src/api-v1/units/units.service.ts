@@ -18,7 +18,7 @@ export class UnitsService {
     return data;
   }
 
-  public async getChallengeById(id: number): Promise<UnitCreateModel> {
+  public async getUnitById(id: number): Promise<UnitCreateModel> {
     const unit = await prisma.challengeUnit.findFirstOrThrow({
       where: {
         id,
