@@ -295,6 +295,36 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
+  challenges = {
+    /**
+     * No description
+     *
+     * @tags Challenge
+     * @name GetAllChallenges
+     * @request GET:/challenges
+     * @secure
+     */
+    getAllChallenges: (
+      query?: {
+        q?: string;
+        field?: string;
+        order?: PAGINATION_ORDER;
+        /** @format double */
+        page?: number;
+        /** @format double */
+        perPage?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ApiResponseAny, any>({
+        path: `/challenges`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
   achievements = {
     /**
      * No description

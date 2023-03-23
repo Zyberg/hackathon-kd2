@@ -33,7 +33,7 @@ export default boot(({ router }) => {
   //TODO: differentiate by roles
   router.addRoute('/', {
     path: '/',
-    component: () => import('layouts/AuthenticatedLayout.vue'),
+    component: () => import('layouts/AdminLayout.vue'),
     children: [
       {
         path: '',
@@ -56,9 +56,21 @@ export default boot(({ router }) => {
       {
         path: '/challenges',
         name: 'challenges',
-        component: () => import('src/pages/ChallengesPage.vue'),
-        meta: { authOnly: true }
+        component: () => import('pages/challenges/ChallengesListPage.vue'),
+        meta: { unauthOnly: true },
+      },
+      {
+        path: '/challenges/create',
+        name: 'create',
+        component: () => import('pages/challenges/ChallengeCreatePage.vue'),
+        meta: { unauthOnly: true },
+      },
+      {
+        path: '/challenges/example',
+        name: 'example',
+        component: () => import('pages/challenges/ChallengeViewPage.vue'),
+        meta: { unauthOnly: true },
       },
     ]
   })
-4})
+})
