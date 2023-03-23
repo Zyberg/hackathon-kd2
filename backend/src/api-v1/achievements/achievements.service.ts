@@ -18,7 +18,6 @@ export class AchievementsService {
         AchievementsService.SEARCHABLE_FIELDS
       )(params);
     } catch (e: any) {
-      //TODO: test error
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
 
