@@ -16,7 +16,7 @@ import {
   useUpdatePassword
 } from '../auth/Identity/RestApi'
 
-export default boot(({ app }) => {
+export default boot(({ app, router }) => {
   app.use(RestApiPlugin, restApiConfig)
 
   app.use(AuthPlugin, {

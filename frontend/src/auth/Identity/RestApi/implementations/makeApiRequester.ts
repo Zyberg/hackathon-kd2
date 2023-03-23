@@ -18,6 +18,7 @@ const makeApiRequester = (
     getRestApiConfig();
   baseURL = baseURL ?? configuredBaseUrl;
 
+
   function makeRestApiResponseSuccess<T>(
     response: AxiosResponse<T>
   ): RestApiResponse<T> {

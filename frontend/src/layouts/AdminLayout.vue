@@ -32,7 +32,7 @@
       bordered
     >
       <q-list>
-        <q-item to="/" active-class="q-item-no-link-highlighting">
+        <q-item to="/admin" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="dashboard"/>
           </q-item-section>
@@ -40,7 +40,7 @@
             <q-item-label>Dashboard</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item to="/users" active-class="q-item-no-link-highlighting">
+        <q-item to="/admin/users" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="people"/>
           </q-item-section>
@@ -48,7 +48,7 @@
             <q-item-label>Users</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item to="/achievements" active-class="q-item-no-link-highlighting">
+        <q-item to="/admin/achievements" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="star_rate"/>
           </q-item-section>
@@ -56,7 +56,7 @@
             <q-item-label>Achievements</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item to="/challenges" active-class="q-item-no-link-highlighting">
+        <q-item to="/admin/challenges" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="emoji_events"/>
           </q-item-section>

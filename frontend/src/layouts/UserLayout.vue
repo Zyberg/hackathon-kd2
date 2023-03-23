@@ -14,7 +14,7 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>Quasar ADMIN {{ authProviderUpperFirst }}</q-toolbar-title>
+        <q-toolbar-title>Quasar USER {{ authProviderUpperFirst }}</q-toolbar-title>
 
         <q-btn
           icon="person"
@@ -38,22 +38,6 @@
           </q-item-section>
           <q-item-section>
             <q-item-label>Dashboard</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item to="/users" active-class="q-item-no-link-highlighting">
-          <q-item-section avatar>
-            <q-icon name="people"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Users</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item to="/achievements" active-class="q-item-no-link-highlighting">
-          <q-item-section avatar>
-            <q-icon name="star_rate"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Achievements</q-item-label>
           </q-item-section>
         </q-item>
         <q-item to="/challenges" active-class="q-item-no-link-highlighting">

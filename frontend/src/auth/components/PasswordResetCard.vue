@@ -21,7 +21,7 @@ const {
 async function onResetClicked() {
   await reset();
   if (!hasErrors.value) {
-    router.push({ name: 'dashboard' });
+    router.push({ name: 'UserDashboard' });
   }
 }
 </script>
