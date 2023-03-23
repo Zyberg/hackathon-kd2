@@ -35,6 +35,12 @@
         <q-item-label header>
           Menu
         </q-item-label>
+        <q-item>
+          <router-link to="/">Dashboard</router-link>
+        </q-item>
+        <q-item>
+          <router-link to="users">Users</router-link>
+        </q-item>
       </q-list>
     </q-drawer>
 

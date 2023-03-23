@@ -35,7 +35,7 @@ const useFetchUser: UseFetchUser = () => {
     }
 
     authIsReady.value = true
-    user.value = response.data
+    user.value = (response.data as any).data
     loading.value = false
   }
 

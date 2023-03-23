@@ -7,15 +7,5 @@
 </template>
 
 <script setup>
-import { useVueUseAuthState } from 'src/auth/Identity/RestApi';
-// 🤿 It all starts here...
 
-const {
-  authIsReady,
-  isAuthenticated,
-  user,
-} = useVueUseAuthState()
-
-
-console.log(authIsReady.value, isAuthenticated.value, user.value)
 </script>
