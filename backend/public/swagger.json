@@ -372,7 +372,7 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/api/users": {
+		"/users": {
 			"get": {
 				"operationId": "GetAllUsers",
 				"responses": {
@@ -441,7 +441,7 @@
 				]
 			}
 		},
-		"/api/achievements": {
+		"/achievements": {
 			"get": {
 				"operationId": "GetAllAchievements",
 				"responses": {

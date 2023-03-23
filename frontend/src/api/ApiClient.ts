@@ -265,13 +265,13 @@ export class HttpClient<SecurityDataType = unknown> {
  * @contact
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  api = {
+  users = {
     /**
      * No description
      *
      * @tags User
      * @name GetAllUsers
-     * @request GET:/api/users
+     * @request GET:/users
      * @secure
      */
     getAllUsers: (
@@ -287,20 +287,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<ApiResponseAny, any>({
-        path: `/api/users`,
+        path: `/users`,
         method: "GET",
         query: query,
         secure: true,
         format: "json",
         ...params,
       }),
-
+  };
+  achievements = {
     /**
      * No description
      *
      * @tags Achievement
      * @name GetAllAchievements
-     * @request GET:/api/achievements
+     * @request GET:/achievements
      * @secure
      */
     getAllAchievements: (
@@ -316,7 +317,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<ApiResponseAchievementArray, any>({
-        path: `/api/achievements`,
+        path: `/achievements`,
         method: "GET",
         query: query,
         secure: true,

@@ -28,7 +28,6 @@ import { Request as ExpressRequest } from "express";
 import apiResponseBuilder from "../../helpers/apiResponseBuilder";
 import { ApiMessage } from "../../types/generic/apiMessages";
 import { AppError, HttpCode } from "../../exceptions/AppError";
-import { resetErrorsCount } from "ajv/dist/compile/errors";
 
 @Tags("Authentication")
 @Route("auth")
