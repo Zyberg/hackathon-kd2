@@ -3,10 +3,7 @@ import { PaginationOptions } from "paginate-prisma";
 import type { KeysFromPrismaModel } from "paginate-prisma";
 import { DataTableQuery } from "../types/generic/DataTable";
 
-export const mapQuery = <T>(
-  searchableFields: string[],
-  q: string | null
-) =>
+export const mapQuery = <T>(searchableFields: string[], q: string | null) =>
   q !== null
     ? {
         OR: searchableFields.map((field) => ({ [field]: { contains: q } })),
@@ -29,7 +26,8 @@ export const makePaginateOptions = ({
 
 export const paginate = <T>(
   prismaModel: T,
-  searchableFields: string[] = []
+  searchableFields: string[] = [],
+  whereQuery: any = {}
 ) => {
   return async (
     paginateParams: DataTableQuery,
@@ -49,7 +47,13 @@ export const paginate = <T>(
         undefined
       >["where"],
       undefined
-    > = mapQuery(searchableFields, paginateParams.q || null);
+    > = {
+      AND: [
+        mapQuery(searchableFields, paginateParams.q || null),
+        whereQuery,
+      ],
+    };
+
 
     //@ts-ignore
     const paginateOptions: PaginationOptions<

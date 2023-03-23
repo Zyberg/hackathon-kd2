@@ -1,16 +1,18 @@
 import { prisma, paginate } from "../../boot/prisma";
 import { AppError } from "../../exceptions/AppError";
-import type { DataTableQuery } from "../../types/generic/DataTable";
+import type { GetAllChallengesQuery } from "../../types/generic/DataTable";
 import { ChallengeViewModel, ChallengeCreateModel } from "../../types/challenges/challenge";
 
 const SEARCHABLE_FIELDS = ["id", "title"];
 
 export class ChallengesService {
-  public async getAllChallenges(params: DataTableQuery) {
+  public async getAllChallenges(params: GetAllChallengesQuery) {
     let data;
 
     try {
-      data = await paginate(prisma.challenge, SEARCHABLE_FIELDS)(params, {});
+      data = await paginate(prisma.challenge, SEARCHABLE_FIELDS, { 
+        isActive: params.isActive
+      })(params, {});
     } catch (e: any) {
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
@@ -83,5 +85,30 @@ export class ChallengesService {
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
 
+  }
+
+  public async join(id: number, userId: number): Promise<ChallengeCreateModel> {
+    let response;
+
+    try {
+      response = await prisma.challenge.update({
+        where: {
+          id
+        },
+        data: {
+          participants: {
+            create: {
+              userId: userId,
+              invitedById: userId,
+            }
+          }
+        }
+      });
+    } catch (e: any) {
+      console.log(e)
+      throw new AppError({ ...e, isOperational: true, httpCode: 500 });
+    }
+
+    return response;
   }
 }

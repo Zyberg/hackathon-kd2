@@ -38,4 +38,10 @@ challenges.delete("/:id",  async (req: Request, res: Response) => {
     return res.send(response);
 });
 
+challenges.post('/:id/join/:userId', async (req: Request, res: Response) => {
+    const response = await controller.join(+req.params.id, +req.params.userId);
+
+    return res.send(response);
+});
+
 export default challenges;
