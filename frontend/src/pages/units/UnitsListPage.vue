@@ -1,12 +1,13 @@
 <template>
   <q-page>
     <DataTable
-      title="Achievements"
+      title="Units"
       :columns="columns"
       :paginationInitial="paginationInitial"
       :fetch="fetch"
       @row-click="onRowClick"
       @create-new="onCreateNew"
+      :onDelete="onDelete"
     />
   </q-page>
 </template>
@@ -14,11 +15,11 @@
 <script>
 import { api } from 'boot/axios';
 import { useRouter } from 'vue-router'
-import DataTable from 'src/components/DataTable.vue';
+import DataTable from 'components/DataTable.vue';
 
 export default {
   components: { DataTable },
-  name: 'AchievementsListPage',
+  name: 'UserGroupsListPage',
   setup() {
     const router = useRouter();
 
@@ -32,8 +33,7 @@ export default {
           field: 'id',
           sortable: true,
         },
-        { name: 'name', label: 'Name', field: 'name', sortable: true },
-        { name: 'email', label: 'Email', field: 'email', sortable: true },
+        { name: 'title', label: 'Title', field: 'title', sortable: true },
       ],
       paginationInitial: {
         sortBy: 'id',
@@ -42,14 +42,18 @@ export default {
         rowsPerPage: 10,
         rowsNumber: 0,
       },
-      fetch: (params) => api.achievements.getAllAchievements(params).then(r => r.data),
+      fetch: ({ query }) => api.units.getAllUnits(query).then(r => r.data),
 
       onRowClick: ({ evt, row, index }) => {
-        router.push(`/achievements/${row.id}`);
+        router.push(`units/${row.id}`);
+      },
+
+      onDelete: async (row) => {
+        const response = await api.units.delete(row.id);
       },
 
       onCreateNew: ({ evt, go }) => {
-        router.push('/achievements/create');
+        router.push('/admin/units/create');
       },
     }
   }
