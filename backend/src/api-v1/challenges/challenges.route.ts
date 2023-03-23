@@ -22,6 +22,7 @@ challenges.post("/",  async (req: Request, res: Response) => {
 });
 
 challenges.put("/:id",  async (req: Request, res: Response) => {
+    validateBody(schema.ChallengeCreateModel)
     const response = await controller.update(+req.params.id, req.body);
 
     return res.send(response);

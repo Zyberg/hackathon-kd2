@@ -21,6 +21,7 @@ units.post("/",  async (req: Request, res: Response) => {
 });
 
 units.put("/:id",  async (req: Request, res: Response) => {
+    validateBody(schema.challengeUnit)
     const response = await controller.update(+req.params.id, req.body);
 
     return res.send(response);
