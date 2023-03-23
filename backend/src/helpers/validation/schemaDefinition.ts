@@ -6,4 +6,6 @@ export { ChallengeCreateModel, ChallengeUpdateModel } from "../../types/challeng
 
 export { challengeUnit } from "../../types/challengeUnits/challengeUnit"
 
+export { UserGroupCreateModel, UserGroupUpdateModel } from "../../types/userGroup/userGroup"
+
 export { Achievement } from "../../types/achievements/achievement"
