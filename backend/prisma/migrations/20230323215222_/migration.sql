@@ -27,10 +27,29 @@ CREATE TABLE `UserStravaProfile` (
     `userId` INTEGER NOT NULL,
     `accessToken` TEXT NOT NULL,
     `refreshToken` TEXT NOT NULL,
+    `syncedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `data` JSON NULL,
 
     UNIQUE INDEX `UserStravaProfile_userId_key`(`userId`),
     PRIMARY KEY (`id_strava`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `UserStravaProfileActivity` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `type` VARCHAR(191) NOT NULL,
+    `sport_type` VARCHAR(191) NOT NULL,
+    `distance` DOUBLE NOT NULL,
+    `moving_time` DOUBLE NOT NULL,
+    `total_elevation_gain` DOUBLE NOT NULL,
+    `start_date` DATETIME(3) NOT NULL,
+    `manual` BOOLEAN NOT NULL,
+    `average_speed` DOUBLE NOT NULL,
+    `max_speed` DOUBLE NOT NULL,
+    `data` JSON NOT NULL,
+    `profileId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -148,6 +167,9 @@ ALTER TABLE `User` ADD CONSTRAINT `User_roleId_fkey` FOREIGN KEY (`roleId`) REFE
 
 -- AddForeignKey
 ALTER TABLE `UserStravaProfile` ADD CONSTRAINT `UserStravaProfile_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `UserStravaProfileActivity` ADD CONSTRAINT `UserStravaProfileActivity_profileId_fkey` FOREIGN KEY (`profileId`) REFERENCES `UserStravaProfile`(`id_strava`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `TokenBlacklistedOnUsers` ADD CONSTRAINT `TokenBlacklistedOnUsers_tokenId_fkey` FOREIGN KEY (`tokenId`) REFERENCES `TokenBlacklisted`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
