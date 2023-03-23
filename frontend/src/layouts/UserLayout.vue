@@ -14,7 +14,7 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>Quasar ADMIN {{ authProviderUpperFirst }}</q-toolbar-title>
+        <q-toolbar-title>Quasar USER {{ authProviderUpperFirst }}</q-toolbar-title>
 
         <q-btn
           icon="person"

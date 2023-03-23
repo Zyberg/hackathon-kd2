@@ -21,7 +21,9 @@ export default () => {
     resetErrors()
     await login()
     if (!hasErrors.value) {
+      console.log('balasdsadsad')
       router.push({ name: 'UserDashboard' })
+      location.reload();
     }
   }
 
