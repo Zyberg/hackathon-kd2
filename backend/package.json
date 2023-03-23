@@ -38,6 +38,7 @@
     "express-session": "^1.17.3",
     "helmet": "^6.0.1",
     "jwks-rsa": "^3.0.1",
+    "mailgun.js": "^8.2.1",
     "nocache": "^3.0.4",
     "paginate-prisma": "^1.0.27",
     "passport": "^0.6.0",
