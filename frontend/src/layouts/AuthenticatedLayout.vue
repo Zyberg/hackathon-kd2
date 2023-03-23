@@ -35,11 +35,8 @@
         <q-item-label header>
           Menu
         </q-item-label>
-        <q-item>
-          <router-link to="/">Dashboard</router-link>
-        </q-item>
-        <q-item>
-          <router-link to="users">Users</router-link>
+        <q-item v-for="link in menuLinks" :key="link.to">
+          <router-link :to="link.to">{{ link.title }}</router-link>
         </q-item>
       </q-list>
     </q-drawer>
@@ -63,4 +60,23 @@ const authProviderUpperFirst = authProvider.charAt(0).toUpperCase() + authProvid
 function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
+const menuLinks = [
+  {
+    title: 'Dashboard',
+    to: '/'
+  },
+  {
+    title: 'Users',
+    to: 'users'
+  },
+  {
+    title: 'Achievements',
+    to: 'achievements'
+  },
+  {
+    title: 'Challenges',
+    to: 'challenges'
+  }
+]
 </script>
