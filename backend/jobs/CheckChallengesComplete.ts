@@ -7,8 +7,6 @@ async function CheckChallengesComplete() {
   const challenges = await prisma.challenge.findMany();
 
   for (let challenge of challenges) {
-    console.log(`Checking Challenge '${challenge.title}'`)
-    console.log(challenge.endAt)
     if (challenge.endAt < new Date()) {
         // TODO: award achievements, prizes etc.
 
