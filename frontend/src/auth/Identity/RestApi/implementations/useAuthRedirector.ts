@@ -1,105 +1,140 @@
-import useAuthState from './useAuthState'
-import { ref, unref, watch, WatchStopHandle, watchEffect } from 'vue'
-import { useRouter } from 'vue-router'
-import useFetchUser from './useFetchUser'
-import { UseAuthRedirector, UseAuthRedirectorReturn } from '@vueauth/core'
+import useAuthState from './useAuthState';
+import { ref, unref, watch, WatchStopHandle, watchEffect, Ref } from 'vue';
+import { RouteLocationRaw, useRouter } from 'vue-router';
+import useFetchUser from './useFetchUser';
+import { UseAuthRedirector } from '@vueauth/core';
+import { MaybeRef } from '@vueuse/shared';
 
-type UserOnCheckedFunction = (user: unknown | null) => void
+export interface UseAuthRedirectorReturn {
+  execOnAuthStateChange: () => void;
+  execOnAuthStateEnsured: (roles: string[]) => void;
+  exec: () => void;
+  redirectTo: MaybeRef<RouteLocationRaw>;
+  checking: Ref<boolean>;
+  onChecked: Ref<UserOnCheckedFunction | null>;
+}
+
+type UserOnCheckedFunction = (user: unknown | null) => void;
 
 const useAuthRedirector: UseAuthRedirector = (
   config = {
     redirectOn: 'authenticated',
     redirectTo: ref('/'),
-  },
+  }
 ): UseAuthRedirectorReturn => {
-  const checking = ref(false)
-  const { loading: fetchingUser, fetch: fetchUser } = useFetchUser()
+  const checking = ref(false);
+  const { loading: fetchingUser, fetch: fetchUser } = useFetchUser();
+  const roles = ref([] as string[]);
 
-  config.redirectTo = config.redirectTo ?? ref('/')
-  config.router = config.router ?? useRouter()
+  config.redirectTo = config.redirectTo ?? ref('/');
+  config.router = config.router ?? useRouter();
 
-  const {
-    isAuthenticated,
-    user,
-    authIsReady,
-  } = useAuthState()
+  const { isAuthenticated, user, authIsReady } = useAuthState();
 
   watchEffect(() => {
     if (user.value !== null) {
-      authIsReady.value = true
+      authIsReady.value = true;
     }
-  })
+  });
 
-  const onChecked = ref(null as null | UserOnCheckedFunction)
+  const onChecked = ref(null as null | UserOnCheckedFunction);
 
-  function exec () {
+  function exec() {
     if (typeof onChecked.value === 'function') {
-      onChecked.value(user.value)
+      onChecked.value(user.value);
     }
-    triggerRedirect()
+    triggerRedirect();
   }
 
-  function execOnAuthStateEnsured () {
+  function execOnAuthStateEnsured(_roles: string[]) {
+    roles.value = _roles;
+
     if (authIsReady.value) {
-      return exec()
+      return exec();
     }
-    return execOnAuthStateChange()
+    return execOnAuthStateChange();
   }
 
-  function handleUnauthenticatedRedirect () {
+  function handleUnauthenticatedRedirect() {
+    const userRole = user.value?.role;
+
     if (!isAuthenticated.value && config.redirectOn === 'unauthenticated') {
       if (!config.router) {
-        throw new Error('config.router not defined: cannot redirect')
+        throw new Error('config.router not defined: cannot redirect');
       }
       if (!config.redirectTo) {
-        throw new Error('config.redirectTo not defined: cannot redirect')
+        throw new Error('config.redirectTo not defined: cannot redirect');
       }
       if (location) {
-        config.router.push(unref(config.redirectTo ?? ''))
+        return config.router.push({ name: 'auth.login' });
       }
-    }
-  }
-
-  function handleAuthenticatedRedirect () {
-    if (isAuthenticated.value && config.redirectOn === 'authenticated') {
+    } else if (!!isAuthenticated.value) {
       if (!config.router) {
-        throw new Error('config.router not defined: cannot redirect')
+        throw new Error('config.router not defined: cannot redirect');
       }
       if (!config.redirectTo) {
-        throw new Error('config.redirectTo not defined: cannot redirect')
+        throw new Error('config.redirectTo not defined: cannot redirect');
       }
-      config.router.push(unref(config.redirectTo ?? ''))
+
+      if (!userRole) return config.router.push({ name: 'auth.login' });
+      else if (!roles.value || !roles.value.includes(userRole)) {
+        if (userRole === 'Admin')
+          return config.router.push({ name: 'AdminDashboard' });
+        else return config.router.push({ name: 'UserDashboard' });
+      }
     }
   }
 
-  let authReadyWatcher: WatchStopHandle | undefined
-  function execOnAuthStateChange () {
+  function handleUserRedirect() {
+    if (isAuthenticated.value && config.redirectOn === 'authenticated') {
+      if (!config.router) {
+        throw new Error('config.router not defined: cannot redirect');
+      }
+      if (!config.redirectTo) {
+        throw new Error('config.redirectTo not defined: cannot redirect');
+      }
+
+      const userRole = user.value?.role;
+
+      if (userRole === 'Admin')
+        return config.router.push({ name: 'AdminDashboard' });
+      else return config.router.push({ name: 'UserDashboard' });
+    } else if (
+      isAuthenticated.value &&
+      config.redirectOn === 'unauthenticated'
+    ) {
+      console.log('');
+    }
+  }
+
+  let authReadyWatcher: WatchStopHandle | undefined;
+  function execOnAuthStateChange() {
     if (authIsReady.value === false) {
-      checking.value = true
-      authReadyWatcher = watch(authIsReady, newAuthIsReady => {
-        authIsReady.value = newAuthIsReady
+      checking.value = true;
+      authReadyWatcher = watch(authIsReady, (newAuthIsReady) => {
+        authIsReady.value = newAuthIsReady;
         if (typeof onChecked.value === 'function') {
-          onChecked.value(user)
+          onChecked.value(user);
         }
 
-        handleUnauthenticatedRedirect()
-        handleAuthenticatedRedirect()
+        handleUnauthenticatedRedirect();
+        handleUserRedirect();
 
-        checking.value = false
+        checking.value = false;
         if (authReadyWatcher !== undefined) {
-          authReadyWatcher()
+          authReadyWatcher();
         }
-      })
+      });
     }
 
     if (fetchingUser.value === false) {
-      fetchUser()
+      fetchUser();
     }
   }
 
-  function triggerRedirect () {
-    handleAuthenticatedRedirect()
-    handleUnauthenticatedRedirect()
+  function triggerRedirect() {
+    handleUserRedirect();
+    handleUnauthenticatedRedirect();
   }
 
   return {
@@ -109,12 +144,9 @@ const useAuthRedirector: UseAuthRedirector = (
     redirectTo: config.redirectTo,
     checking,
     onChecked,
-  }
-}
+  };
+};
 
-useAuthRedirector.baseConfig = {}
+useAuthRedirector.baseConfig = {};
 
-export {
-  useAuthRedirector as default,
-  useAuthRedirector,
-}
+export { useAuthRedirector as default, useAuthRedirector };
