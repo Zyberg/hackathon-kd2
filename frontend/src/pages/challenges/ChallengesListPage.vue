@@ -32,8 +32,7 @@ export default {
 					field: 'id',
 					sortable: true,
 				},
-				{ name: 'name', label: 'Name', field: 'name', sortable: true },
-				{ name: 'startDate', label: 'StartDate', field: 'startDate', sortable: true },
+				{ name: 'title', label: 'Title', field: 'title', sortable: true },
 			],
 			paginationInitial: {
 				sortBy: 'id',
@@ -42,7 +41,7 @@ export default {
 				rowsPerPage: 10,
 				rowsNumber: 0,
 			},
-			// fetch: ({ query }) => api.users.getAllUsers(query).then(r => r.data),
+			fetch: ({ query }) => api.challenges.getAllChallenges(query).then(r => r.data),
 
 			onRowClick: ({ evt, row, index }) => {
 				router.push(`/challenges/${row.id}`);
