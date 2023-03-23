@@ -2,7 +2,7 @@
   <q-page>
     <q-card>
       <q-card-section>
-        <h1>{{ challenge.name }}</h1>
+        <h2>{{ challenge.name }}</h2>
         <p><strong>Start Date:</strong> {{ challenge.startDate }}</p>
         <p><strong>End Date:</strong> {{ challenge.endDate }}</p>
         <p><strong>Activity Type:</strong> {{ challenge.activityType }}</p>

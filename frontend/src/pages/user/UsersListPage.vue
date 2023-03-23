@@ -1,12 +1,13 @@
 <template>
   <q-page>
 		<DataTable
-			title="Challenges"
+			title="Users"
 			:columns="columns"
 			:paginationInitial="paginationInitial"
 			:fetch="fetch"
 			@row-click="onRowClick"
 			@create-new="onCreateNew"
+      :onDelete="onDelete"
 		/>
   </q-page>
 </template>
@@ -18,7 +19,7 @@ import DataTable from 'components/DataTable.vue';
 
 export default {
 	components: { DataTable },
-  name: 'ChallengesListPage',
+  name: 'UsersListPage',
 	setup() {
 		const router = useRouter();
 
@@ -32,7 +33,9 @@ export default {
 					field: 'id',
 					sortable: true,
 				},
-				{ name: 'title', label: 'Title', field: 'title', sortable: true },
+				{ name: 'name', label: 'Name', field: 'name', sortable: true },
+				{ name: 'email', label: 'Email', field: 'email', sortable: true },
+        { name: 'actions', label: 'Action' }
 			],
 			paginationInitial: {
 				sortBy: 'id',
@@ -41,14 +44,18 @@ export default {
 				rowsPerPage: 10,
 				rowsNumber: 0,
 			},
-			fetch: ({ query }) => api.challenges.getAllChallenges(query).then(r => r.data),
+			fetch: ({ query }) => api.users.getAllUsers(query).then(r => r.data),
 
 			onRowClick: ({ evt, row, index }) => {
-				router.push(`/challenges/${row.id}`);
+				router.push(`/users/${row.id}`);
 			},
 
+      onDelete: async (row) => {
+        const response = await api.users.deleteUserById(row.id);
+      },
+
 			onCreateNew: ({ evt, go }) => {
-				router.push('/challenges/create');
+				router.push('/admin/users/create');
 			},
 		}
 	}
