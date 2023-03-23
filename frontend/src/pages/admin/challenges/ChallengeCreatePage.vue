@@ -4,7 +4,7 @@
       <q-form @submit.prevent="submitChallenge">
         <q-input v-model="challenge.title" label="Challenge title" dense rounded outlined required />
         <q-input v-model="challenge.description" label="Challenge description" dense rounded outlined required />
-        <q-toggle label="isActive" color="pink" :true-value="false" :false-value="true" v-model="challenge.isActive"></q-toggle>
+        <q-toggle label="isActive" color="pink" v-model="challenge.isActive"></q-toggle>
         <!-- change to select when there will be unit enums -->
         <q-input v-model="challenge.unitId" label="unit id" type="number" dense rounded outlined required />
         <q-date v-model="challenge.startAt" label="Start Date" dense rounded outlined required />
