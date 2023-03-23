@@ -35,15 +35,6 @@ export interface DataTableQuery {
 /** Model Challenge */
 export interface Challenge {
   /** @format double */
-  parentId: number;
-  type: string;
-  /** @format double */
-  goalCount: number;
-  /** @format date-time */
-  endAt: string;
-  /** @format date-time */
-  startAt: string;
-  /** @format double */
   unitId: number;
   isActive: boolean;
   description: string;
