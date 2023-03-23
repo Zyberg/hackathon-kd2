@@ -53,9 +53,6 @@ class App {
     this.express.use("/docs", docs);
     this.express.use("/api/auth", auth);
     this.express.use("/api", apiV1);
-
-    // WIP:
-    this.express.use('/wip', wip)
   }
 
   private setSpa(): void {
