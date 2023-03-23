@@ -73,14 +73,14 @@ async function SyncStravaToLocal() {
 
     //TODO: update sync time
 
-    // await prisma.userStravaProfile.update({
-    //     where: {
-    //         userId: user.id
-    //     },
-    //     data: {
-    //         syncedAt: new Date()
-    //     }
-    // })
+    await prisma.userStravaProfile.update({
+        where: {
+            userId: user.id
+        },
+        data: {
+            syncedAt: new Date()
+        }
+    })
 
     // TODO: a job to calculte current points and add to history
   }
@@ -92,3 +92,6 @@ async function SyncStravaToLocal() {
 }
 
 SyncStravaToLocal();
+
+
+
