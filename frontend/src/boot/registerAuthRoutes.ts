@@ -1,34 +1,34 @@
-import { boot } from 'quasar/wrappers'
-
+import { boot } from 'quasar/wrappers';
 
 export default boot(({ router }) => {
   router.addRoute('/', {
     name: 'auth.register',
     path: '/register',
     meta: { unauthOnly: true },
-    component: () => import('src/auth/pages/IdentityPasswordRegisterPage.vue')
-  })
+    component: () => import('src/auth/pages/IdentityPasswordRegisterPage.vue'),
+  });
 
   router.addRoute('/', {
     name: 'auth.login',
     path: '/login',
     meta: { unauthOnly: true },
-    component: () => import('src/auth/pages/IdentityPasswordLoginPage.vue')
-  })
+    component: () => import('src/auth/pages/IdentityPasswordLoginPage.vue'),
+  });
 
   router.addRoute('/', {
     name: 'auth.requestPasswordReset',
     path: '/forgot-password',
     meta: { unauthOnly: true },
-    component: () => import('src/auth/pages/PasswordResetRequestViaEmailPage.vue')
-  })
+    component: () =>
+      import('src/auth/pages/PasswordResetRequestViaEmailPage.vue'),
+  });
 
   router.addRoute('/', {
     name: 'auth.resetPassword',
     path: '/password-reset',
     meta: { unauthOnly: true },
-    component: () => import('src/auth/pages/PasswordResetViaEmailPage.vue')
-  })
+    component: () => import('src/auth/pages/PasswordResetViaEmailPage.vue'),
+  });
 
   // Authenticated user Admin routes
   router.addRoute('/admin', {
@@ -39,19 +39,25 @@ export default boot(({ router }) => {
         path: '',
         name: 'AdminDashboard',
         component: () => import('src/pages/UserDashboard.vue'),
-        meta: { authOnly: true, role: ['Admin'] }
+        meta: { authOnly: true, role: ['Admin'] },
       },
       {
         path: 'users',
         name: 'users',
         component: () => import('src/pages/users/UsersList.vue'),
-        meta: { authOnly: true, role: ['Admin'] }
+        meta: { unauthOnly: true, role: ['Admin'] },
+      },
+      {
+        path: 'users/example',
+        name: 'usersExample',
+        component: () => import('src/pages/UserProfilePage.vue'),
+        meta: { unauthOnly: true, role: ['Admin'] },
       },
       {
         path: 'achievements',
         name: 'achievements',
         component: () => import('src/pages/AchievementsPage.vue'),
-        meta: { authOnly: true, role: ['Admin'] }
+        meta: { unauthOnly: true, role: ['Admin'] },
       },
       {
         path: 'challenges',
@@ -71,8 +77,8 @@ export default boot(({ router }) => {
         component: () => import('pages/challenges/ChallengeViewPage.vue'),
         meta: { unauthOnly: true, role: ['Admin'] },
       },
-    ]
-  })
+    ],
+  });
 
   // Authenticated user User routes
   router.addRoute('/', {
@@ -83,10 +89,10 @@ export default boot(({ router }) => {
         path: '',
         name: 'UserDashboard',
         component: () => import('src/pages/BasicUserPage.vue'),
-        meta: { authOnly: true, role: ['User'] }
+        meta: { authOnly: true, role: ['User'] },
       },
-    ]
-  })
+    ],
+  });
 
-  router.replace({ name: 'UserDashboard' })
-})
+  router.replace({ name: 'UserDashboard' });
+});
