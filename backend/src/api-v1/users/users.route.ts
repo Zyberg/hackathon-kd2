@@ -12,4 +12,12 @@ users.get("/",  async (req: Request, res: Response) => {
     return res.send(response);
 });
 
+
+users.delete("/:id",  async (req: Request, res: Response) => {
+    console.log(req.params.id)
+    const response = await controller.deleteUserById(+req.params.id);
+
+    return res.send(response);
+});
+
 export default users;
