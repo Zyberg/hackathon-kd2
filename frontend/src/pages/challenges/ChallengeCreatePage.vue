@@ -19,11 +19,10 @@
         required
       />
       <q-toggle
-      :label="isActive"
       color="pink"
       false-value="Not active"
       true-value="Active"
-      v-model="pinkModel"
+      v-model="isActive"
     ></q-toggle>
     <!-- change to select when there will be unit enums -->
     <q-input
