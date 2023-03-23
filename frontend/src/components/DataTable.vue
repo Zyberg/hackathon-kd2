@@ -4,13 +4,25 @@
       :loading="loading" :filter="filter" binary-state-sort @request="onRequest" @row-click="onRowClick">
       <template v-slot:top-right>
         <div class="flex flex-row">
-          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+          <q-input
+            rounded
+            outlined
+            dense
+            debounce="300"
+            v-model="filter"
+            placeholder="Search"
+          >
             <template v-slot:append>
               <q-icon name="search" />
             </template>
           </q-input>
 
-          <q-btn v-if="!readonly" label="Create New" color="primary" class="q-ml-md" outline @click="onCreateNew"></q-btn>
+          <q-btn
+            v-if="!readonly"
+            label="Create New"
+            class="secondary-button"
+            @click="onCreateNew"
+          ></q-btn>
         </div>
       </template>
       <template v-slot:body-cell-actions="props" v-if="isEditable || isDeletable">
@@ -53,10 +65,9 @@ export default {
           field: sortBy,
           order: descending ? 'DESC' : 'ASC',
           page,
-          perPage
+          perPage,
         },
       });
-
 
       // update rowsCount with appropriate value
       pagination.value.rowsNumber = meta.items;

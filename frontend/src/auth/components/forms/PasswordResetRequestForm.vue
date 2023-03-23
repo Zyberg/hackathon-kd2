@@ -1,37 +1,36 @@
 <script setup>
-import { QInput, QForm } from 'quasar'
+import { QInput, QForm } from 'quasar';
 
 defineProps({
   email: {
     required: true,
-    type: String
+    type: String,
   },
   validationErrors: {
     required: false,
     type: Object,
-    default () {
-      return {}
-    }
-  }
-})
+    default() {
+      return {};
+    },
+  },
+});
 
-const emit = defineEmits([
-  'update:email'
-])
+const emit = defineEmits(['update:email']);
 </script>
 
 <template>
   <q-form>
     <slot name="top" />
     <q-input
-      filled
+      rounded
+      outlined
       label="Email"
       :model-value="email"
       :error="!!validationErrors?.['email']"
       :error-message="validationErrors?.['email']?.[0]"
       class="q-mb-md"
       hide-bottom-space
-      @update:model-value="value => emit('update:email', value)"
+      @update:model-value="(value) => emit('update:email', value)"
     />
     <slot name="bottom" />
   </q-form>

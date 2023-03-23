@@ -1,11 +1,11 @@
 <script setup>
-import { QCard, QCardSection, QBtn } from 'quasar'
-import usePasswordReset from 'auth/composables/usePasswordReset'
-import ErrorsBanner from './ErrorsBanner.vue'
-import PasswordResetForm from './forms/PasswordResetForm.vue'
-import { useRouter } from 'vue-router'
+import { QCard, QCardSection, QBtn } from 'quasar';
+import usePasswordReset from 'auth/composables/usePasswordReset';
+import ErrorsBanner from './ErrorsBanner.vue';
+import PasswordResetForm from './forms/PasswordResetForm.vue';
+import { useRouter } from 'vue-router';
 
-const router = useRouter()
+const router = useRouter();
 
 const {
   reset,
@@ -15,13 +15,13 @@ const {
   validationErrors,
   errors,
   resetErrors,
-  hasErrors
-} = usePasswordReset()
+  hasErrors,
+} = usePasswordReset();
 
-async function onResetClicked () {
-  await reset()
+async function onResetClicked() {
+  await reset();
   if (!hasErrors.value) {
-    router.push({ name: 'dashboard' })
+    router.push({ name: 'dashboard' });
   }
 }
 </script>
@@ -47,7 +47,7 @@ async function onResetClicked () {
     <!-- Change Password Button -->
     <q-btn
       :loading="loading"
-      class="full-width"
+      class="primary-button full-width"
       color="grey-8"
       label="Change Password"
       unelevated

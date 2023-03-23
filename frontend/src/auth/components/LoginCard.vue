@@ -1,8 +1,8 @@
 <script setup>
-import { QCard, QCardSection, QBtn } from 'quasar'
-import AuthLoginForm from 'src/auth/components/forms/LoginForm.vue'
-import useLogin from 'auth/composables/useLogin'
-import AuthErrorsBanner from './ErrorsBanner.vue'
+import { QCard, QCardSection, QBtn } from 'quasar';
+import AuthLoginForm from 'src/auth/components/forms/LoginForm.vue';
+import useLogin from 'auth/composables/useLogin';
+import AuthErrorsBanner from './ErrorsBanner.vue';
 import { api } from 'src/boot/axios';
 
 const {
@@ -11,15 +11,19 @@ const {
   loading,
   errors,
   validationErrors,
-  hasValidationErrors
-} = useLogin()
+  hasValidationErrors,
+} = useLogin();
 </script>
 
 <template>
   <q-card>
     <q-card-section class="text-center">
       <!-- Login Form -->
-      <AuthLoginForm v-model:email="form.email" v-model:password="form.password" :validation-errors="validationErrors" />
+      <AuthLoginForm
+        v-model:email="form.email"
+        v-model:password="form.password"
+        :validation-errors="validationErrors"
+      />
 
       <!-- Errors -->
       <div v-if="!hasValidationErrors">
@@ -28,10 +32,21 @@ const {
     </q-card-section>
 
     <!-- Login Button -->
-    <q-btn :loading="loading" class="full-width" color="primary" label="login" unelevated @click="onLoginClicked" />
+    <q-btn
+      :loading="loading"
+      class="primary-button full-width"
+      label="login"
+      unelevated
+      @click="onLoginClicked"
+    />
 
     <!-- Login via Strava button-->
-    <q-btn class="full-width" color="primary" label="Login via Strava" unelevated type="a"
-      href="/api/auth/login/strava" />
+    <q-btn
+      class="primary-button full-width"
+      label="Login via Strava"
+      unelevated
+      type="a"
+      href="/api/auth/login/strava"
+    />
   </q-card>
 </template>

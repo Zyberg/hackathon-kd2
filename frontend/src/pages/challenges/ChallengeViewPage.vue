@@ -3,19 +3,15 @@
     <q-card>
       <q-card-section>
         <h1>{{ challenge.name }}</h1>
-        <p>
-          <strong>Start Date:</strong> {{ challenge.startDate }}
-        </p>
-        <p>
-          <strong>End Date:</strong> {{ challenge.endDate }}
-        </p>
-        <p>
-          <strong>Activity Type:</strong> {{ challenge.activityType }}
-        </p>
+        <p><strong>Start Date:</strong> {{ challenge.startDate }}</p>
+        <p><strong>End Date:</strong> {{ challenge.endDate }}</p>
+        <p><strong>Activity Type:</strong> {{ challenge.activityType }}</p>
         <p>
           <strong>Goal Distance:</strong> {{ challenge.goalDistance }} miles
         </p>
-        <q-btn color="primary" @click="joinChallenge">Join Challenge</q-btn>
+        <q-btn class="primary-button" @click="joinChallenge"
+          >Join Challenge</q-btn
+        >
       </q-card-section>
     </q-card>
   </q-page>
@@ -38,7 +34,7 @@ export default {
       startDate: '2023-04-01',
       endDate: '2023-04-30',
       activityType: 'Running',
-      goalDistance: 50
+      goalDistance: 50,
     });
 
     const joinChallenge = () => {
@@ -48,8 +44,8 @@ export default {
 
     return {
       challenge,
-      joinChallenge
+      joinChallenge,
     };
-  }
+  },
 };
 </script>

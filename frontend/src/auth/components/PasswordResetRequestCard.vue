@@ -1,9 +1,9 @@
 <script setup>
-import { QCard, QCardSection, QBtn } from 'quasar'
-import usePasswordReset from 'auth/composables/usePasswordReset'
-import ErrorsBanner from './ErrorsBanner.vue'
-import PasswordResetRequestForm from './forms/PasswordResetRequestForm.vue'
-import { ref } from 'vue'
+import { QCard, QCardSection, QBtn } from 'quasar';
+import usePasswordReset from 'auth/composables/usePasswordReset';
+import ErrorsBanner from './ErrorsBanner.vue';
+import PasswordResetRequestForm from './forms/PasswordResetRequestForm.vue';
+import { ref } from 'vue';
 
 const {
   requestReset,
@@ -13,18 +13,17 @@ const {
   validationErrors,
   errors,
   hasErrors,
-  resetErrors
-} = usePasswordReset()
+  resetErrors,
+} = usePasswordReset();
 
-const hasRequestedReset = ref(false)
+const hasRequestedReset = ref(false);
 
-async function onRequestResetClicked () {
-  await requestReset()
+async function onRequestResetClicked() {
+  await requestReset();
   if (!hasErrors.value) {
-    hasRequestedReset.value = true
+    hasRequestedReset.value = true;
   }
 }
-
 </script>
 
 <template>
@@ -38,10 +37,7 @@ async function onRequestResetClicked () {
         @update:model-value="resetErrors"
       />
 
-      <div
-        v-else
-        style="font-size: 1.25em; max-width: 300px;"
-      >
+      <div v-else style="font-size: 1.25em; max-width: 300px">
         We've emailed you instructions on how to reset your password 😊
       </div>
 
@@ -55,7 +51,7 @@ async function onRequestResetClicked () {
     <q-btn
       v-if="!hasRequestedReset"
       :loading="loading"
-      class="full-width"
+      class="primary-button full-width"
       color="grey-8"
       label="Email Reset Instructions"
       unelevated

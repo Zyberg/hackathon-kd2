@@ -1,39 +1,41 @@
 <script setup>
-import { QInput, QForm } from 'quasar'
+import { QInput, QForm } from 'quasar';
 
 defineProps({
   email: {
     required: false,
     type: String,
-    default: null
+    default: null,
   },
   currentPassword: {
     required: false,
     type: String,
-    default: null
+    default: null,
   },
   password: {
     required: true,
-    type: String
+    type: String,
   },
   passwordConfirmation: {
     required: false,
     type: String,
-    default: null
+    default: null,
   },
   validationErrors: {
     required: false,
     type: Object,
-    default () { return {} }
-  }
-})
+    default() {
+      return {};
+    },
+  },
+});
 
 const emit = defineEmits([
   'update:email',
   'update:currentPassword',
   'update:password',
-  'update:passwordConfirmation'
-])
+  'update:passwordConfirmation',
+]);
 </script>
 
 <template>
@@ -41,18 +43,20 @@ const emit = defineEmits([
     <slot name="top" />
     <q-input
       v-if="typeof email === 'string'"
-      filled
+      rounded
+      outlined
       label="Email"
       :model-value="email"
       :error="!!validationErrors?.['email']"
       :error-message="validationErrors?.['email']?.[0]"
       class="q-mb-md"
       hide-bottom-space
-      @update:model-value="value => emit('update:email', value)"
+      @update:model-value="(value) => emit('update:email', value)"
     />
     <q-input
       v-if="typeof currentPassword === 'string'"
-      filled
+      rounded
+      outlined
       type="password"
       label="Current Password"
       :model-value="currentPassword"
@@ -60,11 +64,12 @@ const emit = defineEmits([
       :error-message="validationErrors?.['current_password']?.[0]"
       class="q-mb-lg"
       hide-bottom-space
-      @update:model-value="value => emit('update:currentPassword', value)"
+      @update:model-value="(value) => emit('update:currentPassword', value)"
     />
     <q-input
       v-if="typeof password === 'string'"
-      filled
+      rounded
+      outlined
       type="password"
       label="New Password"
       :model-value="password"
@@ -72,11 +77,12 @@ const emit = defineEmits([
       :error-message="validationErrors?.['password']?.[0]"
       class="q-mb-sm"
       hide-bottom-space
-      @update:model-value="value => emit('update:password', value)"
+      @update:model-value="(value) => emit('update:password', value)"
     />
     <q-input
       v-if="typeof passwordConfirmation === 'string'"
-      filled
+      rounded
+      outlined
       type="password"
       label="Confirm New Password"
       :model-value="passwordConfirmation"
@@ -84,7 +90,9 @@ const emit = defineEmits([
       :error-message="validationErrors?.['password_confirmation']?.[0]"
       class="q-mb-sm"
       hide-bottom-space
-      @update:model-value="value => emit('update:passwordConfirmation', value)"
+      @update:model-value="
+        (value) => emit('update:passwordConfirmation', value)
+      "
     />
     <slot name="bottom" />
   </q-form>
