@@ -42,7 +42,7 @@ export default {
 				rowsPerPage: 10,
 				rowsNumber: 0,
 			},
-			// fetch: ({ query }) => api.users.getAllUsers(query).then(r => r.data),
+			fetch: ({ query }) => api.challenges.getAllChallenges(query).then(r => r.data),
 
 			onRowClick: ({ evt, row, index }) => {
 				router.push(`/challenges/${row.id}`);
