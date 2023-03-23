@@ -1,3 +1,4 @@
+import { email } from "./email";
 import MailgunApiService from "./MailgunApiService";
 
 class EmailService {
@@ -11,10 +12,9 @@ class EmailService {
     return this._service;
   }
 
-  sendEmail(/*Čia kažkokie paramterai general turi būti */)
+  async sendEmail(data:email)
   {
-    MailgunApiService.sendEmail(/** Čia permappink parametrus tiesiog */)
-    throw Error("Not implemented");
+    await MailgunApiService.sendEmail(data)
   }
 }
 
