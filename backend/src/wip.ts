@@ -6,9 +6,9 @@ const router: Router = Router();
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     console.log('yaya')
 
-    const a = await stravaClient.getMyData();
+    const a = await stravaClient.getMyActivities();
 
-    res.send({'a': 'a'})
+    res.send({ a })
 });
 
 export default router;

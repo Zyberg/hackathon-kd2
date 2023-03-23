@@ -16,10 +16,10 @@ export const stravaStrategy = new StravaStrategy.Strategy(
     clientID: process.env.STRAVA_CLIENT_ID || "",
     clientSecret: process.env.STRAVA_CLIENT_SECRET || "",
     callbackURL: process.env.STRAVA_CLIENT_CALLBACK || "",
+    authorizationURL: "https://www.strava.com/oauth/mobile/authorize?scope=read_all&scope=activity:read_all"
   },
   async function verify(accessToken, refreshToken, profile, done) {
     //TODO: think of a better way to link user accounts
-
     console.log("in");
     console.log(profile._raw);
     console.log(profile._json);
