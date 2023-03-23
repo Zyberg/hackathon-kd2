@@ -130,7 +130,13 @@ export default boot(({ router }) => {
       {
         path: 'challenges',
         name: 'challenges',
-        component: () => import('src/pages/challenges/ChallengesListPage.vue'),
+        component: () => import('pages/challenges/ChallengesListPage.vue'),
+        meta: { authOnly: true, role: ['User'] },
+      },
+      {
+        path: 'challenges/:id',
+        name: 'example',
+        component: () => import('pages/challenges/ChallengeViewPage.vue'),
         meta: { authOnly: true, role: ['User'] },
       },
     ],
