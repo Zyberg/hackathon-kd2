@@ -24,4 +24,6 @@ export interface UserViewModel {
    * @format email
    */
   email: string;
+
+  role: string;
 }

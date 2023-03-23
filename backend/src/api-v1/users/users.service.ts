@@ -27,18 +27,16 @@ export class UsersService {
     return data;
   }
 
-  public async getUserById(id: number) {
-    const user: UserViewModel = await prisma.user.findFirstOrThrow({
+  public async getUserById(id: number): Promise<UserViewModel> {
+    const user = await prisma.user.findFirstOrThrow({
       where: {
         id,
       },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-      }
+      include: {
+        Role: true
+      },
     });
 
-    return user;
+    return { id: user.id, name: user.name, email: user.email, role: user.Role.title};
   }
 }
