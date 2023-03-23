@@ -1,15 +1,16 @@
 import { Controller, Get, Queries, Route, Security, Tags, Post, Request, Put, Delete, Body } from "tsoa";
 import apiResponseBuilder from "../../helpers/apiResponseBuilder";
 import { ChallengeCreateModel } from "../../types/challenges/challenge";
-import type { DataTableQuery } from "../../types/generic/DataTable";
+import type { DataTableQuery, GetAllChallengesQuery } from "../../types/generic/DataTable";
 import { ChallengesService } from "./challenges.service";
+
 
 @Tags("Challenge")
 @Security("jwt")
 @Route("challenges")
 export default class ChallengesController extends Controller {
   @Get("/")
-  public async getAllChallenges(@Queries() query: DataTableQuery) {
+  public async getAllChallenges(@Queries() query: GetAllChallengesQuery) {
     const data = await new ChallengesService().getAllChallenges(query);
 
     return apiResponseBuilder.makePaginatedSuccess(data);
