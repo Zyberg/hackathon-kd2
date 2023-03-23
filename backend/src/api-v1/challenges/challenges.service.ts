@@ -18,6 +18,7 @@ export class ChallengesService {
         isActive: params.isActive,
       })(params, {});
     } catch (e: any) {
+      console.log(e)
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
 
@@ -40,7 +41,7 @@ export class ChallengesService {
       endAt,
       goalCount,
       type: type as ChallengeType,
-      parentId,
+      parentId: parentId,
     };
   }
 

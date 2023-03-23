@@ -7,7 +7,7 @@ export interface ChallengeViewModel {
   endAt: Date;
   goalCount: number;
   type: ChallengeType;
-  parentId?: number;
+  parentId: number | null;
 }
 
 export enum ChallengeType {
@@ -24,7 +24,7 @@ export interface ChallengeCreateModel {
   endAt: Date;
   goalCount: number;
   type: ChallengeType;
-  parentId?: number;
+  parentId: number | null;
 }
 
 export interface ChallengeUpdateModel {
@@ -37,5 +37,5 @@ export interface ChallengeUpdateModel {
   endAt: Date;
   goalCount: number;
   type: ChallengeType;
-  parentId?: number;
+  parentId: number | null;
 }
