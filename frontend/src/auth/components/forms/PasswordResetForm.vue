@@ -1,50 +1,52 @@
 <script setup>
-import { QInput, QForm } from 'quasar'
+import { QInput, QForm } from 'quasar';
 
 defineProps({
   email: {
     required: true,
-    type: String
+    type: String,
   },
   password: {
     required: true,
-    type: String
+    type: String,
   },
   passwordConfirmation: {
     required: true,
-    type: String
+    type: String,
   },
   validationErrors: {
     required: false,
     type: Object,
-    default () {
-      return {}
-    }
-  }
-})
+    default() {
+      return {};
+    },
+  },
+});
 
 const emit = defineEmits([
   'update:email',
   'update:password',
-  'update:passwordConfirmation'
-])
+  'update:passwordConfirmation',
+]);
 </script>
 
 <template>
   <q-form>
     <slot name="top" />
     <q-input
-      filled
+      rounded
+      outlined
       label="Email"
       :model-value="email"
       :error="!!validationErrors?.['email']"
       :error-message="validationErrors?.['email']?.[0]"
       class="q-mb-md"
       hide-bottom-space
-      @update:model-value="value => emit('update:email', value)"
+      @update:model-value="(value) => emit('update:email', value)"
     />
     <q-input
-      filled
+      rounded
+      outlined
       label="Password"
       :model-value="password"
       :error="!!validationErrors?.['password']"
@@ -52,10 +54,11 @@ const emit = defineEmits([
       class="q-mb-xs"
       type="password"
       hide-bottom-space
-      @update:model-value="value => emit('update:password', value)"
+      @update:model-value="(value) => emit('update:password', value)"
     />
     <q-input
-      filled
+      rounded
+      outlined
       label="Confirm Password"
       :model-value="passwordConfirmation"
       :error="!!validationErrors?.['password_confirmation']"
@@ -63,7 +66,9 @@ const emit = defineEmits([
       class="q-mb-md"
       type="password"
       hide-bottom-space
-      @update:model-value="value => emit('update:passwordConfirmation', value)"
+      @update:model-value="
+        (value) => emit('update:passwordConfirmation', value)
+      "
     />
     <slot name="bottom" />
   </q-form>

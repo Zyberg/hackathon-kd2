@@ -1,83 +1,89 @@
 <script setup>
-import { QInput, QForm } from 'quasar'
-import { getConfig } from '@vueauth/core'
-const { withUsername } = getConfig('identityPassword:register')
+import { QInput, QForm } from 'quasar';
+import { getConfig } from '@vueauth/core';
+const { withUsername } = getConfig('identityPassword:register');
 
 defineProps({
   email: {
     required: true,
-    type: String
+    type: String,
   },
   password: {
     required: true,
-    type: String
+    type: String,
   },
   passwordConfirmation: {
     required: true,
-    type: String
+    type: String,
   },
   name: {
     required: false,
     type: String,
-    default: null
+    default: null,
   },
   username: {
     required: false,
     type: String,
-    default: null
+    default: null,
   },
   validationErrors: {
     required: false,
     type: Object,
-    default () { return {} }
-  }
-})
+    default() {
+      return {};
+    },
+  },
+});
 
 const emit = defineEmits([
   'update:email',
   'update:password',
   'update:passwordConfirmation',
   'update:name',
-  'update:username'
-])
+  'update:username',
+]);
 </script>
 
 <template>
   <q-form>
     <q-input
       v-if="typeof name === 'string'"
-      filled
+      rounded
+      outlined
       label="Name"
       :model-value="name"
       :error="!!validationErrors?.['name']"
       :error-message="validationErrors?.['name']?.[0]"
       class="q-mb-sm"
       hide-bottom-space
-      @update:model-value="value => emit('update:name', value)"
+      @update:model-value="(value) => emit('update:name', value)"
     />
     <q-input
       v-if="withUsername"
-      filled
+      rounded
+      outlined
       label="Username"
       :model-value="username"
       :error="!!validationErrors?.['username']"
       :error-message="validationErrors?.['username']?.[0]"
       class="q-mb-sm"
       hide-bottom-space
-      @update:model-value="value => emit('update:username', value)"
+      @update:model-value="(value) => emit('update:username', value)"
     />
     <q-input
-      filled
+      rounded
+      outlined
       label="Email"
       :model-value="email"
       :error="!!validationErrors?.['email']"
       :error-message="validationErrors?.['email']?.[0]"
       class="q-mb-sm"
       hide-bottom-space
-      @update:model-value="value => emit('update:email', value)"
+      @update:model-value="(value) => emit('update:email', value)"
     />
     <q-input
-      filled
+      rounded
+      outlined
       type="password"
       label="Password"
       :model-value="password"
@@ -85,11 +91,12 @@ const emit = defineEmits([
       :error-message="validationErrors?.['password']?.[0]"
       class="q-mb-sm"
       hide-bottom-space
-      @update:model-value="value => emit('update:password', value)"
+      @update:model-value="(value) => emit('update:password', value)"
     />
     <q-input
       v-if="typeof passwordConfirmation === 'string'"
-      filled
+      rounded
+      outlined
       type="password"
       label="Confirm Password"
       :model-value="passwordConfirmation"
@@ -97,7 +104,9 @@ const emit = defineEmits([
       :error-message="validationErrors?.['password_confirmation']?.[0]"
       class="q-mb-sm"
       hide-bottom-space
-      @update:model-value="value => emit('update:passwordConfirmation', value)"
+      @update:model-value="
+        (value) => emit('update:passwordConfirmation', value)
+      "
     />
   </q-form>
 </template>

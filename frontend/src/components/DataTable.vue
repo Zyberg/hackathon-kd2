@@ -16,7 +16,8 @@
       <template v-slot:top-right>
         <div class="flex flex-row">
           <q-input
-            borderless
+            rounded
+            outlined
             dense
             debounce="300"
             v-model="filter"
@@ -30,9 +31,7 @@
           <q-btn
             v-if="!readonly"
             label="Create New"
-            color="primary"
-            class="q-ml-md"
-            outline
+            class="secondary-button"
             @click="onCreateNew"
           ></q-btn>
         </div>
@@ -71,10 +70,9 @@ export default {
           field: sortBy,
           order: descending ? 'DESC' : 'ASC',
           page,
-          perPage
+          perPage,
         },
       });
-
 
       // update rowsCount with appropriate value
       pagination.value.rowsNumber = meta.items;

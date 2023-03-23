@@ -1,1 +1,112 @@
 // app global css in SCSS form
+
+// Global body styles
+.body--light {
+  font-weight: 700;
+  color: #3c3246;
+}
+
+.body--dark {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.primary-button {
+  display: flex;
+  gap: 20px;
+  color: #ffffff;
+  margin: 8px 0 8px 0;
+
+  background: #5a78ff;
+
+  // Button states
+  &:active {
+    background: #4961cd;
+  }
+
+  &:hover {
+    background: #4961cd;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    background: #d8d6da !important;
+  }
+}
+
+.secondary-button {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 8px 0 8px 0;
+
+  background: #ffffff;
+
+  border: 1px solid #504678;
+
+  // Button states
+  &:active {
+    background: #f5f5f2;
+    border: 1px solid #4961cd;
+    color: #4961cd;
+  }
+
+  &:hover {
+    background: #ffffff;
+    border: 1px solid #5a78ff;
+    color: #5a78ff;
+  }
+
+  &:focus {
+    border: 1px solid #5a78ff;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    background: #ffffff;
+    border: 1px solid #d8d6da;
+  }
+}
+
+.q-input {
+  background: #ffffff;
+  border-radius: 12px;
+  margin: 8px 0 8px 0;
+
+  &:active {
+    background: #ffffff;
+    border-radius: 12px;
+    color: #9690ae;
+  }
+
+  &:hover {
+    background: #ffffff;
+    border-radius: 12px;
+    color: #413961;
+    border-color: #5a78ff;
+  }
+
+  &:focus {
+    background: #ffffff;
+    border-color: #5a78ff;
+    border-radius: 12px;
+    color: #413961;
+  }
+}
+
+.q-checkbox {
+  background: #ffffff;
+  border-radius: 2px;
+  margin: 8px 0 8px 0;
+
+  border-color: #9690ae !important;
+
+  &:checked {
+    background: #504678;
+  }
+}

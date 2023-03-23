@@ -6,6 +6,7 @@
         v-model="challengeName"
         label="Challenge Name"
         dense
+        rounded
         outlined
         required
       />
@@ -13,14 +14,23 @@
         v-model="startDate"
         label="Start Date"
         dense
+        rounded
         outlined
         required
       />
-      <q-date v-model="endDate" label="End Date" dense outlined required />
+      <q-date
+        v-model="endDate"
+        label="End Date"
+        dense
+        rounded
+        outlined
+        required
+      />
       <q-select
         v-model="activityType"
         label="Activity Type"
         dense
+        rounded
         outlined
         options-dense
         required
@@ -31,11 +41,17 @@
         label="Goal Distance (miles)"
         type="number"
         dense
+        rounded
         outlined
         required
       />
       <div class="q-mt-md">
-        <q-btn type="submit" color="primary" label="Create Challenge" />
+        <q-btn type="submit" class="primary-button" label="Create Challenge" />
+        <q-btn class="primary-button">TEXTAS</q-btn>
+        <q-btn class="secondary-button">TEXTAS</q-btn>
+        <q-checkbox modelValue="false" />
+        <q-radio />
+        <q-toggle />
       </div>
     </q-form>
   </div>
@@ -55,16 +71,16 @@ export default {
     const activityTypes = [
       {
         label: 'Running',
-        value: 'Running'
+        value: 'Running',
       },
       {
         label: 'Cycling',
-        value: 'Cycling'
+        value: 'Cycling',
       },
       {
         label: 'Swimming',
-        value: 'Swimming'
-      }
+        value: 'Swimming',
+      },
     ];
 
     const submitChallenge = () => {
@@ -74,7 +90,7 @@ export default {
         startDate: startDate.value,
         endDate: endDate.value,
         activityType: activityType.value,
-        goalDistance: goalDistance.value
+        goalDistance: goalDistance.value,
       };
       console.log(newChallenge);
       // You can use this data to make an API request to save the challenge
@@ -87,8 +103,8 @@ export default {
       activityType,
       goalDistance,
       activityTypes,
-      submitChallenge
+      submitChallenge,
     };
-  }
+  },
 };
 </script>
