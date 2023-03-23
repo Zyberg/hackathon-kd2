@@ -32,23 +32,28 @@ export interface DataTableQuery {
   perPage?: number;
 }
 
-/** Model Achievement */
-export interface Achievement {
-  /** @format double */
-  max_users: number;
-  description: string;
-  imagePath: string;
+export interface ChallengeCreateModel {
   title: string;
+  description: string;
+  isActive: boolean;
   /** @format double */
-  id: number;
+  unitId: number;
 }
 
-export interface ApiResponseAchievementArray {
-  data: Achievement[];
-  status: {
-    message: string;
-    success: boolean;
-  };
+export interface Achievement {
+  /** @format double */
+  id: number;
+  title: string;
+  imagePath: string;
+  description: string;
+  /** @format double */
+  max_users: number;
+}
+
+export interface UnitCreateModel {
+  /** @format double */
+  id: number;
+  title: string;
 }
 
 export interface FilteredUserInterface {
@@ -341,6 +346,60 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @tags Challenge
+     * @name Create
+     * @request POST:/challenges
+     * @secure
+     */
+    create: (data: ChallengeCreateModel, params: RequestParams = {}) =>
+      this.request<ChallengeCreateModel, any>({
+        path: `/challenges`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Challenge
+     * @name Update
+     * @request PUT:/challenges/{id}
+     * @secure
+     */
+    update: (id: number, data: ChallengeCreateModel, params: RequestParams = {}) =>
+      this.request<ChallengeCreateModel, any>({
+        path: `/challenges/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Challenge
+     * @name Delete
+     * @request DELETE:/challenges/{id}
+     * @secure
+     */
+    delete: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/challenges/${id}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
   };
   achievements = {
     /**
@@ -363,12 +422,150 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<ApiResponseAchievementArray, any>({
+      this.request<ApiResponseAny, any>({
         path: `/achievements`,
         method: "GET",
         query: query,
         secure: true,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Achievement
+     * @name Create
+     * @request POST:/achievements
+     * @secure
+     */
+    create: (data: Achievement, params: RequestParams = {}) =>
+      this.request<Achievement, any>({
+        path: `/achievements`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Achievement
+     * @name Update
+     * @request PUT:/achievements/{id}
+     * @secure
+     */
+    update: (id: number, data: Achievement, params: RequestParams = {}) =>
+      this.request<Achievement, any>({
+        path: `/achievements/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Achievement
+     * @name Delete
+     * @request DELETE:/achievements/{id}
+     * @secure
+     */
+    delete: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/achievements/${id}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+  };
+  units = {
+    /**
+     * No description
+     *
+     * @tags Unit
+     * @name GetAllUnits
+     * @request GET:/units
+     * @secure
+     */
+    getAllUnits: (
+      query?: {
+        q?: string;
+        field?: string;
+        order?: PAGINATION_ORDER;
+        /** @format double */
+        page?: number;
+        /** @format double */
+        perPage?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ApiResponseAny, any>({
+        path: `/units`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Unit
+     * @name Create
+     * @request POST:/units
+     * @secure
+     */
+    create: (data: UnitCreateModel, params: RequestParams = {}) =>
+      this.request<UnitCreateModel, any>({
+        path: `/units`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Unit
+     * @name Update
+     * @request PUT:/units/{id}
+     * @secure
+     */
+    update: (id: number, data: UnitCreateModel, params: RequestParams = {}) =>
+      this.request<UnitCreateModel, any>({
+        path: `/units/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Unit
+     * @name Delete
+     * @request DELETE:/units/{id}
+     * @secure
+     */
+    delete: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/units/${id}`,
+        method: "DELETE",
+        secure: true,
         ...params,
       }),
   };

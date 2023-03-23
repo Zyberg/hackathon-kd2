@@ -65,6 +65,23 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ChallengeViewModel": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"title"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ChallengeCreateModel": {
 				"properties": {
 					"title": {
@@ -592,6 +609,40 @@
 			}
 		},
 		"/challenges/{id}": {
+			"get": {
+				"operationId": "GetChallengeById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ChallengeViewModel"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Challenge"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
 			"put": {
 				"operationId": "Update",
 				"responses": {
@@ -768,6 +819,40 @@
 			}
 		},
 		"/achievements/{id}": {
+			"get": {
+				"operationId": "GetAchievementById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Achievement"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Achievement"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
 			"put": {
 				"operationId": "Update",
 				"responses": {
@@ -944,6 +1029,40 @@
 			}
 		},
 		"/units/{id}": {
+			"get": {
+				"operationId": "GetUnitById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnitCreateModel"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Unit"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
 			"put": {
 				"operationId": "Update",
 				"responses": {

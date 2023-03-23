@@ -57,19 +57,19 @@ export default boot(({ router }) => {
         path: 'challenges',
         name: 'challenges',
         component: () => import('pages/challenges/ChallengesListPage.vue'),
-        meta: { unauthOnly: true, role: ['Admin'] },
+        meta: { authOnly: true, role: ['Admin'] },
       },
       {
         path: 'challenges/create',
         name: 'create',
         component: () => import('pages/challenges/ChallengeCreatePage.vue'),
-        meta: { unauthOnly: true, role: ['Admin'] },
+        meta: { authOnly: true, role: ['Admin'] },
       },
       {
         path: 'challenges/example',
         name: 'example',
         component: () => import('pages/challenges/ChallengeViewPage.vue'),
-        meta: { unauthOnly: true, role: ['Admin'] },
+        meta: { authOnly: true, role: ['Admin'] },
       },
     ]
   })

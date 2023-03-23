@@ -7,6 +7,8 @@
 			:fetch="fetch"
 			@row-click="onRowClick"
 			@create-new="onCreateNew"
+			:onEdit="onEdit"
+			:onDelete="onDelete"
 		/>
   </q-page>
 </template>
@@ -33,6 +35,9 @@ export default {
 					sortable: true,
 				},
 				{ name: 'title', label: 'Title', field: 'title', sortable: true },
+				{ name: 'description', label: 'Description', field: 'description', sortable: true },
+				{ name: 'isActive', label: 'isActive', field: 'isActive', sortable: true },
+				{ name: 'actions', label: 'Action' }
 			],
 			paginationInitial: {
 				sortBy: 'id',
@@ -49,6 +54,14 @@ export default {
 
 			onCreateNew: ({ evt, go }) => {
 				router.push('/challenges/create');
+			},
+
+			onEdit: async (row) => {
+				router.push(`/challenges/${row.id}`);
+			},
+
+			onDelete: async (row) => {
+				const response = await api.challenges.delete(row.id);
 			},
 		}
 	}
