@@ -44,7 +44,7 @@ export default boot(({ router }) => {
       {
         path: '/users',
         name: 'users',
-        component: () => import('src/pages/UsersPage.vue'),
+        component: () => import('src/pages/users/UsersList.vue'),
         meta: { authOnly: true }
       },
       {

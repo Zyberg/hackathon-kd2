@@ -7,6 +7,7 @@
 			:fetch="fetch"
 			@row-click="onRowClick"
 			@create-new="onCreateNew"
+      :onDelete="onDelete"
 		/>
   </q-page>
 </template>
@@ -34,6 +35,7 @@ export default {
 				},
 				{ name: 'name', label: 'Name', field: 'name', sortable: true },
 				{ name: 'email', label: 'Email', field: 'email', sortable: true },
+        { name: 'actions', label: 'Action' }
 			],
 			paginationInitial: {
 				sortBy: 'id',
@@ -47,6 +49,11 @@ export default {
 			onRowClick: ({ evt, row, index }) => {
 				router.push(`/users/${row.id}`);
 			},
+
+      onDelete: async (row) => {
+        const response = await api.users.deleteUserById(row.id);
+        console.log('d',response)
+      },
 
 			onCreateNew: ({ evt, go }) => {
 				router.push('/users/create');

@@ -1,41 +1,23 @@
 <template>
   <div class="q-pa-md">
-    <q-table
-      ref="tableRef"
-      :title="title"
-      :rows="rows"
-      :columns="columns"
-      row-key="id"
-      v-model:pagination="pagination"
-      :loading="loading"
-      :filter="filter"
-      binary-state-sort
-      @request="onRequest"
-      @row-click="onRowClick"
-    >
+    <q-table ref="tableRef" :title="title" :rows="rows" :columns="columns" row-key="id" v-model:pagination="pagination"
+      :loading="loading" :filter="filter" binary-state-sort @request="onRequest" @row-click="onRowClick">
       <template v-slot:top-right>
         <div class="flex flex-row">
-          <q-input
-            borderless
-            dense
-            debounce="300"
-            v-model="filter"
-            placeholder="Search"
-          >
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
             <template v-slot:append>
               <q-icon name="search" />
             </template>
           </q-input>
 
-          <q-btn
-            v-if="!readonly"
-            label="Create New"
-            color="primary"
-            class="q-ml-md"
-            outline
-            @click="onCreateNew"
-          ></q-btn>
+          <q-btn v-if="!readonly" label="Create New" color="primary" class="q-ml-md" outline @click="onCreateNew"></q-btn>
         </div>
+      </template>
+      <template v-slot:body-cell-actions="props" v-if="isEditable || isDeletable">
+        <q-td :props="props">
+          <q-btn v-if="isEditable" icon="mode_edit" @click.stop="onEdit(props.row)"></q-btn>
+          <q-btn v-if="isDeletable" icon="delete" @click.stop="onDelete(props.row)"></q-btn>
+        </q-td>
       </template>
     </q-table>
   </div>
@@ -45,7 +27,7 @@
 import { ref, onMounted } from 'vue';
 
 export default {
-  props: ['title', 'columns', 'paginationInitial', 'fetch', 'readonly'],
+  props: ['title', 'columns', 'paginationInitial', 'fetch', 'readonly', 'onEdit', 'onDelete'],
   emits: ['row-click', 'create-new'],
   setup(rootProps, { emit }) {
     const tableRef = ref();
@@ -117,5 +99,14 @@ export default {
       onCreateNew,
     };
   },
+  computed: {
+    isEditable() {
+      return !!this.onEdit;
+    },
+    isDeletable() {
+      console.log(!!this.onDelete)
+      return !!this.onDelete;
+    }
+  }
 };
 </script>

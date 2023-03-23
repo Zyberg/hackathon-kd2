@@ -1,4 +1,4 @@
-import { Controller, Get, Queries, Route, Security, Tags } from "tsoa";
+import { Controller, Delete, Get, Queries, Route, Security, Tags } from "tsoa";
 import apiResponseBuilder from "../../helpers/apiResponseBuilder";
 import type { DataTableQuery } from "../../types/generic/DataTable";
 import { UsersService } from "./users.service";
@@ -12,5 +12,12 @@ export default class UserController extends Controller {
     const data = await new UsersService().getAllUsers(query);
 
     return apiResponseBuilder.makePaginatedSuccess(data);
+  }
+
+  @Delete("/{id}")
+  public async deleteUserById(id: number) {
+    await new UsersService().deleteUserById(id);
+
+    return apiResponseBuilder.makeSuccess({});
   }
 }
