@@ -32,6 +32,35 @@ export interface DataTableQuery {
   perPage?: number;
 }
 
+export interface Achievement {
+  /** @format double */
+  id?: number;
+  title: string;
+  imagePath: string;
+  description: string;
+  /** @format double */
+  max_users: number;
+}
+
+export interface UserViewModel {
+  /** @format double */
+  id: number;
+  name: string | null;
+  /** @format email */
+  email: string;
+  role: string;
+}
+
+export interface UserViewModelAchievements {
+  /** @format double */
+  id: number;
+  name: string | null;
+  /** @format email */
+  email: string;
+  role: string;
+  achievements: Achievement[];
+}
+
 /** Model Challenge */
 export interface Challenge {
   /** @format double */
@@ -51,6 +80,16 @@ export interface Challenge {
   title: string;
   /** @format double */
   id: number;
+}
+
+export interface UserViewModelChallenges {
+  /** @format double */
+  id: number;
+  name: string | null;
+  /** @format email */
+  email: string;
+  role: string;
+  challenges: Challenge[];
 }
 
 export interface ApiResponseChallengeArray {
@@ -109,7 +148,6 @@ export interface ChallengeCreateModel {
   type: ChallengeType;
   /** @format double */
   parentId: number | null;
-  isComplete: boolean;
 }
 
 export interface ChallengeUpdateModel {
@@ -132,25 +170,23 @@ export interface ChallengeUpdateModel {
   isComplete: boolean;
 }
 
-export interface Achievement {
+export interface UnitUpdateModel {
   /** @format double */
-  id?: number;
+  id: number;
   title: string;
-  imagePath: string;
-  description: string;
-  /** @format double */
-  max_users: number;
 }
 
 export interface UnitCreateModel {
+  title: string;
+}
+
+export interface UserGroupUpdateModel {
   /** @format double */
   id: number;
   title: string;
 }
 
 export interface UserGroupCreateModel {
-  /** @format double */
-  id: number;
   title: string;
 }
 
@@ -211,15 +247,6 @@ export interface UserCreateRequest {
   email: string;
   password: string;
   scope: AuthScope;
-}
-
-export interface UserViewModel {
-  /** @format double */
-  id: number;
-  name: string | null;
-  /** @format email */
-  email: string;
-  role: string;
 }
 
 export interface ApiResponseUserViewModel {
@@ -368,6 +395,107 @@ export class HttpClient<SecurityDataType = unknown> {
  * @contact
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  achievements = {
+    /**
+     * No description
+     *
+     * @tags Achievement
+     * @name GetAllAchievements
+     * @request GET:/achievements
+     * @secure
+     */
+    getAllAchievements: (
+      query?: {
+        q?: string;
+        field?: string;
+        order?: PAGINATION_ORDER;
+        /** @format double */
+        page?: number;
+        /** @format double */
+        perPage?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ApiResponseAny, any>({
+        path: `/achievements`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Achievement
+     * @name Create
+     * @request POST:/achievements
+     * @secure
+     */
+    create: (data: Achievement, params: RequestParams = {}) =>
+      this.request<Achievement, any>({
+        path: `/achievements`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Achievement
+     * @name GetAchievementById
+     * @request GET:/achievements/{id}
+     * @secure
+     */
+    getAchievementById: (id: number, params: RequestParams = {}) =>
+      this.request<Achievement, any>({
+        path: `/achievements/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Achievement
+     * @name Update
+     * @request PUT:/achievements/{id}
+     * @secure
+     */
+    update: (id: number, data: Achievement, params: RequestParams = {}) =>
+      this.request<Achievement, any>({
+        path: `/achievements/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Achievement
+     * @name Delete
+     * @request DELETE:/achievements/{id}
+     * @secure
+     */
+    delete: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/achievements/${id}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+  };
   users = {
     /**
      * No description
@@ -410,6 +538,57 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ApiResponseAny, any>({
         path: `/users/${id}`,
         method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name GetUserById
+     * @request GET:/users/{id}
+     * @secure
+     */
+    getUserById: (id: number, params: RequestParams = {}) =>
+      this.request<UserViewModel, any>({
+        path: `/users/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name GetUserAchievements
+     * @request GET:/users/{id}/achievements
+     * @secure
+     */
+    getUserAchievements: (id: number, params: RequestParams = {}) =>
+      this.request<UserViewModelAchievements, any>({
+        path: `/users/${id}/achievements`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name GetUserChallenges
+     * @request GET:/users/{id}/challenges
+     * @secure
+     */
+    getUserChallenges: (id: number, params: RequestParams = {}) =>
+      this.request<UserViewModelChallenges, any>({
+        path: `/users/${id}/challenges`,
+        method: "GET",
         secure: true,
         format: "json",
         ...params,
@@ -534,107 +713,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
-  achievements = {
-    /**
-     * No description
-     *
-     * @tags Achievement
-     * @name GetAllAchievements
-     * @request GET:/achievements
-     * @secure
-     */
-    getAllAchievements: (
-      query?: {
-        q?: string;
-        field?: string;
-        order?: PAGINATION_ORDER;
-        /** @format double */
-        page?: number;
-        /** @format double */
-        perPage?: number;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<ApiResponseAny, any>({
-        path: `/achievements`,
-        method: "GET",
-        query: query,
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Achievement
-     * @name Create
-     * @request POST:/achievements
-     * @secure
-     */
-    create: (data: Achievement, params: RequestParams = {}) =>
-      this.request<Achievement, any>({
-        path: `/achievements`,
-        method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Achievement
-     * @name GetAchievementById
-     * @request GET:/achievements/{id}
-     * @secure
-     */
-    getAchievementById: (id: number, params: RequestParams = {}) =>
-      this.request<Achievement, any>({
-        path: `/achievements/${id}`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Achievement
-     * @name Update
-     * @request PUT:/achievements/{id}
-     * @secure
-     */
-    update: (id: number, data: Achievement, params: RequestParams = {}) =>
-      this.request<Achievement, any>({
-        path: `/achievements/${id}`,
-        method: "PUT",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Achievement
-     * @name Delete
-     * @request DELETE:/achievements/{id}
-     * @secure
-     */
-    delete: (id: number, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/achievements/${id}`,
-        method: "DELETE",
-        secure: true,
-        ...params,
-      }),
-  };
   units = {
     /**
      * No description
@@ -674,7 +752,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     create: (data: UnitCreateModel, params: RequestParams = {}) =>
-      this.request<UnitCreateModel, any>({
+      this.request<UnitUpdateModel, any>({
         path: `/units`,
         method: "POST",
         body: data,
@@ -693,7 +771,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     getUnitById: (id: number, params: RequestParams = {}) =>
-      this.request<UnitCreateModel, any>({
+      this.request<UnitUpdateModel, any>({
         path: `/units/${id}`,
         method: "GET",
         secure: true,
@@ -710,7 +788,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     update: (id: number, data: UnitCreateModel, params: RequestParams = {}) =>
-      this.request<UnitCreateModel, any>({
+      this.request<UnitUpdateModel, any>({
         path: `/units/${id}`,
         method: "PUT",
         body: data,
@@ -775,7 +853,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     create: (data: UserGroupCreateModel, params: RequestParams = {}) =>
-      this.request<UserGroupCreateModel, any>({
+      this.request<UserGroupUpdateModel, any>({
         path: `/userGroups`,
         method: "POST",
         body: data,
@@ -794,7 +872,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     getUserGroupById: (id: number, params: RequestParams = {}) =>
-      this.request<UserGroupCreateModel, any>({
+      this.request<UserGroupUpdateModel, any>({
         path: `/userGroups/${id}`,
         method: "GET",
         secure: true,

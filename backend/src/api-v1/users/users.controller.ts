@@ -27,4 +27,18 @@ export default class UserController extends Controller {
 
     return data;
   }
+
+  @Get('/{id}/achievements')
+  public async getUserAchievements(id: number) {
+    const data = await new UsersService().getUserAchievements(id);
+
+    return data;
+  }
+
+  @Get('/{id}/challenges')
+  public async getUserChallenges(id: number) {
+    const data = await new UsersService().getUserChallenges(id);
+
+    return data;
+  }
 }

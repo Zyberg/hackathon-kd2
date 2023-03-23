@@ -65,6 +65,96 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Achievement": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"imagePath": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"max_users": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"title",
+					"imagePath",
+					"description",
+					"max_users"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserViewModel": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string",
+						"nullable": true
+					},
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"role": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"email",
+					"role"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserViewModelAchievements": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string",
+						"nullable": true
+					},
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"role": {
+						"type": "string"
+					},
+					"achievements": {
+						"items": {
+							"$ref": "#/components/schemas/Achievement"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"email",
+					"role",
+					"achievements"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Challenge": {
 				"properties": {
 					"parentId": {
@@ -123,6 +213,40 @@
 				],
 				"type": "object",
 				"description": "Model Challenge"
+			},
+			"UserViewModelChallenges": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string",
+						"nullable": true
+					},
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"role": {
+						"type": "string"
+					},
+					"challenges": {
+						"items": {
+							"$ref": "#/components/schemas/Challenge"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"email",
+					"role",
+					"challenges"
+				],
+				"type": "object",
+				"additionalProperties": false
 			},
 			"ApiResponse_Challenge-Array_": {
 				"properties": {
@@ -272,9 +396,6 @@
 						"type": "number",
 						"format": "double",
 						"nullable": true
-					},
-					"isComplete": {
-						"type": "boolean"
 					}
 				},
 				"required": [
@@ -285,8 +406,7 @@
 					"endAt",
 					"goalCount",
 					"type",
-					"parentId",
-					"isComplete"
+					"parentId"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -350,7 +470,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Achievement": {
+			"UnitUpdateModel": {
 				"properties": {
 					"id": {
 						"type": "number",
@@ -358,28 +478,28 @@
 					},
 					"title": {
 						"type": "string"
-					},
-					"imagePath": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"max_users": {
-						"type": "number",
-						"format": "double"
 					}
 				},
 				"required": [
-					"title",
-					"imagePath",
-					"description",
-					"max_users"
+					"id",
+					"title"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
 			"UnitCreateModel": {
+				"properties": {
+					"title": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"title"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserGroupUpdateModel": {
 				"properties": {
 					"id": {
 						"type": "number",
@@ -398,16 +518,11 @@
 			},
 			"UserGroupCreateModel": {
 				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
 					"title": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"id",
 					"title"
 				],
 				"type": "object",
@@ -586,33 +701,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"UserViewModel": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string",
-						"nullable": true
-					},
-					"email": {
-						"type": "string",
-						"format": "email"
-					},
-					"role": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"id",
-					"name",
-					"email",
-					"role"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"ApiResponse_UserViewModel_": {
 				"properties": {
 					"data": {
@@ -659,6 +747,216 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/achievements": {
+			"get": {
+				"operationId": "GetAllAchievements",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiResponse_any_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Achievement"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "q",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "field",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "order",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/PAGINATION_ORDER"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "perPage",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Achievement"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Achievement"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Achievement"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/achievements/{id}": {
+			"get": {
+				"operationId": "GetAchievementById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Achievement"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Achievement"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Achievement"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Achievement"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Achievement"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Achievement"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/users": {
 			"get": {
 				"operationId": "GetAllUsers",
@@ -738,6 +1036,112 @@
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/ApiResponse_any_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"get": {
+				"operationId": "GetUserById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserViewModel"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/users/{id}/achievements": {
+			"get": {
+				"operationId": "GetUserAchievements",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserViewModelAchievements"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/users/{id}/challenges": {
+			"get": {
+				"operationId": "GetUserChallenges",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserViewModelChallenges"
 								}
 							}
 						}
@@ -1027,216 +1431,6 @@
 				]
 			}
 		},
-		"/achievements": {
-			"get": {
-				"operationId": "GetAllAchievements",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ApiResponse_any_"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Achievement"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "q",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "field",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "order",
-						"required": false,
-						"schema": {
-							"$ref": "#/components/schemas/PAGINATION_ORDER"
-						}
-					},
-					{
-						"in": "query",
-						"name": "page",
-						"required": false,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "perPage",
-						"required": false,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			},
-			"post": {
-				"operationId": "Create",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Achievement"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Achievement"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Achievement"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/achievements/{id}": {
-			"get": {
-				"operationId": "GetAchievementById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Achievement"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Achievement"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			},
-			"put": {
-				"operationId": "Update",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Achievement"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Achievement"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Achievement"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "Delete",
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"tags": [
-					"Achievement"
-				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
 		"/units": {
 			"get": {
 				"operationId": "GetAllUnits",
@@ -1313,7 +1507,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UnitCreateModel"
+									"$ref": "#/components/schemas/UnitUpdateModel"
 								}
 							}
 						}
@@ -1349,7 +1543,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UnitCreateModel"
+									"$ref": "#/components/schemas/UnitUpdateModel"
 								}
 							}
 						}
@@ -1383,7 +1577,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UnitCreateModel"
+									"$ref": "#/components/schemas/UnitUpdateModel"
 								}
 							}
 						}
@@ -1523,7 +1717,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserGroupCreateModel"
+									"$ref": "#/components/schemas/UserGroupUpdateModel"
 								}
 							}
 						}
@@ -1559,7 +1753,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserGroupCreateModel"
+									"$ref": "#/components/schemas/UserGroupUpdateModel"
 								}
 							}
 						}
