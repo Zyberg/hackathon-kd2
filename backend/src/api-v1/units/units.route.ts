@@ -13,15 +13,13 @@ const controller = new Controller();
     return res.send(response);
 });
 
-units.post("/",  async (req: Request, res: Response) => {
-    validateBody(schema.challengeUnit)
+units.post("/", validateBody(schema.challengeUnit), async (req: Request, res: Response) => {
     const response = await controller.create(req.body);
     
     return res.send(response);
 });
 
-units.put("/:id",  async (req: Request, res: Response) => {
-    validateBody(schema.challengeUnit)
+units.put("/:id", validateBody(schema.challengeUnit), async (req: Request, res: Response) => {
     const response = await controller.update(+req.params.id, req.body);
 
     return res.send(response);

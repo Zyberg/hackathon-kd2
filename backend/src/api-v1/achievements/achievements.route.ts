@@ -14,15 +14,13 @@ const controller = new Controller();
     return res.send(response);
 });
 
-achievements.post("/",  async (req: Request, res: Response) => {
-    validateBody(schema.Achievement)
+achievements.post("/", validateBody(schema.Achievement), async (req: Request, res: Response) => {
     const response = await controller.create(req.body);
     
     return res.send(response);
 });
 
-achievements.put("/:id",  async (req: Request, res: Response) => {
-    validateBody(schema.Achievement)
+achievements.put("/:id", validateBody(schema.Achievement), async (req: Request, res: Response) => {
     const response = await controller.update(+req.params.id, req.body);
 
     return res.send(response);
