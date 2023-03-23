@@ -32,8 +32,7 @@ export default {
 					field: 'id',
 					sortable: true,
 				},
-				{ name: 'name', label: 'Name', field: 'name', sortable: true },
-				{ name: 'startDate', label: 'StartDate', field: 'startDate', sortable: true },
+				{ name: 'title', label: 'Title', field: 'title', sortable: true },
 			],
 			paginationInitial: {
 				sortBy: 'id',
