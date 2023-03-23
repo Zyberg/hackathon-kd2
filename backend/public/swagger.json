@@ -65,6 +65,32 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"GetAllChallengesQuery": {
+				"properties": {
+					"q": {
+						"type": "string"
+					},
+					"field": {
+						"type": "string"
+					},
+					"order": {
+						"$ref": "#/components/schemas/PAGINATION_ORDER"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"perPage": {
+						"type": "number",
+						"format": "double"
+					},
+					"isActive": {
+						"type": "boolean"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ChallengeCreateModel": {
 				"properties": {
 					"title": {
@@ -553,6 +579,14 @@
 							"format": "double",
 							"type": "number"
 						}
+					},
+					{
+						"in": "query",
+						"name": "isActive",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
 					}
 				]
 			},
@@ -655,6 +689,51 @@
 					{
 						"in": "path",
 						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/challenges/{id}/join/{userId}": {
+			"post": {
+				"operationId": "Join",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ChallengeCreateModel"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Challenge"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "userId",
 						"required": true,
 						"schema": {
 							"format": "double",
