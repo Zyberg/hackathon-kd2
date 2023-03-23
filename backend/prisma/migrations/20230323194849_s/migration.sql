@@ -88,7 +88,7 @@ CREATE TABLE `Challenge` (
     `endAt` DATETIME(3) NOT NULL,
     `goalCount` INTEGER NOT NULL,
     `type` VARCHAR(191) NOT NULL,
-    `parentId` INTEGER NOT NULL,
+    `parentId` INTEGER NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -164,7 +164,7 @@ ALTER TABLE `UserGroupsOnUsers` ADD CONSTRAINT `UserGroupsOnUsers_userId_fkey` F
 ALTER TABLE `Challenge` ADD CONSTRAINT `Challenge_unitId_fkey` FOREIGN KEY (`unitId`) REFERENCES `ChallengeUnit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Challenge` ADD CONSTRAINT `Challenge_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `Challenge`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Challenge` ADD CONSTRAINT `Challenge_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `Challenge`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ChallengesOnUsers` ADD CONSTRAINT `ChallengesOnUsers_challengeId_fkey` FOREIGN KEY (`challengeId`) REFERENCES `Challenge`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

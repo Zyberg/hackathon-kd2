@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from "@prisma/client";
+import { ChallengeType } from "../src/types/challenges/challenge"
 
 const prisma = new PrismaClient();
 
@@ -13,6 +14,9 @@ const challengesData: any = {
         title: 'Bėgimo iššūkis',
         description: 'Šis iššūkis buvo sukurtas iš seeder\'io, kad patikrintume, ar viskas veikia',
         isActive: true,
+        endAt: new Date('2023-03-25 12:38:23.277'),
+        goalCount: 999,
+        type: ChallengeType.GoalMax,
     }
 }
 
