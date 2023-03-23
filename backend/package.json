@@ -9,6 +9,7 @@
     "prebuild": "npm run swagger",
     "build": "tsc --skipLibCheck",
     "migrate": "prisma migrate dev",
+    "sync-strava-job": "ts-node ./jobs/SyncStravaToLocal.ts",
     "schema": "node ./src/helpers/validation/schemaGenerator.js",
     "generate-client": "npx swagger-typescript-api -p ./public/swagger.json -o ../frontend/src/api -n ApiClient.ts --axios",
     "dev": "prisma migrate dev && concurrently --kill-others \"npx prisma generate && nodemon --exec ts-node ./src/index.ts\" \"nodemon -x tsoa spec\"",
