@@ -65,6 +65,31 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ChallengeCreateModel": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"isActive": {
+						"type": "boolean"
+					},
+					"unitId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"title",
+					"description",
+					"isActive",
+					"unitId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Achievement": {
 				"properties": {
 					"max_users": {
@@ -502,6 +527,113 @@
 						"in": "query",
 						"name": "perPage",
 						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ChallengeCreateModel"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Challenge"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ChallengeCreateModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/challenges/{id}": {
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ChallengeCreateModel"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Challenge"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ChallengeCreateModel"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Challenge"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
 						"schema": {
 							"format": "double",
 							"type": "number"
