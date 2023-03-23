@@ -84,4 +84,29 @@ export class ChallengesService {
     }
 
   }
+
+  public async join(id: number, userId: number): Promise<ChallengeCreateModel> {
+    let response;
+
+    try {
+      response = await prisma.challenge.update({
+        where: {
+          id
+        },
+        data: {
+          participants: {
+            create: {
+              userId: userId,
+              invitedById: userId,
+            }
+          }
+        }
+      });
+    } catch (e: any) {
+      console.log(e)
+      throw new AppError({ ...e, isOperational: true, httpCode: 500 });
+    }
+
+    return response;
+  }
 }

@@ -34,4 +34,10 @@ export default class ChallengesController extends Controller {
     const data = await new ChallengesService().deleteChallenge(id)
   }
 
+  @Post('/{id}/join/{userId}')
+  public async join(id: number, userId: number) {
+    const data = await new ChallengesService().join(id, userId);
+
+    return data;
+  }
 }
