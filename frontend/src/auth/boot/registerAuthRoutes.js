@@ -61,13 +61,13 @@ export default boot(({ router }) => {
       },
       {
         path: '/challenges/create',
-        name: 'createChallenge',
+        name: 'create',
         component: () => import('pages/challenges/ChallengeCreatePage.vue'),
         meta: { unauthOnly: true },
       },
       {
         path: '/challenges/example',
-        name: 'createChallenge',
+        name: 'example',
         component: () => import('pages/challenges/ChallengeViewPage.vue'),
         meta: { unauthOnly: true },
       },
