@@ -8,8 +8,10 @@ class MailgunApiService {
       }
       return this._service;
     }
+    
   
-    sendEmail(/*Čia kažkokie paramterai, specifi6ki mailgun turi būti */)
+    // sendEmail(/*Čia kažkokie paramterai, specifi6ki mailgun turi būti */)
+    sendEmail(sender_email:string, receiver_email:string, email_subject:string, email_body:string)
     {
       throw Error("Not implemented");
     }

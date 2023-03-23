@@ -11,9 +11,10 @@ class EmailService {
     return this._service;
   }
 
-  sendEmail(/*Čia kažkokie paramterai general turi būti */)
+  // sendEmail(/*Čia kažkokie paramterai general turi būti */)
+  sendEmail(sender_email:string, receiver_email:string, email_subject:string, email_body:string)
   {
-    MailgunApiService.sendEmail(/** Čia permappink parametrus tiesiog */)
+    MailgunApiService.sendEmail(sender_email, receiver_email,email_subject, email_body)
     throw Error("Not implemented");
   }
 }
