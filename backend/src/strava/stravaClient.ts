@@ -26,13 +26,11 @@ const makeStravaRequest = async (fetch: any) => {
 };
 
 export default {
-  getMyData() {
-    return makeStravaRequest(() => strava.athlete.get({ access_token: "f442b8037a528342d4a09476af67cf1a770fa8c4"}));
+  getUserProfile(access_token: string) {
+    return makeStravaRequest(() => strava.athlete.get({ access_token }));
   },
 
-  async getMyActivities() {
-    let payload = await makeStravaRequest(() => strava.athlete.listActivities({ id: "106954511", access_token: "f442b8037a528342d4a09476af67cf1a770fa8c4"}))
-
-    return payload;
+  getMyActivities(access_token: string) {
+    return makeStravaRequest(() => strava.athlete.listActivities({ access_token }))
   },
 };
