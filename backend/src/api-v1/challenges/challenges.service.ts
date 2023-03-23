@@ -1,7 +1,7 @@
 import { prisma, paginate } from "../../boot/prisma";
 import { AppError } from "../../exceptions/AppError";
 import type { DataTableQuery } from "../../types/generic/DataTable";
-import { ChallengeViewModel } from "../../types/challenges/challenge";
+import { ChallengeViewModel, ChallengeCreateModel } from "../../types/challenges/challenge";
 
 const SEARCHABLE_FIELDS = ["id", "title"];
 
@@ -26,5 +26,62 @@ export class ChallengesService {
     });
 
     return { id: challenge.id, title: challenge.title };
+  }
+
+  public async createChallenge(payload: ChallengeCreateModel): Promise<ChallengeCreateModel> {
+    const { title, description, isActive, unitId } = payload;
+    let challenge;
+
+    try {
+      challenge = await prisma.challenge.create({
+        data: {
+          title, description, isActive,
+          unit: {
+            connect: {
+              id: unitId,
+            }
+          }
+        },
+        include: {
+          unit: true
+        }
+      })
+    } catch (e: any) {
+      throw new AppError({ ...e, isOperational: true, httpCode: 500 });
+    }
+
+    return challenge
+
+  }
+
+  public async updateChallenge(id: number, payload: ChallengeCreateModel): Promise<ChallengeCreateModel> {
+    let challenge;
+
+    try {
+      challenge = await prisma.challenge.update({
+        where: {
+          id
+        },
+        data: payload
+      })
+    } catch (e: any) {
+      throw new AppError({ ...e, isOperational: true, httpCode: 500 });
+    }
+
+    return challenge
+  }
+
+  public async deleteChallenge(id: number) {
+
+    try {
+      const challenge = await prisma.challenge.delete({
+        where: {
+          id
+        },
+      })
+    } catch (e: any) {
+      throw new AppError({ ...e, isOperational: true, httpCode: 500 });
+    }
+
   }
 }
