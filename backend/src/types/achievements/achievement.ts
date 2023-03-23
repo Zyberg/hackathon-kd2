@@ -1,5 +1,5 @@
 export interface Achievement {
-    id: number,
+    id?: number,
     title: string,
     imagePath: string,
     description: string,

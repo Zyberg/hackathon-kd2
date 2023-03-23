@@ -3,7 +3,16 @@ import { challengeUnit } from "../challengeUnits/challengeUnit"
 export interface ChallengeViewModel {
   id: number;
   title: string;
-  // TODO: fill in the rest
+  startAt: Date;
+  endAt: Date;
+  goalCount: number;
+  type: ChallengeType;
+  parentId?: number;
+}
+
+export enum ChallengeType {
+  GoalMax = 'GoalMax',
+  GoalCount = 'GoalCount',
 }
 
 export interface ChallengeCreateModel {
@@ -11,4 +20,22 @@ export interface ChallengeCreateModel {
   description: string;
   isActive: boolean;
   unitId: number;
+  startAt?: Date;
+  endAt: Date;
+  goalCount: number;
+  type: ChallengeType;
+  parentId?: number;
+}
+
+export interface ChallengeUpdateModel {
+  id: number;
+  title: string;
+  description: string;
+  isActive: boolean;
+  unitId: number;
+  startAt: Date;
+  endAt: Date;
+  goalCount: number;
+  type: ChallengeType;
+  parentId?: number;
 }

@@ -1,7 +1,11 @@
 import { prisma, paginate } from "../../boot/prisma";
 import { AppError } from "../../exceptions/AppError";
 import type { GetAllChallengesQuery } from "../../types/generic/DataTable";
-import { ChallengeViewModel, ChallengeCreateModel } from "../../types/challenges/challenge";
+import {
+  ChallengeViewModel,
+  ChallengeCreateModel,
+  ChallengeType,
+} from "../../types/challenges/challenge";
 
 const SEARCHABLE_FIELDS = ["id", "title"];
 
@@ -10,8 +14,8 @@ export class ChallengesService {
     let data;
 
     try {
-      data = await paginate(prisma.challenge, SEARCHABLE_FIELDS, { 
-        isActive: params.isActive
+      data = await paginate(prisma.challenge, SEARCHABLE_FIELDS, {
+        isActive: params.isActive,
       })(params, {});
     } catch (e: any) {
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
@@ -27,88 +31,118 @@ export class ChallengesService {
       },
     });
 
-    return { id: challenge.id, title: challenge.title };
+    const { title, startAt, endAt, goalCount, type, parentId } = challenge;
+
+    return {
+      id,
+      title,
+      startAt,
+      endAt,
+      goalCount,
+      type: type as ChallengeType,
+      parentId,
+    };
   }
 
-  public async createChallenge(payload: ChallengeCreateModel): Promise<ChallengeCreateModel> {
-    const { title, description, isActive, unitId } = payload;
+  public async createChallenge(
+    payload: ChallengeCreateModel
+  ): Promise<ChallengeViewModel> {
+
+    //TODO: parentId connect with other challenges
+    const {
+      title,
+      description,
+      isActive,
+      unitId,
+      startAt,
+      endAt,
+      goalCount,
+      type,
+      parentId,
+    } = payload;
     let challenge;
 
     try {
       challenge = await prisma.challenge.create({
         data: {
-          title, description, isActive,
+          title,
+          description,
+          isActive,
+          startAt,
+          endAt,
+          goalCount,
+          type,
           unit: {
             connect: {
               id: unitId,
-            }
-          }
+            },
+          },
         },
         include: {
-          unit: true
-        }
-      })
+          unit: true,
+        },
+      });
     } catch (e: any) {
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
 
-    return challenge
-
+    return { ...challenge, type: challenge.type as ChallengeType };
   }
 
-  public async updateChallenge(id: number, payload: ChallengeCreateModel): Promise<ChallengeCreateModel> {
+  public async updateChallenge(
+    id: number,
+    payload: ChallengeCreateModel
+  ): Promise<ChallengeCreateModel> {
     let challenge;
 
     try {
       challenge = await prisma.challenge.update({
         where: {
-          id
+          id,
         },
-        data: payload
-      })
+        data: payload,
+      });
     } catch (e: any) {
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
 
-    return challenge
+    return { ...challenge, type: challenge.type as ChallengeType };
   }
 
   public async deleteChallenge(id: number) {
-
     try {
       const challenge = await prisma.challenge.delete({
         where: {
-          id
+          id,
         },
-      })
+      });
     } catch (e: any) {
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
-
   }
 
   public async join(id: number, userId: number): Promise<ChallengeCreateModel> {
-    let response;
+    let challenge;
 
     try {
-      response = await prisma.challenge.update({
+      challenge = await prisma.challenge.update({
         where: {
-          id
+          id,
         },
         data: {
           participants: {
             create: {
               userId: userId,
               invitedById: userId,
-            }
-          }
-        }
+            },
+          },
+        },
       });
     } catch (e: any) {
-      console.log(e)
+      console.log(e);
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
 
-    return response;
+    return { ...challenge, type: challenge.type as ChallengeType };
   }
 }

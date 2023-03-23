@@ -95,6 +95,17 @@ model Challenge {
   unit         ChallengeUnit       @relation(fields: [unitId], references: [id])
   unitId       Int // relation scalar field (used in the `@relation` attribute above)
   participants ChallengesOnUsers[]
+
+  startAt DateTime @default(now())
+  endAt   DateTime
+
+  goalCount Int
+  type  String // TODO: [GoalMax, GoalCount]
+
+  parent Challenge? @relation("ChallengeSelf", fields: [parentId], references: [id])
+  parentId Int 
+
+  child Challenge[] @relation("ChallengeSelf")
 }
 
 model ChallengesOnUsers {
