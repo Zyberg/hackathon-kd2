@@ -28,6 +28,7 @@ import { Request as ExpressRequest } from "express";
 import apiResponseBuilder from "../../helpers/apiResponseBuilder";
 import { ApiMessage } from "../../types/generic/apiMessages";
 import { AppError, HttpCode } from "../../exceptions/AppError";
+import { resetErrorsCount } from "ajv/dist/compile/errors";
 
 @Tags("Authentication")
 @Route("auth")
@@ -55,7 +56,6 @@ export default class AuthenticationController extends Controller {
     @Inject() req: ExpressRequest,
     @Body() { email, password }: UserLoginRequest
   ): Promise<ApiResponse<AuthenticationServiceTokenResponseData>> {
-    console.log('in')
     const data = await new AuthenticationService().login(req.user!!);
 
     return AuthenticationController.tokenizedRoute(req, data);
@@ -94,6 +94,21 @@ export default class AuthenticationController extends Controller {
     const data = await new UsersService().getUserById(id);
 
     return apiResponseBuilder.makeSuccess(data);
+  }
+
+  @Post('/logout')
+  public async logout(@Request() req: ExpressRequest) {
+    //if (err) return next(err);
+    req.session.destroy(() => {});
+
+    req.res!!.clearCookie("refresh_cookie");
+
+    console.log(req.user)
+    console.log(req.get('Authorization'))
+    let authorizationHeader = req.get('Authorization') ?? "";
+    await new AuthenticationService().logout(req.user!!, authorizationHeader);
+
+    req.res!!.send('').status(200)
   }
 
   @Hidden()

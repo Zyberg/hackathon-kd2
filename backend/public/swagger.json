@@ -634,6 +634,21 @@
 				"security": [],
 				"parameters": []
 			}
+		},
+		"/auth/logout": {
+			"post": {
+				"operationId": "Logout",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Authentication"
+				],
+				"security": [],
+				"parameters": []
+			}
 		}
 	},
 	"servers": [

@@ -3,6 +3,7 @@ import getRestApiConfig from '../getRestApiConfig'
 import useHandlesErrors from './useHandlesErrors'
 import useAuthState from './useAuthState'
 import { UseIdentityPasswordLogout } from '@vueauth/core'
+import LocalStorageService from 'src/utility/LocalStorageService'
 
 const useIdentityPasswordLogout: UseIdentityPasswordLogout = () => {
   const loading = ref(false)
@@ -26,6 +27,8 @@ const useIdentityPasswordLogout: UseIdentityPasswordLogout = () => {
       loading.value = false
       return
     }
+
+    LocalStorageService.clearToken();
 
     user.value = null
     loading.value = false

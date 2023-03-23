@@ -264,13 +264,13 @@ export class HttpClient<SecurityDataType = unknown> {
  * @contact
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  v1 = {
+  api = {
     /**
      * No description
      *
      * @tags User
      * @name GetAllUsers
-     * @request GET:/v1/users
+     * @request GET:/api/users
      * @secure
      */
     getAllUsers: (
@@ -286,7 +286,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<ApiResponseAny, any>({
-        path: `/v1/users`,
+        path: `/api/users`,
         method: "GET",
         query: query,
         secure: true,
@@ -299,7 +299,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Achievement
      * @name GetAllAchievements
-     * @request GET:/v1/achievements
+     * @request GET:/api/achievements
      * @secure
      */
     getAllAchievements: (
@@ -315,7 +315,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<ApiResponseAchievementArray, any>({
-        path: `/v1/achievements`,
+        path: `/api/achievements`,
         method: "GET",
         query: query,
         secure: true,
@@ -399,6 +399,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/auth/user`,
         method: "GET",
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Authentication
+     * @name Logout
+     * @request POST:/auth/logout
+     */
+    logout: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/auth/logout`,
+        method: "POST",
         ...params,
       }),
   };

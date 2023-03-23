@@ -32,7 +32,7 @@ export default boot(({ router }) => {
   // Authenticated user routes
   //TODO: differentiate by roles
   router.addRoute('/', {
-    path: '/dashboard',
+    path: '/',
     component: () => import('layouts/AuthenticatedLayout.vue'),
     children: [
       {

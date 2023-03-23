@@ -74,9 +74,16 @@ const makeApiRequester = (
       });
   }
 
+  //TODO: handle errors better
   async function logout() {
-    //TODO: implement
-    throw new Error('Not implemented');
+    return api.auth
+      .logout()
+      .then(makeRestApiResponseSuccess)
+      .catch((error) => {
+        if (axios.isAxiosError(error)) {
+          return makeRestApiResponseError(error as AxiosError);
+        }
+      });
   }
 
   //TODO: handle errors better

@@ -79,12 +79,7 @@ auth.post("/signup/password", async function (req, res) {
   return res.send(response);
 });
 
-auth.post("/logout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) return next(err);
-    req.session.destroy(() => {});
-    res.redirect("/");
-  });
-});
+//@ts-ignore
+auth.post("/logout", authMiddleware.jwt, controller.logout);
 
 export default auth;

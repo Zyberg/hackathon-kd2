@@ -17,5 +17,5 @@ const {
 } = useVueUseAuthState()
 
 
-console.log(authIsReady, isAuthenticated, user)
+console.log(authIsReady.value, isAuthenticated.value, user.value)
 </script>

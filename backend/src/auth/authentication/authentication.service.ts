@@ -9,6 +9,7 @@ import { UserCreateRequest } from "../../types/users/user";
 import bcrypt from "bcrypt";
 import { prisma } from "../../boot/prisma";
 import { AppError, HttpCode } from "../../exceptions/AppError";
+import { ApiMessage } from "../../types/generic/apiMessages";
 
 export interface AuthenticationServiceTokenResponseData {
   token: string;
@@ -44,15 +45,21 @@ export class AuthenticationService {
             title: true,
           },
         },
+        TokensBlacklisted: {
+          include: {
+            token: true
+          }
+        }
       },
     });
 
-    // TODO: add blacklisted tokens logic
-    /**
-    if (user.tokensBlacklisted?.includes(tokenRefresh)) {
-      throw AppError("Unauthorized!", 401);
+    if (user.TokensBlacklisted?.filter(tkOnUser => tkOnUser.token.token === tokenRefresh).length != 0) {
+      throw new AppError({
+        description: ApiMessage.Unauthorized,
+        httpCode: HttpCode.UNAUTHORIZED,
+        isOperational: true,
+      });
     }
-     */
 
     return this.makeTokenResponse({
       id: user.id,
@@ -103,6 +110,21 @@ export class AuthenticationService {
     }
 
     return user;
+  }
+
+  public async logout(user: Express.User, token: string) {
+    if (token === "") return;
+
+    await prisma.tokenBlacklisted.create({
+      data: {
+        token: token.replace('Bearer ', ''),
+        users: {
+          create: {
+            userId: user.id
+          }
+        }
+      }
+    })
   }
 
   private makeTokenResponse({
