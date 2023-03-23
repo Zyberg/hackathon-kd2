@@ -12,9 +12,26 @@ users.get("/",  async (req: Request, res: Response) => {
     return res.send(response);
 });
 
+users.get("/:id",  async (req: Request, res: Response) => {
+    const response = await controller.getUserById(+req.params.id);
+
+    return res.send(response);
+});
+
+users.get("/:id/challenges",  async (req: Request, res: Response) => {
+    const response = await controller.getUserChallenges(+req.params.id);
+
+    return res.send(response);
+});
+
+users.get("/:id/achievements",  async (req: Request, res: Response) => {
+    const response = await controller.getUserAchievements(+req.params.id);
+
+    return res.send(response);
+});
+
 
 users.delete("/:id",  async (req: Request, res: Response) => {
-    console.log(req.params.id)
     const response = await controller.deleteUserById(+req.params.id);
 
     return res.send(response);

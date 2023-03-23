@@ -19,10 +19,10 @@
 
 <script>
 
-import ProfileInfoCard from 'src/components/user/ProfileInfoCard.vue'
-import AchievementsCard from 'src/components/user/AchievementsCard.vue'
-import ActivityCard from 'src/components/user/ActivityCard.vue'
-import ActiveChallengesCard from 'src/components/user/ActiveChallengesCard.vue'
+import ProfileInfoCard from 'components/user/ProfileInfoCard.vue'
+import AchievementsCard from 'components/user/AchievementsCard.vue'
+import ActivityCard from 'components/user/ActivityCard.vue'
+import ActiveChallengesCard from 'components/user/ActiveChallengesCard.vue'
 
 export default {
   name: 'UserProfilePage',

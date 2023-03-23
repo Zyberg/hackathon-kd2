@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <h1>Create Sports Challenge</h1>
+    <h2>Create Sports Challenge</h2>
     <q-form @submit.prevent="submitChallenge">
       <q-input v-model="challenge.title" label="Challenge title" dense rounded outlined required />
       <q-input v-model="challenge.description" label="Challenge description" dense rounded outlined required />

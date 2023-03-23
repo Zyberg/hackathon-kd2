@@ -8,7 +8,7 @@
 <script>
 import { api } from 'boot/axios';
 import { useRouter } from 'vue-router'
-import DataTable from 'src/components/DataTable.vue';
+import DataTable from 'components/DataTable.vue';
 
 export default {
 	components: { DataTable },
@@ -48,7 +48,7 @@ export default {
 			},
 
 			onCreateNew: ({ evt, go }) => {
-				router.push('/users/create');
+				router.push('/admin/users/create');
 			},
 		}
 	}

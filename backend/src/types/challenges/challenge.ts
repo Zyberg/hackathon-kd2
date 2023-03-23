@@ -29,7 +29,6 @@ export interface ChallengeCreateModel {
   goalCount: number;
   type: ChallengeType;
   parentId: number | null;
-  isComplete: boolean;
 }
 
 export interface ChallengeUpdateModel {

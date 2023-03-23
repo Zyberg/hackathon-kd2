@@ -30,7 +30,7 @@ export default {
     return makeStravaRequest(() => strava.athlete.get({ access_token }));
   },
 
-  getMyActivities(access_token: string) {
-    return makeStravaRequest(() => strava.athlete.listActivities({ access_token }))
+  getMyActivities(access_token: string, after: number) {
+    return makeStravaRequest(() => strava.athlete.listActivities({ after, access_token }))
   },
 };

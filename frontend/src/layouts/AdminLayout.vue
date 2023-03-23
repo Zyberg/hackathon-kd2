@@ -64,6 +64,22 @@
             <q-item-label>Challenges</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item to="/admin/userGroups" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="group"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>User Groups</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/admin/units" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="square_foot"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Units</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
