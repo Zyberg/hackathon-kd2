@@ -1,7 +1,7 @@
 <template>
   <q-page>
 		<DataTable
-			title="Users"
+			title="Challenges"
 			:columns="columns"
 			:paginationInitial="paginationInitial"
 			:fetch="fetch"
@@ -14,11 +14,11 @@
 <script>
 import { api } from 'boot/axios';
 import { useRouter } from 'vue-router'
-import DataTable from 'src/components/DataTable.vue';
+import DataTable from 'components/DataTable.vue';
 
 export default {
 	components: { DataTable },
-  name: 'UsersListPage',
+  name: 'ChallengesListPage',
 	setup() {
 		const router = useRouter();
 
@@ -33,7 +33,7 @@ export default {
 					sortable: true,
 				},
 				{ name: 'name', label: 'Name', field: 'name', sortable: true },
-				{ name: 'email', label: 'Email', field: 'email', sortable: true },
+				{ name: 'startDate', label: 'StartDate', field: 'startDate', sortable: true },
 			],
 			paginationInitial: {
 				sortBy: 'id',
@@ -42,14 +42,14 @@ export default {
 				rowsPerPage: 10,
 				rowsNumber: 0,
 			},
-			fetch: ({ query }) => api.users.getAllUsers(query).then(r => r.data),
+			// fetch: ({ query }) => api.users.getAllUsers(query).then(r => r.data),
 
 			onRowClick: ({ evt, row, index }) => {
-				router.push(`/users/${row.id}`);
+				router.push(`/challenges/${row.id}`);
 			},
 
 			onCreateNew: ({ evt, go }) => {
-				router.push('/users/create');
+				router.push('/challenges/create');
 			},
 		}
 	}
