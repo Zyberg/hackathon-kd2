@@ -1,7 +1,7 @@
 import EmailService from "./EmailService"
 
 export default {
-    makeChallengeInviteEmail: async (senderEmail:any, receiverEmail:any, emailSubject:any, emailBody:any) => {
+    makeChallengeInviteEmail: async (senderEmail:string, receiverEmail:string, emailSubject:string, emailBody:string) => {
         const body = {
             "from": senderEmail,
             "to": receiverEmail,

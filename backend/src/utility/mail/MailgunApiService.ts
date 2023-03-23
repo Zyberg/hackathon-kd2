@@ -4,6 +4,7 @@ import Mailgun from 'mailgun.js';
 import { default as FormData } from "form-data";
 import { AppError } from '../../exceptions/AppError';
 import Client from 'mailgun.js/client';
+import { email } from './email';
 
 class MailgunApiService {
     _service!: MailgunApiService;
@@ -23,7 +24,7 @@ class MailgunApiService {
     }
     
   
-    async sendEmail(data:any)
+    async sendEmail(data:email)
     {
       const mailgun = new Mailgun(FormData);
       const mg = mailgun.client({ username: 'api', key: process.env.API_MAIL_KEY || 'key'})

@@ -1,3 +1,4 @@
+import { email } from "./email";
 import MailgunApiService from "./MailgunApiService";
 
 class EmailService {
@@ -11,7 +12,7 @@ class EmailService {
     return this._service;
   }
 
-  async sendEmail(data:any)
+  async sendEmail(data:email)
   {
     await MailgunApiService.sendEmail(data)
   }
