@@ -39,7 +39,7 @@ export default {
     const router = useRouter();
 
     function redirectToChallenge() {
-      router.push(`/challenges/${props.challenge.unitId}`)
+      router.push(`/challenges/${props.challenge.id}`)
     }
 
     return {

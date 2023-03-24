@@ -12,6 +12,7 @@ export interface ChallengeViewModel {
   isActive: boolean;
   isComplete: boolean;
   parentId: number | null;
+  participants: any
 }
 
 export enum ChallengeType {

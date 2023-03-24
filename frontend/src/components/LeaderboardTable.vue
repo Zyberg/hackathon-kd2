@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-table :rows="rows" :columns="columns" v-model:pagination="pagination" />
+    <q-table :rows="challengers" :columns="columns" v-model:pagination="pagination" />
   </div>
 </template>
 
@@ -23,18 +23,14 @@ export default {
       rowsPerPage: 10,
     });
 
-    const rows = ref(props.challengers);
 
     const columns = [
       { name: 'name', required: true, label: 'Name', align: 'left', field: 'name' },
-      { name: 'surname', required: true, label: 'Surname', align: 'left', field: 'surname' },
-      { name: 'units', required: true, label: 'Units', align: 'center', field: 'units' },
       { name: 'points', required: true, label: 'Points', align: 'center', field: 'points' },
     ];
 
     return {
       pagination,
-      rows,
       columns,
     };
   },

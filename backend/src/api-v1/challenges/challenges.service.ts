@@ -30,9 +30,17 @@ export class ChallengesService {
       where: {
         id,
       },
+      include: {
+        participants: {
+          include: {
+            user: true,
+            userPoints: true,
+          }
+        }
+      }
     });
 
-    const { title, description, unitId, startAt, endAt, goalCount, type, parentId, isActive, isComplete } = challenge;
+    const { title, description, unitId, startAt, endAt, goalCount, type, parentId, isActive, isComplete, participants } = challenge;
 
     return {
       id,
@@ -46,6 +54,7 @@ export class ChallengesService {
       goalCount,
       type: type as ChallengeType,
       parentId: parentId,
+      participants
     };
   }
 
@@ -92,7 +101,7 @@ export class ChallengesService {
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
 
-    return { ...challenge, type: challenge.type as ChallengeType };
+    return { ...challenge, type: challenge.type as ChallengeType, participants: {} };
   }
 
   public async updateChallenge(

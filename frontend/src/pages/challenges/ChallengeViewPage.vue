@@ -41,8 +41,8 @@
         </body1>
       </div>
       <div>
-        <q-btn disable class="primary-button" style="width: 100%" label="Join Challenge" />
-        <q-btn class="secondary-button" style="width: 100%" label="Leave Challenge" />
+        <q-btn v-if="!isUserJoined" class="primary-button" style="width: 100%" label="Join Challenge" />
+        <q-btn v-else class="secondary-button" style="width: 100%" label="Leave Challenge" />
       </div>
       <div>
         <h6 class="q-mt-lg q-mb-sm">Leaderboard</h6>
@@ -58,35 +58,21 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import LeaderboardTable from "components/LeaderboardTable.vue";
 import { api } from "../../boot/axios"
+import { useAuthState } from '@vueauth/core'
+
 
 export default {
   name: 'ChallengeViewPage',
   components: { LeaderboardTable },
   setup(props) {
     //TODO getChallengers and their info
-    const challengers = ref([
-      {
-        name: 'Jane',
-        surname: 'Smith',
-        points: 15,
-        units: 500,
-      },
-
-      {
-        name: 'Mark',
-        surname: 'Johnson',
-        points: 30,
-        units: 1200,
-      },
-      {
-        name: 'Sarah',
-        surname: 'Lee',
-        points: 10,
-        units: 800,
-      }
-    ])
+    const challengers = ref([])
     const leaderboard = ref({})
     const route = useRoute()
+
+    const { user } = useAuthState();
+
+    const isUserJoined = ref(false);
 
     const challenge = ref(null)
     onMounted(async () => {
@@ -94,12 +80,23 @@ export default {
       if (id) {
         challenge.value = await api.challenges
           .getChallengeById(id)
-          .then((r) => ({...r.data, image: 'https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png' }));
+          .then((r) => ({ ...r.data, image: 'https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png' }));
+
+        const userChallenges = await api.users.getUserChallenges(user.value.id).then(r => r.data.challenges)
+
+        isUserJoined.value = userChallenges.some(i => i.id === id)
+
+        challengers.value = challenge.value.participants.map(p => ({
+          name: p.user.name,
+          points: p.userPoints.length !== 0 ? p.userPoints[p.userPoints.length - 1].value : 0
+        }))
+
       }
     })
 
     return {
       challenge,
+      isUserJoined,
       challengers,
       leaderboard,
     }
