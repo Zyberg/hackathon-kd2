@@ -327,6 +327,69 @@
 				],
 				"type": "string"
 			},
+			"ChallengeViewModelById": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"unitId": {
+						"type": "number",
+						"format": "double"
+					},
+					"startAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"endAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"goalCount": {
+						"type": "number",
+						"format": "double"
+					},
+					"type": {
+						"$ref": "#/components/schemas/ChallengeType"
+					},
+					"isActive": {
+						"type": "boolean"
+					},
+					"isComplete": {
+						"type": "boolean"
+					},
+					"parentId": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"participants": {},
+					"unit": {}
+				},
+				"required": [
+					"id",
+					"title",
+					"description",
+					"unitId",
+					"startAt",
+					"endAt",
+					"goalCount",
+					"type",
+					"isActive",
+					"isComplete",
+					"parentId",
+					"participants",
+					"unit"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ChallengeViewModel": {
 				"properties": {
 					"id": {
@@ -1314,7 +1377,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ChallengeViewModel"
+									"$ref": "#/components/schemas/ChallengeViewModelById"
 								}
 							}
 						}
@@ -1508,9 +1571,7 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {
-									"type": "string"
-								}
+								"schema": {}
 							}
 						}
 					}
@@ -1954,9 +2015,7 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {
-									"type": "string"
-								}
+								"schema": {}
 							}
 						}
 					}
