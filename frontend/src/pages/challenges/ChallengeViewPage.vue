@@ -1,20 +1,44 @@
 <template>
   <div class="q-ma-lg">
     <div class="challenge-header">
-      <q-parallax style="border-radius: 24px" :src="challenge.image">
-        <h3 class=" challenge-title image-header">
-          {{ challenge.name }}
+      <q-parallax style="text-align: center;border-radius: 24px" :src="challenge.image">
+        <h3 v-if="challenge.title" class=" challenge-title image-header">
+          {{ challenge.title }}
         </h3>
       </q-parallax>
     </div>
     <div class="q-mb-lg">
-      <div>
+      <div v-if="challenge.description">
         <h4 class="q-mt-lg q-mb-sm">Description</h4>
         <body1 class="challenge-description">{{ challenge.description }}</body1>
       </div>
-      <div>
+      <div v-if="challenge.goal">
         <h4 class="q-mt-lg q-mb-sm">Goal</h4>
         <body1 class="challenge-description">{{ challenge.goal }}</body1>
+      </div>
+      <div v-if="challenge.startAt">
+        <h4 class="q-mt-lg q-mb-sm">Starts at</h4>
+        <body1 class="challenge-description">
+          {{ challenge.startAt }}
+        </body1>
+      </div>
+      <div v-if="challenge.endAt">
+        <h4 class="q-mt-lg q-mb-sm">Ends at</h4>
+        <body1 class="challenge-description">
+          {{ challenge.endAt }}
+        </body1>
+      </div>
+      <div v-if="challenge.goalCount">
+        <h4 class="q-mt-lg q-mb-sm">Goal</h4>
+        <body1 class="challenge-description">
+          {{ challenge.goalCount }}
+        </body1>
+      </div>
+      <div v-if="challenge.type">
+        <h4 class="q-mt-lg q-mb-sm">Type</h4>
+        <body1 class="challenge-description">
+          {{ challenge.type }}
+        </body1>
       </div>
       <div>
         <q-btn disable class="primary-button" style="width: 100%" label="Join Challenge"/>
@@ -28,6 +52,7 @@
   </div>
 </template>
 
+
 <script>
 import {ref} from 'vue'
 import LeaderboardTable from "components/LeaderboardTable.vue";
@@ -39,7 +64,7 @@ export default {
     challenge: {
       type: Object,
       default: () => ({
-        name: 'RUN PUMA Fueled By NITRO 42km',
+        title: 'RUN PUMA Fueled By NITRO 42km',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         isActive: true,
