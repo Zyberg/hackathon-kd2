@@ -44,8 +44,8 @@ export default boot(({ router }) => {
       {
         path: 'users',
         name: 'users',
-        component: () => import('src/pages/user/UsersList.vue'),
-        meta: { unauthOnly: true, role: ['Admin'] },
+        component: () => import('src/pages/user/UsersListPage.vue'),
+        meta: { authOnly: true, role: ['Admin'] },
       },
       {
         path: 'userGroups',
@@ -82,12 +82,6 @@ export default boot(({ router }) => {
         name: 'unit',
         component: () => import('pages/units/UnitCreatePage.vue'),
         meta: { authOnly: true, role: ['Admin'] },
-      },
-      {
-        path: 'users/example',
-        name: 'usersExample',
-        component: () => import('src/pages/user/UserProfilePage.vue'),
-        meta: { authOnly: true, role: ['User'] },
       },
       {
         path: 'achievements',
@@ -148,7 +142,7 @@ export default boot(({ router }) => {
       {
         path: 'profile',
         name: 'profile',
-        component: () => import('pages/user/userProfilePage.vue'),
+        component: () => import('src/pages/user/UserProfilePage.vue'),
         meta: { authOnly: true, role: ['User'] },
       },
     ],
