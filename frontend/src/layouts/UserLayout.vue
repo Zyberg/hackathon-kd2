@@ -56,14 +56,6 @@
             <q-item-label>Profile</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item to="/achievements" active-class="q-item-no-link-highlighting">
-          <q-item-section avatar>
-            <q-icon name="star_rate"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Achievements</q-item-label>
-          </q-item-section>
-        </q-item>
       </q-list>
     </q-drawer>
 
