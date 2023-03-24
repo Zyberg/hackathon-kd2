@@ -27,17 +27,10 @@ export default {
     const pageSize = 20 // number of challenges per page
     const router = useRouter();
 
-    const challenges = ref([{
-      image: 'https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png',
-      title: 'RUN PUMA Fueled By NITRO 42km',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      isActive: true,
-      unitId: 0,
-      type: 'Running'
-    }]);
+    const challenges = ref([]);
 
     onMounted(async () => {
-      // challenges.value = await api.challenges.getAllChallenges().then(d => d.data.data)
+      challenges.value = await api.challenges.getAllChallenges().then(d => d.data.data.map(i => ({...i, image: 'https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png' })))
     })
 
 

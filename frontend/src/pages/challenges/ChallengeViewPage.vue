@@ -1,5 +1,5 @@
 <template>
-  <div class="q-ma-lg">
+  <div class="q-ma-lg" v-if="!!challenge">
     <div class="challenge-header">
       <q-parallax style="text-align: center;border-radius: 24px" :src="challenge.image">
         <h3 v-if="challenge.title" class=" challenge-title image-header">
@@ -41,12 +41,12 @@
         </body1>
       </div>
       <div>
-        <q-btn disable class="primary-button" style="width: 100%" label="Join Challenge"/>
-        <q-btn class="secondary-button" style="width: 100%" label="Leave Challenge"/>
+        <q-btn disable class="primary-button" style="width: 100%" label="Join Challenge" />
+        <q-btn class="secondary-button" style="width: 100%" label="Leave Challenge" />
       </div>
       <div>
         <h6 class="q-mt-lg q-mb-sm">Leaderboard</h6>
-        <LeaderboardTable :challengers="challengers"/>
+        <LeaderboardTable :challengers="challengers" />
       </div>
     </div>
   </div>
@@ -54,32 +54,14 @@
 
 
 <script>
-import {ref} from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import LeaderboardTable from "components/LeaderboardTable.vue";
+import { api } from "../../boot/axios"
 
 export default {
   name: 'ChallengeViewPage',
-  components: {LeaderboardTable},
-  props: {
-    challenge: {
-      type: Object,
-      default: () => ({
-        title: 'RUN PUMA Fueled By NITRO 42km',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        isActive: true,
-        unitId: 0,
-        type: 'Running',
-        goal: '42km',
-        image: 'https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png',
-        leaderboard: [
-          {rank: 1, name: 'Alice', distance: 42},
-          {rank: 2, name: 'Bob', distance: 38},
-          {rank: 3, name: 'Charlie', distance: 30},
-        ],
-      }),
-    },
-  },
+  components: { LeaderboardTable },
   setup(props) {
     //TODO getChallengers and their info
     const challengers = ref([
@@ -103,9 +85,21 @@ export default {
         units: 800,
       }
     ])
-    const leaderboard = ref(props.challenge.leaderboard)
+    const leaderboard = ref({})
+    const route = useRoute()
+
+    const challenge = ref(null)
+    onMounted(async () => {
+      const id = route.params.id;
+      if (id) {
+        challenge.value = await api.challenges
+          .getChallengeById(id)
+          .then((r) => ({...r.data, image: 'https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png' }));
+      }
+    })
 
     return {
+      challenge,
       challengers,
       leaderboard,
     }
@@ -114,7 +108,6 @@ export default {
 </script>
 
 <style scoped>
-
 .img {
   opacity: 0.7;
 }

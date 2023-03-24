@@ -27,6 +27,10 @@
       <q-card-section class="q-pt-none">
         <div class="text-caption text-grey" style="max-width:400px" v-html="activeRow.description">
         </div>
+
+        <div>
+
+        </div>
       </q-card-section>
 
       <q-separator />
