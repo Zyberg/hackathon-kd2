@@ -321,6 +321,13 @@
 					"title": {
 						"type": "string"
 					},
+					"description": {
+						"type": "string"
+					},
+					"unitId": {
+						"type": "number",
+						"format": "double"
+					},
 					"startAt": {
 						"type": "string",
 						"format": "date-time"
@@ -351,6 +358,8 @@
 				"required": [
 					"id",
 					"title",
+					"description",
+					"unitId",
 					"startAt",
 					"endAt",
 					"goalCount",
@@ -1849,6 +1858,25 @@
 						}
 					}
 				]
+			}
+		},
+		"/images/upload": {
+			"post": {
+				"operationId": "Upload",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Image"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
 			}
 		},
 		"/auth/login/strava": {
