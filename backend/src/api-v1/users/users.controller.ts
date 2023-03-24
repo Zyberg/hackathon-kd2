@@ -41,4 +41,11 @@ export default class UserController extends Controller {
 
     return data;
   }
+
+  @Get('/{id}/activitygraph')
+  public async getUserActivityGraph(id: number) {
+    const data = await new UsersService().getUserRunDiagram(id);
+
+    return data;
+  }
 }

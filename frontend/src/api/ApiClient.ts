@@ -48,6 +48,16 @@ export interface Achievement {
   type: AchievementType;
 }
 
+export interface UserGroupUpdateModel {
+  /** @format double */
+  id: number;
+  title: string;
+}
+
+export interface UserGroupCreateModel {
+  title: string;
+}
+
 export interface UserViewModel {
   /** @format double */
   id: number;
@@ -123,6 +133,28 @@ export enum ChallengeType {
   GoalCount = "GoalCount",
 }
 
+export interface ChallengeViewModelById {
+  /** @format double */
+  id: number;
+  title: string;
+  description: string;
+  /** @format double */
+  unitId: number;
+  /** @format date-time */
+  startAt: string;
+  /** @format date-time */
+  endAt: string;
+  /** @format double */
+  goalCount: number;
+  type: ChallengeType;
+  isActive: boolean;
+  isComplete: boolean;
+  /** @format double */
+  parentId: number | null;
+  participants: any;
+  unit: any;
+}
+
 export interface ChallengeViewModel {
   /** @format double */
   id: number;
@@ -188,16 +220,6 @@ export interface UnitUpdateModel {
 }
 
 export interface UnitCreateModel {
-  title: string;
-}
-
-export interface UserGroupUpdateModel {
-  /** @format double */
-  id: number;
-  title: string;
-}
-
-export interface UserGroupCreateModel {
   title: string;
 }
 
@@ -507,6 +529,107 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
+  userGroups = {
+    /**
+     * No description
+     *
+     * @tags UserGroup
+     * @name GetAllUserGroups
+     * @request GET:/userGroups
+     * @secure
+     */
+    getAllUserGroups: (
+      query?: {
+        q?: string;
+        field?: string;
+        order?: PAGINATION_ORDER;
+        /** @format double */
+        page?: number;
+        /** @format double */
+        perPage?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ApiResponseAny, any>({
+        path: `/userGroups`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags UserGroup
+     * @name Create
+     * @request POST:/userGroups
+     * @secure
+     */
+    create: (data: UserGroupCreateModel, params: RequestParams = {}) =>
+      this.request<UserGroupUpdateModel, any>({
+        path: `/userGroups`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags UserGroup
+     * @name GetUserGroupById
+     * @request GET:/userGroups/{id}
+     * @secure
+     */
+    getUserGroupById: (id: number, params: RequestParams = {}) =>
+      this.request<UserGroupUpdateModel, any>({
+        path: `/userGroups/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags UserGroup
+     * @name Update
+     * @request PUT:/userGroups/{id}
+     * @secure
+     */
+    update: (id: number, data: UserGroupCreateModel, params: RequestParams = {}) =>
+      this.request<UserGroupCreateModel, any>({
+        path: `/userGroups/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags UserGroup
+     * @name Delete
+     * @request DELETE:/userGroups/{id}
+     * @secure
+     */
+    delete: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/userGroups/${id}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+  };
   users = {
     /**
      * No description
@@ -604,6 +727,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name GetUserActivityGraph
+     * @request GET:/users/{id}/activitygraph
+     * @secure
+     */
+    getUserActivityGraph: (id: number, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** @format date-time */
+          x: string;
+          /** @format double */
+          y: number;
+        }[],
+        any
+      >({
+        path: `/users/${id}/activitygraph`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
   };
   challenges = {
     /**
@@ -664,7 +812,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     getChallengeById: (id: number, params: RequestParams = {}) =>
-      this.request<ChallengeViewModel, any>({
+      this.request<ChallengeViewModelById, any>({
         path: `/challenges/${id}`,
         method: "GET",
         secure: true,
@@ -854,107 +1002,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     delete: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/units/${id}`,
-        method: "DELETE",
-        secure: true,
-        ...params,
-      }),
-  };
-  userGroups = {
-    /**
-     * No description
-     *
-     * @tags UserGroup
-     * @name GetAllUserGroups
-     * @request GET:/userGroups
-     * @secure
-     */
-    getAllUserGroups: (
-      query?: {
-        q?: string;
-        field?: string;
-        order?: PAGINATION_ORDER;
-        /** @format double */
-        page?: number;
-        /** @format double */
-        perPage?: number;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<ApiResponseAny, any>({
-        path: `/userGroups`,
-        method: "GET",
-        query: query,
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags UserGroup
-     * @name Create
-     * @request POST:/userGroups
-     * @secure
-     */
-    create: (data: UserGroupCreateModel, params: RequestParams = {}) =>
-      this.request<UserGroupUpdateModel, any>({
-        path: `/userGroups`,
-        method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags UserGroup
-     * @name GetUserGroupById
-     * @request GET:/userGroups/{id}
-     * @secure
-     */
-    getUserGroupById: (id: number, params: RequestParams = {}) =>
-      this.request<UserGroupUpdateModel, any>({
-        path: `/userGroups/${id}`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags UserGroup
-     * @name Update
-     * @request PUT:/userGroups/{id}
-     * @secure
-     */
-    update: (id: number, data: UserGroupCreateModel, params: RequestParams = {}) =>
-      this.request<UserGroupCreateModel, any>({
-        path: `/userGroups/${id}`,
-        method: "PUT",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags UserGroup
-     * @name Delete
-     * @request DELETE:/userGroups/{id}
-     * @secure
-     */
-    delete: (id: number, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/userGroups/${id}`,
         method: "DELETE",
         secure: true,
         ...params,

@@ -4,6 +4,7 @@ import { AchievementType } from "../../types/achievements/achievement";
 import type { DataTableQuery } from "../../types/generic/DataTable";
 import { UserViewModel, UserViewModelAchievements, UserViewModelChallenges } from "../../types/users/user";
 import achievements from "../achievements/achievements.route";
+import userGroups from "../userGroups/userGroups.route";
 
 const SEARCHABLE_FIELDS = ["name", "email"];
 
@@ -41,6 +42,25 @@ export class UsersService {
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
     
+  }
+
+  public async getUserRunDiagram(id: number) {
+    const user = await prisma.user.findFirstOrThrow({
+      where: {
+        id,
+      },
+      include: {
+        stravaProfile: {
+          include: {
+            UserStravaProfileActivity: true
+          }
+        }
+      }
+    });
+
+    const dataPoints = user.stravaProfile?.UserStravaProfileActivity.map(a => ({y: a.distance, x: a.start_date}))
+
+    return dataPoints
   }
 
   public async getUserById(id: number): Promise<UserViewModel> {

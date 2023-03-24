@@ -37,4 +37,10 @@ users.delete("/:id",  async (req: Request, res: Response) => {
     return res.send(response);
 });
 
+users.get('/:id/activitygraph', async (req: Request, res: Response) => {
+    const response = await controller.getUserActivityGraph(+req.params.id);
+
+    return res.send(response);
+})
+
 export default users;
