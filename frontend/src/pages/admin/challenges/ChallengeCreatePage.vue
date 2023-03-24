@@ -91,6 +91,18 @@
         outlined
         required
       />
+
+      <h6 class="q-ma-none q-mt-md">Cover Image</h6>
+      <div class="q-pa-md" style="max-width: 300px">
+        <q-uploader
+          accept=".jpg, image/*"
+          auto-upload
+          v-model="challenge.image_path"
+          url="http://localhost:3000/api/images/upload"
+          dark
+        />
+      </div>
+
       <div class="q-mt-md">
         <q-btn type="submit" class="primary-button">{{
           editMode ? 'Save challenge Group' : 'Create challenge'
@@ -124,6 +136,7 @@ export default {
       type: 'GoalMax',
       parentId: null,
       id: null,
+      image_path: ''
     });
 
     const editMode = ref(false);
@@ -138,6 +151,7 @@ export default {
     const units = ref([]);
 
     const submitChallenge = async () => {
+      console.log(challenge.value.image_path)
       challenge.value.startAt = new Date(challenge.value.startAt).toISOString();
       challenge.value.endAt = new Date(challenge.value.endAt).toISOString();
       challenge.value.unitId = +challenge.value.unitId;
@@ -171,6 +185,7 @@ export default {
       submitChallenge,
       editMode,
       onUpdateFormattedInput,
+      onUploadImage
     };
   },
 };

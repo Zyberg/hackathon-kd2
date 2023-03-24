@@ -4,6 +4,7 @@ import apiResponseBuilder from "../../helpers/apiResponseBuilder";
 import { ChallengeCreateModel, ChallengeUpdateModel } from "../../types/challenges/challenge";
 import { ApiResponse } from "../../types/generic/apiResponse";
 import type { DataTableQuery, GetAllChallengesQuery } from "../../types/generic/DataTable";
+import { ImagesService } from "../images/images.service";
 import { ChallengesService } from "./challenges.service";
 
 
@@ -54,6 +55,13 @@ export default class ChallengesController extends Controller {
   @Delete('/{id}/join/{userId}')
   public async leave(id: number, userId: number) {
     const data = await new ChallengesService().leave(id, userId);
+
+    return data;
+  }
+
+  @Post("/{id}/upload")
+  public async upload(@Request() req: any) {
+    const data = await new ImagesService().uploadImage(req, req.res);
 
     return data;
   }

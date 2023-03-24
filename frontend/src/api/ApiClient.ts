@@ -69,6 +69,7 @@ export interface UserViewModelAchievements {
 
 /** Model Challenge */
 export interface Challenge {
+  image_path: string;
   /** @format double */
   parentId: number | null;
   type: string;
@@ -739,6 +740,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @tags Challenge
+     * @name Upload
+     * @request POST:/challenges/{id}/upload
+     * @secure
+     */
+    upload: (id: string, params: RequestParams = {}) =>
+      this.request<string, any>({
+        path: `/challenges/${id}/upload`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
   };
   units = {
     /**
@@ -942,6 +960,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
+  images = {
+    /**
+     * No description
+     *
+     * @tags Image
+     * @name Upload
+     * @request POST:/images/upload
+     * @secure
+     */
+    upload: (params: RequestParams = {}) =>
+      this.request<string, any>({
+        path: `/images/upload`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
   auth = {
     /**
      * No description
@@ -994,11 +1030,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Authentication
      * @name Signup
-     * @request POST:/auth/signup/password
+     * @request POST:/auth/signup
      */
     signup: (data: UserCreateRequest, params: RequestParams = {}) =>
       this.request<ApiResponseUser, any>({
-        path: `/auth/signup/password`,
+        path: `/auth/signup`,
         method: "POST",
         body: data,
         type: ContentType.Json,

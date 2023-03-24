@@ -50,4 +50,9 @@ challenges.delete('/:id/join/:userId', async (req: Request, res: Response) => {
     return res.send(response);
 });
 
+challenges.post("/upload", async (req: Request, res: Response) => {
+    const response = await controller.upload(req);
+    return res.send(response);
+});
+
 export default challenges;

@@ -168,6 +168,9 @@
 			},
 			"Challenge": {
 				"properties": {
+					"image_path": {
+						"type": "string"
+					},
 					"parentId": {
 						"type": "number",
 						"format": "double",
@@ -210,6 +213,7 @@
 					}
 				},
 				"required": [
+					"image_path",
 					"parentId",
 					"type",
 					"goalCount",
@@ -1496,6 +1500,32 @@
 				]
 			}
 		},
+		"/challenges/{id}/upload": {
+			"post": {
+				"operationId": "Upload",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Challenge"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
 		"/units": {
 			"get": {
 				"operationId": "GetAllUnits",
@@ -1920,8 +1950,15 @@
 			"post": {
 				"operationId": "Upload",
 				"responses": {
-					"204": {
-						"description": "No content"
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
 					}
 				},
 				"tags": [
@@ -2010,7 +2047,7 @@
 				"parameters": []
 			}
 		},
-		"/auth/signup/password": {
+		"/auth/signup": {
 			"post": {
 				"operationId": "Signup",
 				"responses": {

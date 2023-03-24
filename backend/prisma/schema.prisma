@@ -122,8 +122,9 @@ model Challenge {
   goalCount Int
   type      String // TODO: [GoalMax, GoalCount]
 
-  parent   Challenge? @relation("ChallengeSelf", fields: [parentId], references: [id])
-  parentId Int?
+  parent     Challenge? @relation("ChallengeSelf", fields: [parentId], references: [id])
+  parentId   Int?
+  image_path String @default("")
 
   child Challenge[] @relation("ChallengeSelf")
 }
