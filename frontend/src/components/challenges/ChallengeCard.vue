@@ -2,7 +2,7 @@
   <div class="q-pa-sm row items-start" style="width: 100%">
     <q-card class="my-card" bordered clickable @click="redirectToChallenge">
       <q-img
-        :src='challenge.image_path != "" ? `http://localhost:9000/images/${challenge.image_path}` : "https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png"'/>
+      :src="`http://127.0.0.1:9000/images/${challenge.image_path}`"></q-img>
       <q-card-section>
         <div class="text-h5 q-mt-sm q-mb-xs">{{ challenge.title }}</div>
         <StatusChip :start-date="new Date(challenge.startAt)" :end-date="new Date(challenge.endAt)"/>

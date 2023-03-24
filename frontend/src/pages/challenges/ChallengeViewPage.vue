@@ -2,7 +2,7 @@
   <div class="q-ma-lg" v-if="!!challenge">
     <StatusChip style="width: 100%" class="full-width" :start-date="new Date(challenge.startAt)" :end-date="new Date(challenge.endAt)"/>
     <div class="challenge-header">
-      <q-parallax style="text-align: center;border-radius: 24px" :src='challenge.image_path != "" ? `http://localhost:9000/images/${challenge.image_path}` : "https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png"'>
+      <q-parallax style="text-align: center;border-radius: 24px" :src='challenge.image_path != "" ? `http://127.0.0.1:9000/images/${challenge.image_path}` : "https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png"'>
         <h3 v-if="challenge.title" class=" challenge-title image-header">
           {{ challenge.title }}
         </h3>
