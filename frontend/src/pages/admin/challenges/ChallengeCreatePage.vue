@@ -98,6 +98,7 @@
           accept=".jpg, image/*"
           auto-upload
           v-model="challenge.image_path"
+          uploaded="getImagePath"
           url="http://localhost:3000/api/images/upload"
           dark
         />
@@ -163,6 +164,10 @@ export default {
 
       router.push({ name: 'adminChallenges' })
     };
+
+    const getImagePath = async() => {
+      console.log('a')
+    }
 
     onMounted(async () => {
       units.value = await api.units.getAllUnits().then(r => r.data.data)
