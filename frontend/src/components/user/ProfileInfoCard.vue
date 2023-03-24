@@ -55,19 +55,19 @@ export default {
     },
     location: {
       type: String,
-      default: 'Vilnius',
+      default: 'Vilnius, Lithuania',
     },
     age: {
       type: String,
-      default: '30 years',
+      default: '25 years',
     },
     workplace: {
       type: String,
-      default: 'Vu fakultetas',
+      default: 'Vu faculty',
     },
     email: {
       type: String,
-      default: 'karolis.augustauskas@gmaill.com',
+      default: 'Tom.baron@gmaill.com',
     },
   },
 }

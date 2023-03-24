@@ -44,7 +44,7 @@ class App {
   private setPassport(): void {
     passport.use(localStrategy);
     passport.use(jwtStrategy);
-    passport.use(stravaStrategy);
+    // passport.use(stravaStrategy);
   }
 
   private setRoutes(): void {

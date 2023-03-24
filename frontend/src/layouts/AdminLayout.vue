@@ -103,4 +103,8 @@ function toggleLeftDrawer() {
   border-radius: 24px;
 }
 
+q-icon {
+  color: #504578;
+}
+
 </style>
