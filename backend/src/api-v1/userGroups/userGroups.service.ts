@@ -3,7 +3,7 @@ import { AppError } from "../../exceptions/AppError";
 import type { DataTableQuery } from "../../types/generic/DataTable";
 import { UserGroupCreateModel, UserGroupUpdateModel } from "../../types/userGroup/userGroup";
 
-const SEARCHABLE_FIELDS = ["id", "title"];
+const SEARCHABLE_FIELDS = ["title"];
 
 export class UserGroupsService {
   public async getAllUserGroups(params: DataTableQuery) {
