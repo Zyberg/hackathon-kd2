@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-md flex wrap center justify-start" style="height: 100%; width: 100%; align-items: center; gap: 10px">
+  <q-card class="q-pa-md flex wrap center justify-start" style="height: 100%; width: 100%; align-items: center; gap: 15px">
     <div>
       <q-avatar size="100px">
         <img src="https://cdn.quasar.dev/img/avatar.png">

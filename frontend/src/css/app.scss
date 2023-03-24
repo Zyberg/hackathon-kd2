@@ -2,18 +2,17 @@
 
 // Global body styles
 .body--light {
-  font-weight: 700;
-  color: #3c3246;
+  font-weight: 600;
+  color: #3C3246;
 }
 
 .body--dark {
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
 }
 
 .primary-button {
   display: flex;
-  gap: 20px;
   color: #ffffff;
   margin: 8px 0 8px 0;
 
@@ -42,7 +41,6 @@
 .secondary-button {
   display: flex;
   flex-direction: row;
-  gap: 10px;
   margin: 8px 0 8px 0;
 
   background: #ffffff;
