@@ -1,6 +1,7 @@
 import { prisma } from "../src/boot/prisma";
-import { AchievementType } from "../src/types/achievements/achievement"
-
+import { AchievementType } from "../src/types/achievements/achievement";
+import EmailService from "../src/utility/mail/EmailService";
+import EmailBuilder from "../src/utility/mail/EmailBuilder";
 
 async function CheckChallengesComplete() {
   console.log("Start checking the Challenges for completion...");
@@ -56,6 +57,8 @@ async function CheckChallengesComplete() {
       });
 
       for (let participant of challengeCompleted.participants) {
+        if (participant.userPoints.length === 0) continue;
+
         const points =
           participant.userPoints[participant.userPoints.length - 1].value;
 
@@ -75,6 +78,15 @@ async function CheckChallengesComplete() {
               },
             },
           });
+
+          const data = await EmailBuilder.makeChallengeCompleteSuccessEmail(
+            "nikolajus.elkana@gmail.com",
+            participant.user.email,
+            "Challenge complete",
+            challenge.title
+          );
+
+          await EmailService.sendEmail(data);
         } else {
           await prisma.user.update({
             where: {
@@ -90,6 +102,15 @@ async function CheckChallengesComplete() {
               },
             },
           });
+
+          const data = await EmailBuilder.makeChallengeCompleteFailureEmail(
+            "nikolajus.elkana@gmail.com",
+            participant.user.email,
+            "Challenge complete",
+            challenge.title
+          );
+
+          await EmailService.sendEmail(data);
         }
       }
     }
