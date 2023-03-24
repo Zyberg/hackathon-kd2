@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page style="background: #F5F5F2">
     <DataTable title="Challenges" :columns="columns" :paginationInitial="paginationInitial" :fetch="fetch"
       @row-click="onRowClick" @create-new="onCreateNew" :onEdit="onEdit" :onDelete="onDelete">
 
