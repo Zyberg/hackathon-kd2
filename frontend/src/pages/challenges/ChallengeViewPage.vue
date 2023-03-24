@@ -1,5 +1,6 @@
 <template>
   <div class="q-ma-lg" v-if="!!challenge">
+    <StatusChip style="width: 100%" class="full-width" :start-date="new Date(challenge.startAt)" :end-date="new Date(challenge.endAt)"/>
     <div class="challenge-header">
       <q-parallax style="text-align: center;border-radius: 24px" :src='challenge.image_path != "" ? `http://localhost:9000/images/${challenge.image_path}` : "https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png"'>
         <h3 v-if="challenge.title" class=" challenge-title image-header">
@@ -9,8 +10,8 @@
     </div>
     <div class="q-mb-lg">
       <div v-if="challenge.description">
-        <h4 class="q-mt-lg q-mb-sm">Description</h4>
-        <body1 class="challenge-description">{{ challenge.description }}</body1>
+        <h4 class="q-mt-sm q-mb-sm">Description</h4>
+        <div v-html="challenge.description" class="challenge-description"></div>
       </div>
       <div v-if="challenge.goal">
         <h4 class="q-mt-lg q-mb-sm">Goal</h4>
@@ -59,11 +60,11 @@ import { useRoute } from 'vue-router'
 import LeaderboardTable from "components/LeaderboardTable.vue";
 import { api } from "../../boot/axios"
 import { useAuthState } from '@vueauth/core'
-
+import StatusChip from 'src/components/challenges/StatusChip.vue'
 
 export default {
   name: 'ChallengeViewPage',
-  components: { LeaderboardTable },
+  components: { LeaderboardTable, StatusChip },
   setup(props) {
     //TODO getChallengers and their info
     const challengers = ref([])
