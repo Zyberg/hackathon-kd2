@@ -5,6 +5,7 @@ import {
   ChallengeViewModel,
   ChallengeCreateModel,
   ChallengeType,
+  ChallengeViewModelById,
 } from "../../types/challenges/challenge";
 
 const SEARCHABLE_FIELDS = ["title", "description"];
@@ -25,12 +26,13 @@ export class ChallengesService {
     return data;
   }
 
-  public async getChallengeById(id: number): Promise<ChallengeViewModel> {
+  public async getChallengeById(id: number): Promise<ChallengeViewModelById> {
     const challenge = await prisma.challenge.findFirstOrThrow({
       where: {
         id,
       },
       include: {
+        unit: true,
         participants: {
           include: {
             user: true,
@@ -52,6 +54,7 @@ export class ChallengesService {
       isActive,
       isComplete,
       participants,
+      unit
     } = challenge;
 
     return {
@@ -67,6 +70,7 @@ export class ChallengesService {
       type: type as ChallengeType,
       parentId: parentId,
       participants,
+      unit
     };
   }
 

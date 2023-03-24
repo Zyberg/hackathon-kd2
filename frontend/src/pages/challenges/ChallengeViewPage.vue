@@ -86,9 +86,12 @@ export default {
 
         isUserJoined.value = userChallenges.some(i => i.id === +id)
 
+        const unit = challenge.value.unit.title
+
         challengers.value = challenge.value.participants.map(p => ({
           name: p.user.name,
-          points: p.userPoints.length !== 0 ? p.userPoints[p.userPoints.length - 1].value : 0
+          points: p.userPoints.length !== 0 ? p.userPoints[p.userPoints.length - 1].value : 0,
+          unit
         }))
 
       }

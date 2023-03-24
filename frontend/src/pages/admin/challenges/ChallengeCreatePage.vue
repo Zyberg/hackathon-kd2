@@ -185,7 +185,6 @@ export default {
       submitChallenge,
       editMode,
       onUpdateFormattedInput,
-      onUploadImage
     };
   },
 };

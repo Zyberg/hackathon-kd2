@@ -1,5 +1,21 @@
 import { challengeUnit } from "../challengeUnits/challengeUnit"
 
+export interface ChallengeViewModelById {
+  id: number;
+  title: string;
+  description: string;
+  unitId: number;
+  startAt: Date;
+  endAt: Date;
+  goalCount: number;
+  type: ChallengeType;
+  isActive: boolean;
+  isComplete: boolean;
+  parentId: number | null;
+  participants: any,
+  unit: any,
+}
+
 export interface ChallengeViewModel {
   id: number;
   title: string;
