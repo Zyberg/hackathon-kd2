@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <q-input v-model="search" label="Search" dense outlined/> -->
-    <div class="flex justify-start">
+    <div class="flex justify-center">
       <div class="q-mt-md" v-for="challenge in challenges" :key="challenge.id">
         <ChallengeCard :challenge="challenge" />
       </div>

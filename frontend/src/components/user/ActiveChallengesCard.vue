@@ -5,8 +5,8 @@
         <div>Active challenges</div>
       </div>
       <div>
-        <q-btn icon="chevron_left" @click="prevAchievement"/>
-        <q-btn icon="chevron_right" @click="nextAchievement"/>
+        <q-btn flat icon="chevron_left" @click="prevAchievement"/>
+        <q-btn flat icon="chevron_right" @click="nextAchievement"/>
       </div>
     </div>
     <div class="flex flex-center grid-flex q-mr-lg" style="gap: 20px">
