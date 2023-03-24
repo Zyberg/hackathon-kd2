@@ -6,12 +6,14 @@
         <q-input v-model="challenge.description" label="Challenge description" dense rounded outlined required />
         <q-toggle label="isActive" color="pink" v-model="challenge.isActive"></q-toggle>
         <!-- change to select when there will be unit enums -->
-        <q-select v-model="challenge.unitId" 
+        <q-select v-model="challenge.unitId"
+            v-if="!!units.length"
             label="unit"
             :options="units"
             :option-value="'id'"
-            :option-label="'label'"
+            :option-label="'title'"
             emit-value dense rounded outlined required />
+
         <q-date v-model="challenge.startAt" label="Start Date" dense rounded outlined required />
         <q-date v-model="challenge.endAt" label="End Date" dense rounded outlined required />
         <!-- <q-select
@@ -33,16 +35,16 @@
       </q-form>
     </div>
   </template>
-  
+
   <script>
   import { api } from 'src/boot/axios';
   import { ref, onMounted } from 'vue';
   import { useRoute } from 'vue-router'
-  
+
   export default {
     setup() {
       const route = useRoute();
-  
+
       const challenge = ref({
         isActive: true,
         isComplete: false,
@@ -56,10 +58,10 @@
         parentId:	null,
         id: null,
       })
-  
+
       const editMode = ref(false);
-  
-  
+
+
       // const activityTypes = [
       //   {
       //     label: 'Running',
@@ -74,16 +76,12 @@
       //     value: 'Swimming',
       //   },
       // ];
-  
+
       const challengeTypes = [ 'GoalMax', 'GoalCount' ]
 
-      const units = [
-        { id: 1, label: 'KM'},
-        {
-            id: 2, label: 'Hours'
-        }]
-  
-  
+      const units = ref([])
+
+
       const submitChallenge = () => {
         challenge.value.startAt = new Date(challenge.value.startAt).toISOString()
         challenge.value.endAt = new Date(challenge.value.endAt).toISOString()
@@ -94,18 +92,19 @@
           api.challenges.create(challenge.value)
         }
       };
-  
+
       onMounted(async () => {
-  
+        units.value = await api.units.getAllUnits().then(r => r.data.data)
+
         const id = route.params.id;
         if (id) {
           editMode.value = true;
           challenge.value = await api.challenges.getChallengeById(id).then(r => r.data)
           const a = new Date(challenge.value.startAt)
-          
+
         }
       })
-  
+
       return {
         // activityType,
         // activityTypes,
@@ -118,4 +117,3 @@
     },
   };
   </script>
-  
