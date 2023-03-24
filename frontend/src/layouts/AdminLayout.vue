@@ -1,10 +1,7 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header
-      class="bg-white text-grey-9"
-      elevated
-    >
-      <q-toolbar>
+  <q-layout view="hHh lpR fff">
+    <q-header>
+      <q-toolbar elevated class="flex flex-center justify-start">
         <q-btn
           flat
           dense
@@ -14,15 +11,17 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>Quasar ADMIN {{ authProviderUpperFirst }}</q-toolbar-title>
-
+        <q-toolbar-title>
+          <img class="q-mt-sm" src="src/assets/MB_horizontal.svg"/>
+        </q-toolbar-title>
         <q-btn
           icon="person"
           round
           flat
         >
-          <AuthAccountMenu />
+          <AuthAccountMenu/>
         </q-btn>
+        <LogoutItem />
       </q-toolbar>
     </q-header>
 
@@ -30,6 +29,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
+      behavior="default"
     >
       <q-list>
         <q-item to="/admin" active-class="q-item-no-link-highlighting">
@@ -76,8 +76,15 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view/>
     </q-page-container>
+
+    <q-footer elevated>
+      <q-toolbar style="text-align: center">
+        MobilePay A/S,  Vester Søgade 10, 6., 1601 København V, Denmark. Email: mobilepay@mobilepay.dk, VAT: 38 29 21 88. Copyright ©2023 MobilePay A/S. MobilePay A/S is supervised by the Danish Financial Supervisory Authority. Read processing of personal data and cookies and terms of use. Complaints department: MobilePay A/S,  Vester Søgade 10, 6., 1601 København V.
+      </q-toolbar>
+    </q-footer>
+
   </q-layout>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="user-profile-page">
+  <div class="user-profile-page" style="background: #F5F5F2; height: 100vh">
     <div class="user-profile-flex">
       <div class="profile-info-card">
         <ProfileInfoCard/>
@@ -45,7 +45,7 @@ div {
   display: grid;
   grid-template-columns: 70% 30%;
   grid-gap: 20px;
-  margin: 16px;
+  padding: 16px;
 }
 
 @media (max-width: 768px) {
