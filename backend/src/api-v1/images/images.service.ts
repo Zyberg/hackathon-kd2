@@ -5,9 +5,9 @@ import type { Request, Response } from "express"
 export class ImagesService {
 
   public async uploadImage(request: Request, res: Response ) {
-    const folder = path.join(__dirname,'../../../', 'public/saves')
+    const folder = path.join(__dirname,'../../../', 'public/images')
     console.log(folder)
-    const form = formidable({ multiples: true, uploadDir: folder });
+    const form = formidable({ multiples: true, uploadDir: folder, keepExtensions: true });
 
     console.log(form)
 

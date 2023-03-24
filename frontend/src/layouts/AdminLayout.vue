@@ -84,9 +84,6 @@
           <q-item-section avatar>
             <q-icon name="square_foot"/>
           </q-item-section>
-          <q-item-section>
-            <q-item-label>Image</q-item-label>
-          </q-item-section>
         </q-item>
       </q-list>
     </q-drawer>

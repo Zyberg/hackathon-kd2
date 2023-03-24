@@ -113,12 +113,6 @@ export default boot(({ router }) => {
         component: () => import('pages/admin/challenges/ChallengeCreatePage.vue'),
         meta: { authOnly: true, role: ['Admin'] },
       },
-      {
-        path: 'images',
-        name: 'images',
-        component: () => import('src/pages/imagesUpload/imagesUpload.vue'),
-        meta: { authOnly: true, role: ['Admin'] },
-      },
     ],
   });
 
