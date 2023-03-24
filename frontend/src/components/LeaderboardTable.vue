@@ -27,6 +27,7 @@ export default {
     const columns = [
       { name: 'name', required: true, label: 'Name', align: 'left', field: 'name' },
       { name: 'points', required: true, label: 'Points', align: 'center', field: 'points' },
+      { name: 'unit', required: true, label: 'Unit', align: 'center', field: 'unit'}
     ];
 
     return {

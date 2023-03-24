@@ -3,7 +3,7 @@
     <q-table ref="tableRef" :title="title" :rows="rows" :columns="columns" row-key="id" v-model:pagination="pagination"
       :loading="loading" :filter="filter" binary-state-sort @request="onRequest" @row-click="onRowClick">
       <template v-slot:top-right>
-        <div class="flex flex-row">
+        <div class="flex flex-row" style="gap: 8px">
           <q-input
             rounded
             outlined
@@ -20,14 +20,14 @@
           <q-btn
             v-if="!readonly"
             label="Create New"
-            class="secondary-button"
+            class="secondary-button ml-1"
             @click="onCreateNew"
           ></q-btn>
         </div>
       </template>
       <template v-slot:body-cell-actions="props" v-if="isEditable || isDeletable">
         <q-td :props="props">
-          <q-btn v-if="isEditable" icon="mode_edit" @click.stop="onEdit(props.row)"></q-btn>
+          <q-btn v-if="isEditable" class="q-mr-md" icon="mode_edit" @click.stop="onEdit(props.row)"></q-btn>
           <q-btn v-if="isDeletable" icon="delete" @click.stop="onDeleteInner(props.row)"></q-btn>
 
           <slot name="actionbuttons" :row="props.row"></slot>
