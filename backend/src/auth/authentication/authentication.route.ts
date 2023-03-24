@@ -72,7 +72,7 @@ auth.get("/user", authMiddleware.jwt, async (req, res) => {
   return res.send(response);
 });
 
-auth.post("/signup/password", async function (req, res) {
+auth.post("/signup", async function (req, res) {
   const response = await controller.signup(req.body);
 
   return res.send(response);

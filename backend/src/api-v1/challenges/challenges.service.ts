@@ -125,6 +125,8 @@ export class ChallengesService {
   ): Promise<ChallengeCreateModel> {
     let challenge;
 
+    delete (payload as any).participants;
+
     try {
       challenge = await prisma.challenge.update({
         where: {
@@ -133,6 +135,7 @@ export class ChallengesService {
         data: payload,
       });
     } catch (e: any) {
+      console.log(e)
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
 

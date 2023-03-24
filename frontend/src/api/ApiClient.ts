@@ -994,11 +994,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Authentication
      * @name Signup
-     * @request POST:/auth/signup
+     * @request POST:/auth/signup/password
      */
     signup: (data: UserCreateRequest, params: RequestParams = {}) =>
       this.request<ApiResponseUser, any>({
-        path: `/auth/signup`,
+        path: `/auth/signup/password`,
         method: "POST",
         body: data,
         type: ContentType.Json,

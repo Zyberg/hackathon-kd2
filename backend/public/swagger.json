@@ -1991,7 +1991,7 @@
 				"parameters": []
 			}
 		},
-		"/auth/signup": {
+		"/auth/signup/password": {
 			"post": {
 				"operationId": "Signup",
 				"responses": {

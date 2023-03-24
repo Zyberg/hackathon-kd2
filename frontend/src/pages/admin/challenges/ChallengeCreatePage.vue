@@ -28,7 +28,7 @@
         class="q-mt-md q-mb-md"
         :options="units"
         :option-value="'id'"
-        :option-label="'label'"
+        :option-label="'title'"
         emit-value
         dense
         rounded
@@ -103,7 +103,7 @@
 <script>
 import { api } from 'src/boot/axios';
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import WysiwygComponent from 'components/WysiwygComponent.vue';
 
 export default {
@@ -128,28 +128,31 @@ export default {
 
     const editMode = ref(false);
 
+    const router = useRouter();
+
     const onUpdateFormattedInput = (formattedInputValue) => {
       challenge.value.description = formattedInputValue;
     };
 
     const challengeTypes = ['GoalMax', 'GoalCount'];
-    const units = [
-      { id: 1, label: 'KM' },
-      { id: 2, label: 'Hours' },
-    ];
+    const units = ref([]);
 
-    const submitChallenge = () => {
+    const submitChallenge = async () => {
       challenge.value.startAt = new Date(challenge.value.startAt).toISOString();
       challenge.value.endAt = new Date(challenge.value.endAt).toISOString();
       challenge.value.unitId = +challenge.value.unitId;
       if (route.params.id) {
-        api.challenges.update(route.params.id, challenge.value);
+        await api.challenges.update(route.params.id, challenge.value);
       } else {
-        api.challenges.create(challenge.value);
+        await api.challenges.create(challenge.value);
       }
+
+      router.push({ name: 'adminChallenges' })
     };
 
     onMounted(async () => {
+      units.value = await api.units.getAllUnits().then(r => r.data.data)
+
       const id = route.params.id;
       if (id) {
         editMode.value = true;
