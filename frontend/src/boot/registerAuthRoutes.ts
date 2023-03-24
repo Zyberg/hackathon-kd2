@@ -139,6 +139,18 @@ export default boot(({ router }) => {
         component: () => import('pages/challenges/ChallengeViewPage.vue'),
         meta: { authOnly: true, role: ['User'] },
       },
+      {
+        path: 'achievements',
+        name: 'achievements',
+        component: () => import('src/pages/achievements/AchievementsPage.vue'),
+        meta: { authOnly: true, role: ['User'] },
+      },
+      {
+        path: 'profile',
+        name: 'profile',
+        component: () => import('pages/user/userProfilePage.vue'),
+        meta: { authOnly: true, role: ['User'] },
+      },
     ],
   });
 

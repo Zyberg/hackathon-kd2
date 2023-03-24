@@ -10,11 +10,8 @@
 </template>
 
 <script>
-// import {api} from 'src/boot/axios';
-import {ref, computed} from 'vue'
+import {ref} from 'vue'
 import ChallengeCard from "components/challenges/ChallengeCard.vue";
-import DataTable from 'components/DataTable.vue';
-import { api } from 'boot/axios';
 import { useRouter } from 'vue-router'
 
 
@@ -22,7 +19,6 @@ export default {
   name: 'ChallengesList',
   components: {
     ChallengeCard,
-	DataTable,
   },
   setup() {
     const search = ref('')
