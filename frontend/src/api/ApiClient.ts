@@ -32,6 +32,11 @@ export interface DataTableQuery {
   perPage?: number;
 }
 
+export enum AchievementType {
+  Winner = "Winner",
+  Participant = "Participant",
+}
+
 export interface Achievement {
   /** @format double */
   id?: number;
@@ -40,6 +45,7 @@ export interface Achievement {
   description: string;
   /** @format double */
   max_users: number;
+  type: AchievementType;
 }
 
 export interface UserViewModel {
@@ -120,6 +126,9 @@ export interface ChallengeViewModel {
   /** @format double */
   id: number;
   title: string;
+  description: string;
+  /** @format double */
+  unitId: number;
   /** @format date-time */
   startAt: string;
   /** @format date-time */
@@ -131,6 +140,7 @@ export interface ChallengeViewModel {
   isComplete: boolean;
   /** @format double */
   parentId: number | null;
+  participants: any;
 }
 
 export interface ChallengeCreateModel {
@@ -708,6 +718,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<ChallengeCreateModel, any>({
         path: `/challenges/${id}/join/${userId}`,
         method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Challenge
+     * @name Leave
+     * @request DELETE:/challenges/{id}/join/{userId}
+     * @secure
+     */
+    leave: (id: number, userId: number, params: RequestParams = {}) =>
+      this.request<ChallengeCreateModel, any>({
+        path: `/challenges/${id}/join/${userId}`,
+        method: "DELETE",
         secure: true,
         format: "json",
         ...params,

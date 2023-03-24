@@ -41,8 +41,8 @@
         </body1>
       </div>
       <div>
-        <q-btn v-if="!isUserJoined" class="primary-button" style="width: 100%" label="Join Challenge" />
-        <q-btn v-else class="secondary-button" style="width: 100%" label="Leave Challenge" />
+        <q-btn v-if="!isUserJoined" class="primary-button" style="width: 100%" label="Join Challenge" @click="onJoinChallenge" />
+        <q-btn v-else class="secondary-button" style="width: 100%" label="Leave Challenge" @click="onLeaveChallenge" />
       </div>
       <div>
         <h6 class="q-mt-lg q-mb-sm">Leaderboard</h6>
@@ -84,7 +84,7 @@ export default {
 
         const userChallenges = await api.users.getUserChallenges(user.value.id).then(r => r.data.challenges)
 
-        isUserJoined.value = userChallenges.some(i => i.id === id)
+        isUserJoined.value = userChallenges.some(i => i.id === +id)
 
         challengers.value = challenge.value.participants.map(p => ({
           name: p.user.name,
@@ -94,11 +94,23 @@ export default {
       }
     })
 
+    async function onJoinChallenge() {
+      const res = await api.challenges.join(route.params.id, user.value.id)
+      location.reload();
+    }
+
+    async function onLeaveChallenge() {
+      const res = await api.challenges.leave(route.params.id, user.value.id)
+      location.reload();
+    }
+
     return {
       challenge,
       isUserJoined,
       challengers,
       leaderboard,
+      onJoinChallenge,
+      onLeaveChallenge
     }
   },
 }

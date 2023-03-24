@@ -3,18 +3,18 @@
     <!-- <q-input v-model="search" label="Search" dense outlined/> -->
     <div class="flex justify-start">
       <div class="q-mt-md" v-for="challenge in challenges" :key="challenge.id">
-        <ChallengeCard :challenge="challenge"/>
+        <ChallengeCard :challenge="challenge" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {ref, onMounted} from 'vue'
+import { ref, onMounted } from 'vue'
 import ChallengeCard from "components/challenges/ChallengeCard.vue";
-import {useRouter} from 'vue-router'
-import {api} from 'src/boot/axios';
-
+import { useRouter } from 'vue-router'
+import { api } from 'src/boot/axios';
+import { useAuthState } from '@vueauth/core'
 
 export default {
   name: 'ChallengesList',
@@ -29,10 +29,19 @@ export default {
 
     const challenges = ref([]);
 
-    onMounted(async () => {
-      challenges.value = await api.challenges.getAllChallenges().then(d => d.data.data.map(i => ({...i, image: 'https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png' })))
-    })
+    const { user } = useAuthState();
 
+    onMounted(async () => {
+      const userChallenges = await api.users.getUserChallenges(user.value.id).then(r => r.data.challenges)
+
+      challenges.value = await api.challenges.getAllChallenges().then(d =>
+        d.data.data.map(i => ({
+          ...i,
+          image: 'https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png',
+          isJoined: userChallenges.some(c => c.id === i.id)
+        })
+      ))
+    })
 
     // const numPages = computed(() =>
     //   Math.ceil(challenges.length / pageSize)

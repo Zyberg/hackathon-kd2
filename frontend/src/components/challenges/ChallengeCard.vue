@@ -11,7 +11,8 @@
         </q-card-section>
 
         <q-card-actions>
-          <q-btn class="primary-button" style="width: 100%" label="Join Challenge"/>
+          <q-btn v-if="!challenge.isJoined" class="primary-button" style="width: 100%" label="Join Challenge"/>
+          <q-btn v-else class="secondary-button" style="width: 100%" label="View Challenge"/>
         </q-card-actions>
     </q-card>
   </div>
@@ -31,7 +32,8 @@ export default {
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         isActive: true,
         unitId: 0,
-        type: 'Running'
+        type: 'Running',
+        isJoined: false
       })
     },
   },
