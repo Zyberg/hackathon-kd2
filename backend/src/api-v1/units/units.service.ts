@@ -3,7 +3,7 @@ import { AppError } from "../../exceptions/AppError";
 import type { DataTableQuery } from "../../types/generic/DataTable";
 import { UnitCreateModel, UnitUpdateModel } from "../../types/units/unit";
 
-const SEARCHABLE_FIELDS = ["id", "title"];
+const SEARCHABLE_FIELDS = ["title"];
 
 export class UnitsService {
   public async getAllUnits(params: DataTableQuery) {
