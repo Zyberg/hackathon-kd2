@@ -65,6 +65,13 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"AchievementType": {
+				"enum": [
+					"Winner",
+					"Participant"
+				],
+				"type": "string"
+			},
 			"Achievement": {
 				"properties": {
 					"id": {
@@ -83,13 +90,17 @@
 					"max_users": {
 						"type": "number",
 						"format": "double"
+					},
+					"type": {
+						"$ref": "#/components/schemas/AchievementType"
 					}
 				},
 				"required": [
 					"title",
 					"imagePath",
 					"description",
-					"max_users"
+					"max_users",
+					"type"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -321,6 +332,13 @@
 					"title": {
 						"type": "string"
 					},
+					"description": {
+						"type": "string"
+					},
+					"unitId": {
+						"type": "number",
+						"format": "double"
+					},
 					"startAt": {
 						"type": "string",
 						"format": "date-time"
@@ -346,18 +364,22 @@
 						"type": "number",
 						"format": "double",
 						"nullable": true
-					}
+					},
+					"participants": {}
 				},
 				"required": [
 					"id",
 					"title",
+					"description",
+					"unitId",
 					"startAt",
 					"endAt",
 					"goalCount",
 					"type",
 					"isActive",
 					"isComplete",
-					"parentId"
+					"parentId",
+					"participants"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1389,6 +1411,49 @@
 		"/challenges/{id}/join/{userId}": {
 			"post": {
 				"operationId": "Join",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ChallengeCreateModel"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Challenge"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Leave",
 				"responses": {
 					"200": {
 						"description": "Ok",

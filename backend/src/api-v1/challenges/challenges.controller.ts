@@ -50,4 +50,11 @@ export default class ChallengesController extends Controller {
 
     return data;
   }
+
+  @Delete('/{id}/join/{userId}')
+  public async leave(id: number, userId: number) {
+    const data = await new ChallengesService().leave(id, userId);
+
+    return data;
+  }
 }

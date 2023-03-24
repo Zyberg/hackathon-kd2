@@ -44,4 +44,10 @@ challenges.post('/:id/join/:userId', async (req: Request, res: Response) => {
     return res.send(response);
 });
 
+challenges.delete('/:id/join/:userId', async (req: Request, res: Response) => {
+    const response = await controller.leave(+req.params.id, +req.params.userId);
+
+    return res.send(response);
+});
+
 export default challenges;

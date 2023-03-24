@@ -18,7 +18,7 @@ export class ChallengesService {
         isActive: params.isActive,
       })(params, {});
     } catch (e: any) {
-      console.log(e)
+      console.log(e);
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
 
@@ -35,12 +35,24 @@ export class ChallengesService {
           include: {
             user: true,
             userPoints: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
-    const { title, description, unitId, startAt, endAt, goalCount, type, parentId, isActive, isComplete, participants } = challenge;
+    const {
+      title,
+      description,
+      unitId,
+      startAt,
+      endAt,
+      goalCount,
+      type,
+      parentId,
+      isActive,
+      isComplete,
+      participants,
+    } = challenge;
 
     return {
       id,
@@ -54,14 +66,13 @@ export class ChallengesService {
       goalCount,
       type: type as ChallengeType,
       parentId: parentId,
-      participants
+      participants,
     };
   }
 
   public async createChallenge(
     payload: ChallengeCreateModel
   ): Promise<ChallengeViewModel> {
-
     //TODO: parentId connect with other challenges
     const {
       title,
@@ -97,11 +108,15 @@ export class ChallengesService {
         },
       });
     } catch (e: any) {
-      console.log(e)
+      console.log(e);
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
 
-    return { ...challenge, type: challenge.type as ChallengeType, participants: {} };
+    return {
+      ...challenge,
+      type: challenge.type as ChallengeType,
+      participants: {},
+    };
   }
 
   public async updateChallenge(
@@ -151,6 +166,47 @@ export class ChallengesService {
               invitedById: userId,
             },
           },
+        },
+      });
+    } catch (e: any) {
+      console.log(e);
+      throw new AppError({ ...e, isOperational: true, httpCode: 500 });
+    }
+
+    return { ...challenge, type: challenge.type as ChallengeType };
+  }
+
+  public async leave(
+    id: number,
+    userId: number
+  ): Promise<ChallengeCreateModel> {
+    let challenge;
+    let participant;
+
+    try {
+      
+      participant = await prisma.challengesOnUsers.findFirstOrThrow({
+        where: {
+          userId: userId,
+          challengeId: id,
+        },
+      });
+
+      await prisma.challengesOnUsers.delete({
+        where: {
+          id: participant.id
+        }
+      })
+
+    } catch (e: any) {
+      console.log(e);
+      throw new AppError({ ...e, isOperational: true, httpCode: 500 });
+    }
+
+    try {
+      challenge = await prisma.challenge.findFirstOrThrow({
+        where: {
+          id,
         },
       });
     } catch (e: any) {
