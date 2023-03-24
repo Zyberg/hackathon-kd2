@@ -7,7 +7,7 @@ import {
   ChallengeType,
 } from "../../types/challenges/challenge";
 
-const SEARCHABLE_FIELDS = ["id", "title"];
+const SEARCHABLE_FIELDS = ["title", "description"];
 
 export class ChallengesService {
   public async getAllChallenges(params: GetAllChallengesQuery) {
