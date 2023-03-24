@@ -1916,6 +1916,25 @@
 				]
 			}
 		},
+		"/images/upload": {
+			"post": {
+				"operationId": "Upload",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Image"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
 		"/auth/login/strava": {
 			"post": {
 				"operationId": "LoginStrava",
