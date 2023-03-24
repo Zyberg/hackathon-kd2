@@ -20,6 +20,8 @@ onMounted(async () => {
 
   const data = await api.users.getUserActivityGraph(user.value.id).then(d => d.data)
 
+  console.log('x', data.map(d => new Date(d.x)).sort((a, b) => +a - +b))
+  console.log('y', data.map(d => d.y))
   series.value = [{
     name: 'run',
     data: data.map(d => d.y)
@@ -48,9 +50,8 @@ onMounted(async () => {
       text: 'Comparison of runs',
       align: 'left'
     },
-    labels: data.map(d => d.y),
+    labels: data.map(d => new Date(d.x)).sort((a, b) => +a - +b).map((d, i) => i),
     xaxis: {
-      type: 'datetime',
     },
     yaxis: {
       opposite: true
