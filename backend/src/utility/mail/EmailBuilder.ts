@@ -9,7 +9,7 @@ export default {
       from: senderEmail,
       to: receiverEmail,
       subject: emailSubject,
-      text: emailBody, // TODO: dont pass emailbody here
+      html: emailBody, // TODO: dont pass emailbody here
     };
     return body;
   },

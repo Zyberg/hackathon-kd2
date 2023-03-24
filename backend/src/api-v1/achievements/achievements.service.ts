@@ -1,7 +1,7 @@
 import { prisma, paginate } from "../../boot/prisma";
 import { AppError } from "../../exceptions/AppError";
 import type { DataTableQuery } from "../../types/generic/DataTable";
-import { Achievement } from "../../types/achievements/achievement";
+import { Achievement, AchievementType } from "../../types/achievements/achievement";
 
 const SEARCHABLE_FIELDS = ["id", "title", "description", "imagePath", "max_users"];
 
@@ -30,26 +30,27 @@ export class AchievementsService {
       title: achievement.title, 
       description: achievement.description, 
       imagePath: achievement.imagePath, 
-      max_users: achievement.max_users 
+      max_users: achievement.max_users,
+      type: achievement.type as AchievementType
     };
   }
 
 
   public async createAchievement(payload: Achievement): Promise<Achievement> {
-    const { title, description, imagePath, max_users } = payload;
+    const { title, description, imagePath, max_users, type } = payload;
     let achievement;
 
     try {
       achievement = await prisma.achievement.create({
       data: {
-        title, description, imagePath, max_users,
+        title, description, imagePath, max_users, type
       },
     })
   } catch (e: any) {
     throw new AppError({ ...e, isOperational: true, httpCode: 500 });
   }
 
-    return achievement
+    return { ...achievement, type: achievement.type as AchievementType }
 
   }
 
@@ -67,7 +68,7 @@ export class AchievementsService {
       throw new AppError({ ...e, isOperational: true, httpCode: 500 });
     }
 
-    return achievement
+    return { ...achievement, type: achievement.type as AchievementType }
   }
 
   public async deleteAchievement(id: number) {

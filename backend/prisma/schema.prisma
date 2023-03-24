@@ -47,7 +47,7 @@ model UserStravaProfile {
 }
 
 model UserStravaProfileActivity {
-  id                   BigInt      @id @default(autoincrement())
+  id                   BigInt   @id @default(autoincrement())
   type                 String
   sport_type           String
   distance             Float
@@ -148,6 +148,7 @@ model Achievement {
   id          Int    @id @default(autoincrement())
   title       String
   imagePath   String
+  type        String // TODO: complete
   description String
   max_users   Int    @default(-1) // By default: unlimited
 

@@ -13,7 +13,6 @@ class MailgunApiService {
   constructor() {
     if (!this._service) {
       this._service = this;
-      return this._service;
     }
 
     const mailgun = new Mailgun(FormData);
@@ -31,6 +30,7 @@ class MailgunApiService {
     try {
       response = await this._mailgun.messages.create(process.env.DOMAIN || "", data);
     } catch (e: any) {
+      console.log(e)
       throw new AppError({ ...e, httpCode: 500, isOperational: true });
     }
 

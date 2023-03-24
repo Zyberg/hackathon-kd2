@@ -1,5 +1,6 @@
 import { prisma, paginate } from "../../boot/prisma";
 import { AppError } from "../../exceptions/AppError";
+import { AchievementType } from "../../types/achievements/achievement";
 import type { DataTableQuery } from "../../types/generic/DataTable";
 import { UserViewModel, UserViewModelAchievements, UserViewModelChallenges } from "../../types/users/user";
 import achievements from "../achievements/achievements.route";
@@ -76,7 +77,7 @@ export class UsersService {
     });
 
 
-    return { id: user.id, name: user.name, email: user.email, role: user.Role.title, achievements: user.achievements.map(a => a.achievement)};
+    return { id: user.id, name: user.name, email: user.email, role: user.Role.title, achievements: user.achievements.map(a => ({ ...a.achievement, type: a.achievement.type as AchievementType }))};
   }
 
   public async getUserChallenges(id: number): Promise<UserViewModelChallenges> {

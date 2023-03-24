@@ -35,7 +35,6 @@ async function SyncStravaToLocal() {
 
     console.log(`Synchronizing from date: ${syncFromdate.toString()}`)
 
-    // TODO: after
     // TODO: type
     let activities = null as any;
     try {

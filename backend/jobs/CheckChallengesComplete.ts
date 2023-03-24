@@ -1,23 +1,97 @@
 import { prisma } from "../src/boot/prisma";
+import { AchievementType } from "../src/types/achievements/achievement"
+
 
 async function CheckChallengesComplete() {
   console.log("Start checking the Challenges for completion...");
-
 
   const challenges = await prisma.challenge.findMany();
 
   for (let challenge of challenges) {
     if (challenge.endAt < new Date()) {
-        // TODO: award achievements, prizes etc.
+      const achievementWinner = await prisma.achievement.create({
+        data: {
+          title: `Winner of '${challenge.title}'`,
+          description: `Winner trophy for the challenge '${challenge.title}'`,
+          imagePath: "",
+          type: AchievementType.Winner,
+          max_users: 1,
+        },
+      });
 
-        await prisma.challenge.update({
+      const achievementParticipation = await prisma.achievement.create({
+        data: {
+          title: `Participated in '${challenge.title}'`,
+          description: `Participant trophy for the challenge '${challenge.title}'`,
+          imagePath: "",
+          type: AchievementType.Participant,
+          max_users: -1,
+        },
+      });
+
+      const challengeCompleted = await prisma.challenge.update({
+        where: {
+          id: challenge.id,
+        },
+        data: {
+          isComplete: true,
+          // TODO award achievements, prizes etc.
+        },
+        include: {
+          participants: {
+            include: {
+              user: {
+                include: {
+                  achievements: {
+                    include: {
+                      achievement: true,
+                    },
+                  },
+                },
+              },
+              userPoints: true,
+            },
+          },
+        },
+      });
+
+      for (let participant of challengeCompleted.participants) {
+        const points =
+          participant.userPoints[participant.userPoints.length - 1].value;
+
+        //TODO: different types
+        if (challengeCompleted.goalCount < points) {
+          await prisma.user.update({
             where: {
-                id: challenge.id
+              id: participant.userId,
             },
             data: {
-                isComplete: true,
-            }
-        })
+              achievements: {
+                create: [
+                  {
+                    achievementId: achievementWinner.id,
+                  },
+                ],
+              },
+            },
+          });
+        } else {
+          await prisma.user.update({
+            where: {
+              id: participant.userId,
+            },
+            data: {
+              achievements: {
+                create: [
+                  {
+                    achievementId: achievementParticipation.id,
+                  },
+                ],
+              },
+            },
+          });
+        }
+      }
     }
   }
 
