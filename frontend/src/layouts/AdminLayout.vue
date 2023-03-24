@@ -1,11 +1,12 @@
 <template>
   <q-layout view="hHh lpR fff">
-    <q-header>
+    <q-header style="background: #F5F5F2" elevated>
       <q-toolbar elevated class="flex flex-center justify-start">
         <q-btn
           flat
           dense
           round
+          style="color: #504678"
           icon="menu"
           aria-label="Menu"
           @click="toggleLeftDrawer"
@@ -15,6 +16,7 @@
           <img class="q-mt-sm" src="src/assets/MB_horizontal.svg"/>
         </q-toolbar-title>
         <q-btn
+          style="color: #504678"
           icon="person"
           round
           flat
@@ -25,12 +27,8 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      behavior="default"
-    >
+    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" behavior="default" style="background: #F5F5F2">
+      <!-- drawer content -->
       <q-list>
         <q-item to="/admin" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
@@ -89,16 +87,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { getDefaultProvider } from '@vueauth/core'
+import {ref} from 'vue'
 import AuthAccountMenu from 'src/auth/components/AccountMenu/AccountMenu.vue'
+import LogoutItem from 'src/auth/components/AccountMenu/LogoutItem.vue'
 
 const leftDrawerOpen = ref(false)
 
-const authProvider = getDefaultProvider()
-const authProviderUpperFirst = authProvider.charAt(0).toUpperCase() + authProvider.slice(1)
-
-function toggleLeftDrawer () {
+function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>
+
+<style scoped>
+.q-item {
+  border-radius: 24px;
+}
+
+</style>
