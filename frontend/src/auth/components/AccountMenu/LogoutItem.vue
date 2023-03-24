@@ -6,22 +6,12 @@ const { loading, onLogoutClicked } = useLogout()
 
 <template>
   <q-item
+    style=""
     clickable
     @click="onLogoutClicked"
   >
-    <q-item-section side>
-      <q-icon
-        v-if="!loading"
-        name="logout"
-      />
-      <q-spinner
-        v-else
-        size="sm"
-        color="primary"
-      />
-    </q-item-section>
     <q-item-section>
-      Logout
+      <img src="src/assets/signout_icon.svg" />
     </q-item-section>
   </q-item>
 </template>

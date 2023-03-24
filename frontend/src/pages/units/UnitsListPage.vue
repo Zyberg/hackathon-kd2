@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page style="background: #F5F5F2">
     <DataTable
       title="Units"
       :columns="columns"
