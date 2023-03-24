@@ -11,7 +11,7 @@ const { loading, onLogoutClicked } = useLogout()
     @click="onLogoutClicked"
   >
     <q-item-section>
-      <img src="src/assets/signout_icon.svg" />
+      <img :src="require('@/assets/src/assets/signout_icon.svg')" />
     </q-item-section>
   </q-item>
 </template>

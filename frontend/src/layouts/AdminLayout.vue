@@ -13,7 +13,7 @@
         />
 
         <q-toolbar-title>
-          <img class="q-mt-sm" src="src/assets/MB_horizontal.svg"/>
+          <img class="q-mt-sm" :src="require('@/assets/MB_horizontal.svg')"/>
         </q-toolbar-title>
         <q-btn
           style="color: #504678"
