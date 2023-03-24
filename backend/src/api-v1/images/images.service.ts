@@ -13,7 +13,6 @@ export class ImagesService {
 
     const form = formidable({ multiples: true });
 
-    console.log(form)
 
     form.parse(request, (err, fields, files) => {
         console.log('\n-----------')
@@ -22,6 +21,8 @@ export class ImagesService {
         console.log()
         res.send('Thank you')
     });
+
+    console.log(form)
 
   }
 }

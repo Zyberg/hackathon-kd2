@@ -8,7 +8,6 @@ const controller = new Controller();
 
 images.post("/upload", async (req: Request, res: Response) => {
 
-    console.log('test')
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
     const response = await controller.upload(req);
