@@ -6,10 +6,7 @@ export class ImagesService {
 
   public async uploadImage(request: Request, res: Response ) {
     const folder = path.join(__dirname,'../../../', 'public/images')
-    console.log(folder)
     const form = formidable({ multiples: true, uploadDir: folder, keepExtensions: true });
-
-    console.log(form)
 
     form.parse(request, (err, fields, files) => {
         console.log('\n-----------')
