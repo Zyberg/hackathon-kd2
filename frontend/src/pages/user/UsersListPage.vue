@@ -1,15 +1,8 @@
 <template>
-  <q-page>
-		<DataTable
-			title="Users"
-			:columns="columns"
-			:paginationInitial="paginationInitial"
-			:fetch="fetch"
-			@row-click="onRowClick"
-			@create-new="onCreateNew"
-      :onDelete="onDelete"
-		/>
-  </q-page>
+	<q-page>
+		<DataTable title="Users" :columns="columns" :paginationInitial="paginationInitial" :fetch="fetch"
+			@row-click="onRowClick" @create-new="onCreateNew" :onDelete="onDelete" />
+	</q-page>
 </template>
 
 <script>
@@ -19,7 +12,7 @@ import DataTable from 'components/DataTable.vue';
 
 export default {
 	components: { DataTable },
-  name: 'UsersListPage',
+	name: 'UsersListPage',
 	setup() {
 		const router = useRouter();
 
@@ -35,7 +28,7 @@ export default {
 				},
 				{ name: 'name', label: 'Name', field: 'name', sortable: true },
 				{ name: 'email', label: 'Email', field: 'email', sortable: true },
-        { name: 'actions', label: 'Action' }
+				{ name: 'actions', label: 'Action' }
 			],
 			paginationInitial: {
 				sortBy: 'id',
@@ -50,9 +43,9 @@ export default {
 				router.push(`/users/${row.id}`);
 			},
 
-      onDelete: async (row) => {
-        const response = await api.users.deleteUserById(row.id);
-      },
+			onDelete: async (row) => {
+				const response = await api.users.deleteUserById(row.id);
+			},
 
 			onCreateNew: ({ evt, go }) => {
 				router.push('/admin/users/create');

@@ -10,9 +10,9 @@
 </template>
 
 <script>
-// import {api} from 'src/boot/axios';
-import {ref, computed} from 'vue'
+import {ref} from 'vue'
 import ChallengeCard from "components/challenges/ChallengeCard.vue";
+import { useRouter } from 'vue-router'
 
 
 export default {
@@ -24,8 +24,7 @@ export default {
     const search = ref('')
     const page = ref(1)
     const pageSize = 20 // number of challenges per page
-
-    // const challenges = api.challenges.getAllChallenges({isActive: true})
+	const router = useRouter();
 
     const challenge = {
       title: 'RUN PUMA Fueled By NITRO 42km',
@@ -47,4 +46,5 @@ export default {
     }
   },
 }
+
 </script>
