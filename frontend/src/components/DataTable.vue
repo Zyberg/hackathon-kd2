@@ -29,6 +29,8 @@
         <q-td :props="props">
           <q-btn v-if="isEditable" icon="mode_edit" @click.stop="onEdit(props.row)"></q-btn>
           <q-btn v-if="isDeletable" icon="delete" @click.stop="onDeleteInner(props.row)"></q-btn>
+
+          <slot name="actionbuttons" :row="props.row"></slot>
         </q-td>
       </template>
     </q-table>
