@@ -6,7 +6,12 @@
         <q-input v-model="challenge.description" label="Challenge description" dense rounded outlined required />
         <q-toggle label="isActive" color="pink" v-model="challenge.isActive"></q-toggle>
         <!-- change to select when there will be unit enums -->
-        <q-input v-model="challenge.unitId" label="unit id" type="number" dense rounded outlined required />
+        <q-select v-model="challenge.unitId" 
+            label="unit"
+            :options="units"
+            :option-value="'id'"
+            :option-label="'label'"
+            emit-value dense rounded outlined required />
         <q-date v-model="challenge.startAt" label="Start Date" dense rounded outlined required />
         <q-date v-model="challenge.endAt" label="End Date" dense rounded outlined required />
         <!-- <q-select
@@ -21,7 +26,7 @@
         /> -->
         <q-select v-model="challenge.type" label="Challenge Type" dense rounded outlined options-dense required
           :options="challengeTypes" />
-        <q-input v-model.number="challenge.goalCount" label="Goal Distance (miles)" type="number" dense rounded outlined required />
+        <q-input v-model.number="challenge.goalCount" label="Goal" type="number" dense rounded outlined required />
         <div class="q-mt-md">
           <q-btn type="submit" class="primary-button">{{ editMode ? 'Save challenge Group' : 'Create challenge' }}</q-btn>
         </div>
@@ -71,6 +76,12 @@
       // ];
   
       const challengeTypes = [ 'GoalMax', 'GoalCount' ]
+
+      const units = [
+        { id: 1, label: 'KM'},
+        {
+            id: 2, label: 'Hours'
+        }]
   
   
       const submitChallenge = () => {
@@ -99,6 +110,7 @@
         // activityType,
         // activityTypes,
         challenge,
+        units,
         challengeTypes,
         submitChallenge,
         editMode,
