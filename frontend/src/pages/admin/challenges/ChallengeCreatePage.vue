@@ -97,6 +97,8 @@
         <q-uploader
           accept=".jpg, image/*"
           auto-upload
+          multiple
+          :factory="uploadImage"
           v-model="challenge.image_path"
           url="http://localhost:3000/api/images/upload"
           dark
@@ -164,6 +166,24 @@ export default {
       router.push({ name: 'adminChallenges' })
     };
 
+    const uploadImage = async(files) => {
+
+      console.log(files[0].name)
+
+      challenge.value.image_path = files[0].name
+
+      const response = new Promise((resolve) => {
+        // simulating a delay of 2 seconds
+        setTimeout(() => {
+          resolve({
+            url: 'http://localhost:3000/api/images/upload'
+          })
+        }, 2000)
+      })
+
+      return response
+    }
+
     onMounted(async () => {
       units.value = await api.units.getAllUnits().then(r => r.data.data)
 
@@ -185,6 +205,7 @@ export default {
       submitChallenge,
       editMode,
       onUpdateFormattedInput,
+      uploadImage,
     };
   },
 };

@@ -31,6 +31,6 @@ export class ImagesService {
     });
 
 
-    return 'a';
+    return formfields;
   }
 }
