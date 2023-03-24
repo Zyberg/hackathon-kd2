@@ -12,7 +12,6 @@ const router: Router = Router();
 
 router.use("/images", images);
 
-
 // Authenticate API with jwt tokens
 router.use(auth.jwt)
 
