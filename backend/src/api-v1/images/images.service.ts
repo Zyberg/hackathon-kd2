@@ -9,8 +9,10 @@ export class ImagesService {
       multiples: true,
       uploadDir: folder,
       keepExtensions: true,
+      filename(name, ext, part, form) {
+        return name + ext
+      },
     });
-
 
     var formfields = await new Promise(function (resolve, reject) {
       form.parse(request, function (err, fields, files) {
@@ -26,10 +28,10 @@ export class ImagesService {
           "within form.parse method, subject field of fields object is: " +
             fields.subjects
         );
+
         resolve(fields);
       }); // form.parse
     });
-
 
     return formfields;
   }

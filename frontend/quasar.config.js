@@ -105,6 +105,10 @@ module.exports = configure(function (/* ctx */) {
             return url.replace(/^\/api(.+)$/, process.env.API_PREFIX + '$1')
           }
         },
+        '/images': {
+          target: process.env.API_URI,
+          changeOrigin: true,
+        }
       }
     },
 

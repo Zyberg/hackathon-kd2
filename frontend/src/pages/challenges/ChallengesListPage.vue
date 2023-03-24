@@ -37,7 +37,6 @@ export default {
       challenges.value = await api.challenges.getAllChallenges().then(d =>
         d.data.data.map(i => ({
           ...i,
-          image: 'https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png',
           isJoined: userChallenges.some(c => c.id === i.id)
         })
       ))

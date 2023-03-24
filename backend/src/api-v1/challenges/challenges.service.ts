@@ -54,7 +54,8 @@ export class ChallengesService {
       isActive,
       isComplete,
       participants,
-      unit
+      unit,
+      image_path
     } = challenge;
 
     return {
@@ -70,7 +71,8 @@ export class ChallengesService {
       type: type as ChallengeType,
       parentId: parentId,
       participants,
-      unit
+      unit,
+      image_path
     };
   }
 
@@ -130,6 +132,7 @@ export class ChallengesService {
     let challenge;
 
     delete (payload as any).participants;
+    delete (payload as any).unit;
 
     try {
       challenge = await prisma.challenge.update({

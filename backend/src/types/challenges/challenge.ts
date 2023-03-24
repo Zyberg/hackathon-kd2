@@ -14,6 +14,7 @@ export interface ChallengeViewModelById {
   parentId: number | null;
   participants: any,
   unit: any,
+  image_path: string
 }
 
 export interface ChallengeViewModel {
