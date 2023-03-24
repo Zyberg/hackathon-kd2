@@ -4,7 +4,7 @@
       @row-click="onRowClick" @create-new="onCreateNew" :onEdit="onEdit" :onDelete="onDelete">
 
       <template v-slot:actionbuttons="{ row }">
-        <q-btn @click.stop="onInviteModalOpen(row)">Invite</q-btn>
+        <q-btn class="q-ml-md" @click.stop="onInviteModalOpen(row)">Invite</q-btn>
       </template>
     </DataTable>
   </q-page>
