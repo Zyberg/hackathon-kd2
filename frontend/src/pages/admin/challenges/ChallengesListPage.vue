@@ -11,7 +11,7 @@
 
   <q-dialog v-model="isInviteModalOpen">
     <q-card class="my-card">
-      <q-img src="https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png" />
+      <q-img :src='activeRow.image_path != "" ? `http://localhost:9000/images/${activeRow.image_path}` : "https://dgalywyr863hv.cloudfront.net/challenges/3667/3667-cover.png"' />
 
       <q-card-section>
         <q-btn fab color="primary" icon="place" class="absolute"
